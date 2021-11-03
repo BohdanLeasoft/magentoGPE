@@ -13,7 +13,7 @@ use Magento\Checkout\Model\Session;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use EMSPay\Payment\Model\Ems as EmsModel;
+use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
 use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 
 /**
@@ -35,7 +35,7 @@ class Process extends Action
     /**
      * @var EmsModel
      */
-    private $emsModel;
+    private $paymentLibraryModel;
 
     /**
      * @var ConfigRepository
@@ -48,19 +48,19 @@ class Process extends Action
      * @param Context $context
      * @param Session $checkoutSession
      * @param PaymentHelper $paymentHelper
-     * @param EmsModel $emsModel
+     * @param PaymentLibraryModel $paymentLibraryModel
      * @param ConfigRepository $configRepository
      */
     public function __construct(
         Context $context,
         Session $checkoutSession,
         PaymentHelper $paymentHelper,
-        EmsModel $emsModel,
+        PaymentLibraryModel $paymentLibraryModel,
         ConfigRepository $configRepository
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->paymentHelper = $paymentHelper;
-        $this->emsModel = $emsModel;
+        $this->paymentLibraryModel = $paymentLibraryModel;
         $this->configRepository = $configRepository;
         parent::__construct($context);
     }
@@ -80,7 +80,7 @@ class Process extends Action
 
         try
         {
-            $status = $this->emsModel->processTransaction($orderId, 'success');
+            $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
 
             if (!empty($status['success']))
             {

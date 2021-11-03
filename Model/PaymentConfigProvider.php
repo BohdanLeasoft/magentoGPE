@@ -11,7 +11,7 @@ use EMSPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner as EmsModel;
+use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner as PaymentLibraryModel;
 use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use Magento\Payment\Model\MethodInterface;
 
@@ -41,18 +41,18 @@ class PaymentConfigProvider extends ModelBuilderRedefiner
     /**
      * PaymentConfigProvider constructor.
      *
-     * @param Ems              $emsModel
+     * @param PaymentLibrary              $paymentLibraryModel
      * @param ConfigRepository $configRepository
      * @param PaymentHelper    $paymentHelper
      * @param Escaper          $escaper
      */
     public function __construct(
-        EmsModel $emsModel,
+        PaymentLibraryModel         $paymentLibraryModel,
         ConfigRepository $configRepository,
-        PaymentHelper $paymentHelper,
-        Escaper $escaper
+        PaymentHelper    $paymentHelper,
+        Escaper          $escaper
     ) {
-        $this->emsModel = $emsModel;
+        $this->paymentLibraryModel = $paymentLibraryModel;
         $this->configRepository = $configRepository;
         $this->escaper = $escaper;
         $this->paymentHelper = $paymentHelper;

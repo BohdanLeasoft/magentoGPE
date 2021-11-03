@@ -2,7 +2,7 @@
 
 namespace EMSPay\Payment\Model;
 
-use EMSPay\Payment\Model\Ems;
+use EMSPay\Payment\Model\PaymentLibrary;
 use EMSPay\Payment\Model\Methods\Afterpay;
 use EMSPay\Payment\Model\Methods\Klarna;
 use Magento\Framework\Exception\LocalizedException;
@@ -13,7 +13,7 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Creditmemo;
 
-class AbstractPayment extends Ems
+class AbstractPayment extends PaymentLibrary
 {
     /**
      * @var string

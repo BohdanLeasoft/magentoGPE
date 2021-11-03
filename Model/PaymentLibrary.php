@@ -37,7 +37,7 @@ use Magento\Sales\Model\Order;
 /**
  * Ems payment class
  */
-class Ems extends AbstractMethod
+class PaymentLibrary extends AbstractMethod
 {
 
     /**

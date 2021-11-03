@@ -20,9 +20,9 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     protected $escaper;
 
     /**
-     * @var EmsModel
+     * @var PaymentLibraryModel
      */
-    protected $emsModel;
+    protected $paymentLibraryModel;
 
     /**
      * @var ConfigRepository
@@ -58,7 +58,7 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     {
         $config = [];
 
-        if (!$client = $this->emsModel->loadGingerClient()) {
+        if (!$client = $this->paymentLibraryModel->loadGingerClient()) {
             $activeMethods = [];
         } else {
             $activeMethods = $this->getActiveMethods();
@@ -125,7 +125,7 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
      */
     public function getIssuers($client)
     {
-        if ($issuers = $this->emsModel->getIssuers($client)) {
+        if ($issuers = $this->paymentLibraryModel->getIssuers($client)) {
             return $issuers;
         }
         return false;

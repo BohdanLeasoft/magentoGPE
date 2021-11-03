@@ -77,7 +77,7 @@ class Redirect extends Action
             return $this->_redirect('checkout/cart');
         }
 
-        if ($methodInstance instanceof \EMSPay\Payment\Model\Ems) {
+        if ($methodInstance instanceof \EMSPay\Payment\Model\PaymentLibrary) {
             try {
                 $result = $methodInstance->startTransaction($order);
             } catch (\Exception $e) {

@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace EMSPay\Payment\ViewModel\Checkout;
 
 use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\Ems as EmsModel;
+use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
 use EMSPay\Payment\Model\Methods\Banktransfer;
 use EMSPay\Payment\Model\Methods\Ideal;
 use EMSPay\Payment\Model\Methods\KlarnaDirect;
@@ -40,25 +40,25 @@ You will receive the order email once the payment is successful.";
     private $configRepository;
 
     /**
-     * @var EmsModel
+     * @var PaymentLibraryModel
      */
-    private $emsModel;
+    private $paymentLibraryModel;
 
     /**
      * Success constructor.
      *
      * @param Session $checkoutSession
      * @param ConfigRepository $configRepository
-     * @param EmsModel $emsModel
+     * @param PaymentLibraryModel $paymentLibraryModel
      */
     public function __construct(
         Session $checkoutSession,
         ConfigRepository $configRepository,
-        EmsModel $emsModel
+        PaymentLibraryModel $paymentLibraryModel
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->configRepository = $configRepository;
-        $this->emsModel = $emsModel;
+        $this->paymentLibraryModel = $paymentLibraryModel;
     }
 
     /**
@@ -98,7 +98,7 @@ You will receive the order email once the payment is successful.";
         try {
             $method = $order->getPayment()->getMethodInstance()->getCode();
             $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$order->getStoreId());
-            $client = $this->emsModel->loadGingerClient((int)$order->getStoreId(), $testApiKey);
+            $client = $this->paymentLibraryModel->loadGingerClient((int)$order->getStoreId(), $testApiKey);
             $transaction = $client->getOrder($transactionId);
         } catch (\Exception $e) {
             $this->configRepository->addTolog('error', $e->getMessage());

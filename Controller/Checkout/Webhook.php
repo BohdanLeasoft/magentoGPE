@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace EMSPay\Payment\Controller\Checkout;
 
 use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\Ems as EmsModel;
+use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModer;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -41,9 +41,9 @@ class Webhook extends Action
     private $paymentHelper;
 
     /**
-     * @var EmsModel
+     * @var PaymentLibraryModer
      */
-    private $emsModel;
+    private $paymentLibraryModel;
 
     /**
      * @var ConfigRepository
@@ -66,24 +66,24 @@ class Webhook extends Action
      * @param Context $context
      * @param Session $checkoutSession
      * @param PaymentHelper $paymentHelper
-     * @param EmsModel $emsModel
+     * @param PaymentLibraryModer $paymentLibraryModel
      * @param ConfigRepository $configRepository
      * @param Json $json
      * @param FilesystemDriver $filesystemDriver
      */
     public function __construct(
-        Context $context,
-        Session $checkoutSession,
-        PaymentHelper $paymentHelper,
-        EmsModel $emsModel,
-        ConfigRepository $configRepository,
-        Json $json,
-        FilesystemDriver $filesystemDriver
+        Context             $context,
+        Session             $checkoutSession,
+        PaymentHelper       $paymentHelper,
+        PaymentLibraryModer $paymentLibraryModel,
+        ConfigRepository    $configRepository,
+        Json                $json,
+        FilesystemDriver    $filesystemDriver
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->paymentHelper = $paymentHelper;
         $this->resultFactory = $context->getResultFactory();
-        $this->emsModel = $emsModel;
+        $this->paymentLibraryModel = $paymentLibraryModel;
         $this->configRepository = $configRepository;
         $this->resultFactory = $context->getResultFactory();
         $this->json = $json;
@@ -92,7 +92,7 @@ class Webhook extends Action
     }
 
     /**
-     * EMS Webhook Controller
+     * Webhook Controller
      *
      * @return ResponseInterface|ResultInterface|void
      */
@@ -116,7 +116,7 @@ class Webhook extends Action
 
         if (isset($input['order_id'])) {
             try {
-                $this->emsModel->processTransaction($input['order_id'], 'webhook');
+                $this->paymentLibraryModel->processTransaction($input['order_id'], 'webhook');
             } catch (\Exception $e) {
                 $this->configRepository->addTolog('error', $e->getMessage());
                 $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
