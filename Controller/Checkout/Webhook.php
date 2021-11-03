@@ -18,48 +18,13 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Filesystem\Driver\File as FilesystemDriver;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Helper\Data as PaymentHelper;
+use EMSPay\Payment\Redefiners\Controller\ControllerCheckoutActionRedefiner as ActionRedefiner;
 
 /**
  * Webhook controller class
  */
-class Webhook extends Action
+class Webhook extends ActionRedefiner
 {
-
-    /**
-     * @var ResultFactory
-     */
-    protected $resultFactory;
-
-    /**
-     * @var Session
-     */
-    private $checkoutSession;
-
-    /**
-     * @var PaymentHelper
-     */
-    private $paymentHelper;
-
-    /**
-     * @var PaymentLibraryModer
-     */
-    private $paymentLibraryModel;
-
-    /**
-     * @var ConfigRepository
-     */
-    private $configRepository;
-
-    /**
-     * @var Json
-     */
-    private $json;
-
-    /**
-     * @var FilesystemDriver
-     */
-    private $filesystemDriver;
-
     /**
      * Webhook constructor.
      *
@@ -98,31 +63,6 @@ class Webhook extends Action
      */
     public function execute()
     {
-        try {
-            $input = $this->json->unserialize(
-                $this->filesystemDriver->fileGetContents("php://input")
-            );
-            $this->configRepository->addTolog('webhook', $input);
-        } catch (\Exception $e) {
-            $input = null;
-            $this->configRepository->addTolog('error', 'Webhook exception: ' . $e->getMessage());
-        }
-
-        if (!$input) {
-            $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
-            $result->setHttpResponseCode(503);
-            return $result;
-        }
-
-        if (isset($input['order_id'])) {
-            try {
-                $this->paymentLibraryModel->processTransaction($input['order_id'], 'webhook');
-            } catch (\Exception $e) {
-                $this->configRepository->addTolog('error', $e->getMessage());
-                $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
-                $result->setHttpResponseCode(503);
-                return $result;
-            }
-        }
+       return $this->webhook();
     }
 }

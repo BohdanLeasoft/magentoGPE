@@ -15,33 +15,13 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Payment\Helper\Data as PaymentHelper;
 use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
 use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use EMSPay\Payment\Redefiners\Controller\ControllerCheckoutActionRedefiner as ActionRedefiner;
 
 /**
  * Checkout process controller class
  */
-class Process extends Action
+class Process extends ActionRedefiner
 {
-
-    /**
-     * @var Session
-     */
-    private $checkoutSession;
-
-    /**
-     * @var PaymentHelper
-     */
-    private $paymentHelper;
-
-    /**
-     * @var EmsModel
-     */
-    private $paymentLibraryModel;
-
-    /**
-     * @var ConfigRepository
-     */
-    private $configRepository;
-
     /**
      * Success constructor.
      *
@@ -70,42 +50,6 @@ class Process extends Action
      */
     public function execute()
     {
-        $orderId = $this->getRequest()->getParam('order_id', null);
-
-        if ($orderId === null) {
-            $this->configRepository->addTolog('error', __('Invalid return, missing order id.'));
-            $this->messageManager->addNoticeMessage(__('Invalid return from EMS.'));
-            return $this->_redirect('checkout/cart');
-        }
-
-        try
-        {
-            $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
-
-            if (!empty($status['success']))
-            {
-                $this->checkoutSession->start();
-                return $this->_redirect('checkout/onepage/success?utm_nooverride=1');
-            }
-            else
-            {
-                $this->checkoutSession->restoreQuote();
-                if (!empty($status['cart_msg']))
-                {
-                    $this->messageManager->addNoticeMessage($status['cart_msg']);
-                }
-                else
-                {
-                    $this->messageManager->addNoticeMessage(__('Something went wrong.'));
-                }
-            }
-        }
-        catch (\Exception $e)
-        {
-            $this->configRepository->addTolog('error', $e->getMessage());
-            $this->messageManager->addExceptionMessage($e, __('There was an error checking the transaction status.'));
-        }
-
-        return $this->_redirect('checkout/cart');
+        return $this->process();
     }
 }
