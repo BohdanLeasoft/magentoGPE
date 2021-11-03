@@ -35,7 +35,7 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 
 /**
- * Ems payment class
+ * PaymentLibrary payment class
  */
 class PaymentLibrary extends AbstractMethod
 {
@@ -122,7 +122,7 @@ class PaymentLibrary extends AbstractMethod
     protected $urlProvider;
 
     /**
-     * Ems constructor.
+     * PaymentLibrary constructor.
      *
      * @param Context $context
      * @param Registry $registry
@@ -339,7 +339,7 @@ class PaymentLibrary extends AbstractMethod
 
         try {
             $client = $this->loadGingerClient($storeId, $testApiKey);
-            $emsOrder = $client->refundOrder(
+            $gingerOrder = $client->refundOrder(
                 $transactionId,
                 [
                     'amount' => $this->configRepository->getAmountInCents((float)$amount),
@@ -352,8 +352,8 @@ class PaymentLibrary extends AbstractMethod
             throw new LocalizedException($errorMsg);
         }
 
-        if (in_array($emsOrder['status'], ['error', 'cancelled', 'expired'])) {
-            $reason = current($emsOrder['transactions'])['reason'] ?? 'Refund order is not completed';
+        if (in_array($gingerOrder['status'], ['error', 'cancelled', 'expired'])) {
+            $reason = current($gingerOrder['transactions'])['reason'] ?? 'Refund order is not completed';
             $errorMsg = __('Error: not possible to create an online refund: %1', $reason);
             $this->configRepository->addTolog('error', $errorMsg);
             throw new LocalizedException($errorMsg);
