@@ -32,7 +32,7 @@ class ApiBuilder
     /**
      * EMS Endpoint
      */
-    const ENDPOINT_EMS = 'https://api.online.emspay.eu/';
+    const ENDPOINT = 'https://api.online.emspay.eu/';
 
     /**
      * @var UrlInterface
@@ -133,6 +133,6 @@ class ApiBuilder
      */
     public function getEndPoint()
     {
-        return self::ENDPOINT_EMS;
+        return self::ENDPOINT;
     }
 }
