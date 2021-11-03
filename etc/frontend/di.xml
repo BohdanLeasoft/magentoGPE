@@ -8,7 +8,7 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="emspay_config_provider" xsi:type="object">EMSPay\Payment\Model\EmsConfigProvider</item>
+                <item name="emspay_config_provider" xsi:type="object">EMSPay\Payment\Model\PaymentConfigProvider</item>
             </argument>
         </arguments>
     </type>

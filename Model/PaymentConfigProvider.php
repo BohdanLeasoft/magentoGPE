@@ -16,9 +16,9 @@ use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use Magento\Payment\Model\MethodInterface;
 
 /**
- * EmsConfigProvider model class
+ * PaymentConfigProvider model class
  */
-class EmsConfigProvider extends ModelBuilderRedefiner
+class PaymentConfigProvider extends ModelBuilderRedefiner
 {
     /**
      * @var array
@@ -39,7 +39,7 @@ class EmsConfigProvider extends ModelBuilderRedefiner
     ];
 
     /**
-     * EmsConfigProvider constructor.
+     * PaymentConfigProvider constructor.
      *
      * @param Ems              $emsModel
      * @param ConfigRepository $configRepository
