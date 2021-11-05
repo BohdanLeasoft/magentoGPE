@@ -5,7 +5,7 @@
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="admin">
-        <route id="ginger_apikey" frontName="emspay">
+        <route id="ginger_apikey" frontName="ginger">
             <module name="EMSPay_Payment"/>
         </route>
     </router>

@@ -18,7 +18,7 @@ define(
                 template: 'EMSPay_Payment/payment/default'
             },
             afterPlaceOrder: function () {
-                window.location.replace(url.build('emspay/checkout/redirect/'));
+                window.location.replace(url.build('ginger/checkout/redirect/'));
             },
             getInstructions: function () {
                 return checkoutConfig[this.item.method].instructions;

@@ -6,7 +6,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config:etc/system_file.xsd">
 	<system>
 		<section id="payment">
-			<group id="emspay" translate="label" type="text" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="1">
+			<group id="ginger" translate="label" type="text" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="1">
 				<label>EMSPay</label>
 				<group id="branding" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Branding</label>

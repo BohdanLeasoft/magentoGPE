@@ -93,7 +93,7 @@ class ApiBuilder
      */
     public function getReturnUrl()
     {
-        return $this->urlBuilder->getUrl('emspay/checkout/process');
+        return $this->urlBuilder->getUrl('ginger/checkout/process');
     }
 
     /**
@@ -103,7 +103,7 @@ class ApiBuilder
      */
     public function getWebhookUrl()
     {
-        return $this->urlBuilder->getUrl('emspay/checkout/webhook/');
+        return $this->urlBuilder->getUrl('ginger/checkout/webhook/');
     }
 
     /**
@@ -115,7 +115,7 @@ class ApiBuilder
      */
     public function getSuccessProcessUrl(string $transactionId) : string
     {
-        return $this->urlBuilder->getUrl('emspay/checkout/process', ['order_id' => $transactionId]);
+        return $this->urlBuilder->getUrl('ginger/checkout/process', ['order_id' => $transactionId]);
     }
 
     /**
