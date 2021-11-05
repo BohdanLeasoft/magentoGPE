@@ -18,7 +18,7 @@
                 <model>EMSPay\Payment\Model\Methods\General</model>
                 <observer>1</observer>
             </emspay_general>
-            <emspay_methods_banktransfer>
+            <ginger_methods_banktransfer>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Banktransfer</model>
                 <title>Banktransfer</title>
@@ -36,8 +36,8 @@
                     <holder>THIRD PARTY FUNDS EMS</holder>
                     <city>Amsterdam, NL</city>
                 </account_details>
-            </emspay_methods_banktransfer>
-            <emspay_methods_creditcard>
+            </ginger_methods_banktransfer>
+            <ginger_methods_creditcard>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Creditcard</model>
                 <title>Credit Cards</title>
@@ -49,8 +49,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_creditcard>
-            <emspay_methods_applepay>
+            </ginger_methods_creditcard>
+            <ginger_methods_applepay>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\ApplePay</model>
                 <title>Apple Pay</title>
@@ -62,8 +62,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_applepay>
-            <emspay_methods_ideal>
+            </ginger_methods_applepay>
+            <ginger_methods_ideal>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Ideal</model>
                 <title>iDeal</title>
@@ -75,8 +75,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_ideal>
-            <emspay_methods_bancontact>
+            </ginger_methods_ideal>
+            <ginger_methods_bancontact>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Bancontact</model>
                 <title>Bancontact</title>
@@ -88,8 +88,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_bancontact>
-            <emspay_methods_klarnadirect>
+            </ginger_methods_bancontact>
+            <ginger_methods_klarnadirect>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\KlarnaDirect</model>
                 <title>Klarna Direct</title>
@@ -101,8 +101,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_klarnadirect>
-            <emspay_methods_paypal>
+            </ginger_methods_klarnadirect>
+            <ginger_methods_paypal>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Paypal</model>
                 <title>Paypal</title>
@@ -114,8 +114,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_paypal>
-            <emspay_methods_amex>
+            </ginger_methods_paypal>
+            <ginger_methods_amex>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Amex</model>
                 <title>American Express</title>
@@ -127,8 +127,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_amex>
-            <emspay_methods_klarna>
+            </ginger_methods_amex>
+            <ginger_methods_klarna>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Klarna</model>
                 <title>Klarna</title>
@@ -140,8 +140,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_klarna>
-            <emspay_methods_payconiq>
+            </ginger_methods_klarna>
+            <ginger_methods_payconiq>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Payconiq</model>
                 <title>Payconiq</title>
@@ -153,8 +153,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_payconiq>
-            <emspay_methods_tikkie>
+            </ginger_methods_payconiq>
+            <ginger_methods_tikkie>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Tikkie</model>
                 <title>Tikkie</title>
@@ -166,8 +166,8 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_tikkie>
-            <emspay_methods_afterpay>
+            </ginger_methods_tikkie>
+            <ginger_methods_afterpay>
                 <active>1</active>
                 <model>EMSPay\Payment\Model\Methods\Afterpay</model>
                 <title>Afterpay</title>
@@ -179,7 +179,7 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </emspay_methods_afterpay>
+            </ginger_methods_afterpay>
         </payment>
     </default>
 </config>

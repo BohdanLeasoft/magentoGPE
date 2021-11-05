@@ -18,7 +18,7 @@ class Banktransfer extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_banktransfer';
+    const METHOD_CODE = 'ginger_methods_banktransfer';
 
     /**
      * @var string

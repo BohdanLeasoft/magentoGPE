@@ -24,7 +24,7 @@ class Klarna extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_klarna';
+    const METHOD_CODE = 'ginger_methods_klarna';
 
     /**
      * @var string

@@ -118,7 +118,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     public function getMethodCodeFromOrder(OrderInterface $order): string
     {
         $method = $order->getPayment()->getMethodInstance()->getCode();
-        return str_replace('emspay_methods_', '', $method);
+        return str_replace('ginger_methods_', '', $method);
     }
 
     /**

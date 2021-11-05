@@ -21,18 +21,18 @@ interface RepositoryInterface
     const XML_PATH_VERSION = 'payment/emspay_general/version';
     const XML_PATH_DEBUG = 'payment/emspay_general/debug';
     const XML_PATH_OBSERVER = 'payment/emspay_general/observer';
-    const XML_PATH_ACCOUNT_DETAILS = 'payment/emspay_methods_banktransfer/account_details';
-    const XML_PATH_KLARNA_TEST_MODUS = 'payment/emspay_methods_klarna/test_modus';
-    const XML_PATH_KLARNA_TEST_API_KEY = 'payment/emspay_methods_klarna/test_apikey';
-    const XML_PATH_KLARNA_IP_FILTER = 'payment/emspay_methods_klarna/ip_filter';
-    const XML_PATH_AFTERPAY_TEST_MODUS = 'payment/emspay_methods_afterpay/test_modus';
-    const XML_PATH_AFTERPAY_TEST_API_KEY = 'payment/emspay_methods_afterpay/test_apikey';
-    const XML_PATH_AFTERPAY_IP_FILTER = 'payment/emspay_methods_afterpay/ip_filter';
+    const XML_PATH_ACCOUNT_DETAILS = 'payment/ginger_methods_banktransfer/account_details';
+    const XML_PATH_KLARNA_TEST_MODUS = 'payment/ginger_methods_klarna/test_modus';
+    const XML_PATH_KLARNA_TEST_API_KEY = 'payment/ginger_methods_klarna/test_apikey';
+    const XML_PATH_KLARNA_IP_FILTER = 'payment/ginger_methods_klarna/ip_filter';
+    const XML_PATH_AFTERPAY_TEST_MODUS = 'payment/ginger_methods_afterpay/test_modus';
+    const XML_PATH_AFTERPAY_TEST_API_KEY = 'payment/ginger_methods_afterpay/test_apikey';
+    const XML_PATH_AFTERPAY_IP_FILTER = 'payment/ginger_methods_afterpay/ip_filter';
     const XML_PATH_STORE_NAME = 'general/store_information/name';
     const XML_PATH_IMAGES = 'payment/emspay_general/payment_images';
     const XML_PATH_COMPANY_NAME = 'general/store_information/name';
     const MODULE_CODE = 'EMSPay_Payment';
-    const METHOD_PREFIX = 'emspay_methods_';
+    const METHOD_PREFIX = 'ginger_methods_';
 
 
     /**

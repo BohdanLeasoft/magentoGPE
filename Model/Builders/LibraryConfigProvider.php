@@ -59,19 +59,22 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
         $config = [];
 
         if (!$client = $this->paymentLibraryModel->loadGingerClient()) {
+
             $activeMethods = [];
         } else {
             $activeMethods = $this->getActiveMethods();
         }
+       // var_dump($activeMethods);die('asda');
 
         foreach ($this->methodCodes as $code) {
 
-
-
             if (!empty($this->methods[$code]) && $this->methods[$code]->isAvailable()) {
                 $config['payment'][$code]['instructions'] = $this->getInstructions($code);
-                if ($code == Ideal::METHOD_CODE && $client) {
+
+                if ($code == Ideal::METHOD_CODE && $client)
+                {
                     $config['payment'][$code]['issuers'] = $this->getIssuers($client);
+                    //var_dump($config ); die();
                 }
                 if ($code == Banktransfer::METHOD_CODE) {
                     $config['payment'][$code]['mailingAddress'] = $this->getMailingAddress($code);
@@ -125,8 +128,10 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
      */
     public function getIssuers($client)
     {
+   //     var_dump($this->paymentLibraryModel->getIssuers($client));die('ds');
         if ($issuers = $this->paymentLibraryModel->getIssuers($client)) {
-            return $issuers;
+
+             return $issuers;
         }
         return false;
     }

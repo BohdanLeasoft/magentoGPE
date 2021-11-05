@@ -39,7 +39,7 @@ define(
                     return ko.observable(new Date(dob));
                 },
                 validate: function () {
-                    var form = $('#emspay_methods_afterpay-form');
+                    var form = $('#ginger_methods_afterpay-form');
                     return form.validation() && form.validation('isValid');
                 },
                 getData: function () {

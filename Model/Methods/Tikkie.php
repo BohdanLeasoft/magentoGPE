@@ -18,7 +18,7 @@ class Tikkie extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_tikkie';
+    const METHOD_CODE = 'ginger_methods_tikkie';
 
     /**
      * @var string

@@ -18,7 +18,7 @@ class Payconiq extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_payconiq';
+    const METHOD_CODE = 'ginger_methods_payconiq';
 
     /**
      * @var string

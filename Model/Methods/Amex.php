@@ -18,7 +18,7 @@ class Amex extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_amex';
+    const METHOD_CODE = 'ginger_methods_amex';
 
     /**
      * @var string

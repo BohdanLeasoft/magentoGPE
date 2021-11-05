@@ -18,7 +18,7 @@ class ApplePay extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_applepay';
+    const METHOD_CODE = 'ginger_methods_applepay';
 
     /**
      * @var string

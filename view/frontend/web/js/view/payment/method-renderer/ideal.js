@@ -20,6 +20,7 @@ define(
             },
             getIssuers: function () {
                 var issuers = checkoutConfig[this.item.method].issuers;
+                console.log(checkoutConfig[this.item.method])
                 issuers.unshift({"id":"SELECTYOURBANK", "name":$t('-- Select your bank')});
                 return issuers;
             },
@@ -32,7 +33,7 @@ define(
                 };
             },
             validate: function () {
-                var form = $('#emspay_methods_ideal-form');
+                var form = $('#ginger_methods_ideal-form');
                 return form.validation() && form.validation('isValid');
             }
         });

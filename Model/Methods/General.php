@@ -16,7 +16,7 @@ class General extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_general';
+    const METHOD_CODE = 'ginger_methods_general';
 
     /**
      * @var string

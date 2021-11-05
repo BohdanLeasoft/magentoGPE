@@ -18,7 +18,7 @@ class Creditcard extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_creditcard';
+    const METHOD_CODE = 'ginger_methods_creditcard';
 
     /**
      * @var string

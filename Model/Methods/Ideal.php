@@ -18,7 +18,7 @@ use Magento\Framework\Exception\LocalizedException;
 class Ideal extends PaymentLibraryRedefiner
 {
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_ideal';
+    const METHOD_CODE = 'ginger_methods_ideal';
 
     /**
      * @var string

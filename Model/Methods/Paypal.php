@@ -18,7 +18,7 @@ class Paypal extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_paypal';
+    const METHOD_CODE = 'ginger_methods_paypal';
 
     /**
      * @var string

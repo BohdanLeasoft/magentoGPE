@@ -30,7 +30,7 @@ class Afterpay extends PaymentLibraryRedefiner
     const TERMS_BE_URL = 'https://www.afterpay.be/be/footer/betalen-met-afterpay/betalingsvoorwaarden';
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_afterpay';
+    const METHOD_CODE = 'ginger_methods_afterpay';
 
     /**
      * @var string

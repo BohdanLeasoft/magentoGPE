@@ -30,7 +30,7 @@ define(
                     return ko.observable(new Date(dob));
                 },
                 validate: function () {
-                    var form = $('#emspay_methods_klarna-form');
+                    var form = $('#ginger_methods_klarna-form');
                     return form.validation() && form.validation('isValid');
                 },
                 getData: function () {

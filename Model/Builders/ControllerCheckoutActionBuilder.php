@@ -75,6 +75,7 @@ class ControllerCheckoutActionBuilder extends Action
         try
         {
             $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
+            var_dump($status); die();
 
             if (!empty($status['success']))
             {

@@ -18,7 +18,7 @@ class Bancontact extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_bancontact';
+    const METHOD_CODE = 'ginger_methods_bancontact';
 
     /**
      * @var string

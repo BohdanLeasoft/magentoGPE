@@ -251,7 +251,6 @@ class PaymentLibrary extends AbstractMethod
      */
     public function processTransaction(string $transactionId, string $type): array
     {
-
         if (empty($transactionId)) {
             $msg = ['error' => true, 'msg' => __('OrderId not set')];
             $this->configRepository->addTolog('error', $msg);
@@ -284,6 +283,7 @@ class PaymentLibrary extends AbstractMethod
         }
 
         $transaction = $client->getOrder($transactionId);
+     //   var_dump($transaction);die();
         $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
@@ -317,6 +317,7 @@ class PaymentLibrary extends AbstractMethod
      */
     public function getIssuers($client)
     {
+        //var_dump($client->getIdealIssuers());die('1111');
         return $client->getIdealIssuers();
     }
 

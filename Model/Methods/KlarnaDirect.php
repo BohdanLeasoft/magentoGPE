@@ -18,7 +18,7 @@ class KlarnaDirect extends PaymentLibraryRedefiner
 {
 
     /** Payment Code */
-    const METHOD_CODE = 'emspay_methods_klarnadirect';
+    const METHOD_CODE = 'ginger_methods_klarnadirect';
 
     /**
      * @var string
