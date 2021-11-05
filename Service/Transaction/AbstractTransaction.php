@@ -10,7 +10,7 @@ namespace EMSPay\Payment\Service\Transaction;
 use EMSPay\Payment\Redefiners\Service\TransactionRedefiner;
 use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use EMSPay\Payment\Model\Api\UrlProvider;
-use EMSPay\Payment\Model\Methods\Banktransfer;
+use GingerPay\Payment\Model\Methods\Banktransfer;
 use EMSPay\Payment\Service\Order\Cancel as CancelOrder;
 use EMSPay\Payment\Service\Order\SendInvoiceEmail;
 use EMSPay\Payment\Service\Order\SendOrderEmail;

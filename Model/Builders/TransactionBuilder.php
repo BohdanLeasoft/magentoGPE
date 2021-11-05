@@ -5,7 +5,7 @@ namespace EMSPay\Payment\Model\Builders;
 use EMSPay\Payment\Model\Api\UrlProvider;
 use EMSPay\Payment\Model\Methods\Afterpay;
 use EMSPay\Payment\Model\Methods\Klarna;
-use EMSPay\Payment\Model\Methods\Banktransfer;
+use GingerPay\Payment\Model\Methods\Banktransfer;
 use EMSPay\Payment\Service\Order\Cancel as CancelOrder;
 use EMSPay\Payment\Service\Order\SendInvoiceEmail;
 use EMSPay\Payment\Service\Order\SendOrderEmail;

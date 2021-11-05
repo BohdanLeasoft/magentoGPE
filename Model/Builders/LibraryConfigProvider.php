@@ -3,7 +3,7 @@
 namespace EMSPay\Payment\Model\Builders;
 
 use EMSPay\Payment\Model\Methods\Ideal;
-use EMSPay\Payment\Model\Methods\Banktransfer;
+use GingerPay\Payment\Model\Methods\Banktransfer;
 use EMSPay\Payment\Model\Methods\Klarna;
 use EMSPay\Payment\Model\Methods\Afterpay;
 

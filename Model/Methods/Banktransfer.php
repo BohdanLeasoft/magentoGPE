@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model\Methods;
+namespace GINGERPay\Payment\Model\Methods;
 
 use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
 use Magento\Sales\Api\Data\OrderInterface;

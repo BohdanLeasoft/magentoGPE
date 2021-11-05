@@ -9,7 +9,7 @@ namespace EMSPay\Payment\ViewModel\Checkout;
 
 use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
-use EMSPay\Payment\Model\Methods\Banktransfer;
+use GingerPay\Payment\Model\Methods\Banktransfer;
 use EMSPay\Payment\Model\Methods\Ideal;
 use EMSPay\Payment\Model\Methods\KlarnaDirect;
 use Magento\Checkout\Model\Session;

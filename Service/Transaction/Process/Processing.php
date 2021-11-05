@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace EMSPay\Payment\Service\Transaction\Process;
 
-use EMSPay\Payment\Model\Methods\Banktransfer;
+use GingerPay\Payment\Model\Methods\Banktransfer;
 use EMSPay\Payment\Service\Transaction\AbstractTransaction;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;

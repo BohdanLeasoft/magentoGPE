@@ -20,7 +20,7 @@
             </ginger_general>
             <ginger_methods_banktransfer>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Banktransfer</model>
+                <model>GINGERPay\Payment\Model\Methods\Banktransfer</model>
                 <title>Banktransfer</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>

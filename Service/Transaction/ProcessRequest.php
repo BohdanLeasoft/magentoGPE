@@ -8,7 +8,7 @@ declare(strict_types=1);
 namespace EMSPay\Payment\Service\Transaction;
 
 use EMSPay\Payment\Model\Methods\Afterpay;
-use EMSPay\Payment\Model\Methods\Banktransfer;
+use GingerPay\Payment\Model\Methods\Banktransfer;
 use EMSPay\Payment\Model\Methods\Klarna;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;

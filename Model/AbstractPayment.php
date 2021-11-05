@@ -95,7 +95,6 @@ class AbstractPayment extends PaymentLibrary
      */
     protected function capturing($method, $order)
     {
-        die('capturing');
         switch ($method)
         {
             case Afterpay::METHOD_CODE:
