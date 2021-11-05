@@ -82,9 +82,10 @@ class Apikey extends Action
         }
 
         try {
+           // var_dump($apiKey);die();
             $client = $this->client->get((int)$storeId, $apiKey);
             if (!$client) {
-                $results[] = '<span class="ems-error">' . __('Error! Invalid API Key.') . '</span>';
+                $results[] = '<span class="ems-error">' . __('Error! '.$apiKey.'Invalid API Key.') . '</span>';
                 $success = false;
             } else {
                 $client->getIdealIssuers();

@@ -18,7 +18,7 @@ declare(strict_types=1);
         var resultSpan = jQuery('#result');
         jQuery('#apikey_button').click(function () {
             var params = {
-                "apikey": jQuery("input[name='groups[emspay][groups][emspay_general][fields][apikey][value]']").val(),
+                "apikey": jQuery("input[name='groups[emspay][groups][ginger_general][fields][apikey][value]']").val(),
             };
             new Ajax.Request('<?= $block->escapeUrl($block->getAjaxUrl()) ?>', {
                 parameters: params,

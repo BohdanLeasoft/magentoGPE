@@ -16,11 +16,11 @@ use Magento\Store\Api\Data\StoreInterface;
 interface RepositoryInterface
 {
 
-    const XML_PATH_MODULE_ACTIVE = 'payment/emspay_general/enabled';
-    const XML_PATH_APIKEY = 'payment/emspay_general/apikey';
-    const XML_PATH_VERSION = 'payment/emspay_general/version';
-    const XML_PATH_DEBUG = 'payment/emspay_general/debug';
-    const XML_PATH_OBSERVER = 'payment/emspay_general/observer';
+    const XML_PATH_MODULE_ACTIVE = 'payment/ginger_general/enabled';
+    const XML_PATH_APIKEY = 'payment/ginger_general/apikey';
+    const XML_PATH_VERSION = 'payment/ginger_general/version';
+    const XML_PATH_DEBUG = 'payment/ginger_general/debug';
+    const XML_PATH_OBSERVER = 'payment/ginger_general/observer';
     const XML_PATH_ACCOUNT_DETAILS = 'payment/ginger_methods_banktransfer/account_details';
     const XML_PATH_KLARNA_TEST_MODUS = 'payment/ginger_methods_klarna/test_modus';
     const XML_PATH_KLARNA_TEST_API_KEY = 'payment/ginger_methods_klarna/test_apikey';
@@ -29,7 +29,7 @@ interface RepositoryInterface
     const XML_PATH_AFTERPAY_TEST_API_KEY = 'payment/ginger_methods_afterpay/test_apikey';
     const XML_PATH_AFTERPAY_IP_FILTER = 'payment/ginger_methods_afterpay/ip_filter';
     const XML_PATH_STORE_NAME = 'general/store_information/name';
-    const XML_PATH_IMAGES = 'payment/emspay_general/payment_images';
+    const XML_PATH_IMAGES = 'payment/ginger_general/payment_images';
     const XML_PATH_COMPANY_NAME = 'general/store_information/name';
     const MODULE_CODE = 'EMSPay_Payment';
     const METHOD_PREFIX = 'ginger_methods_';
