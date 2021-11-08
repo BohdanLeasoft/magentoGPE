@@ -39,7 +39,6 @@ use Magento\Sales\Model\Order;
  */
 class PaymentLibrary extends AbstractMethod
 {
-
     /**
      * @var ConfigRepository
      */
@@ -147,6 +146,7 @@ class PaymentLibrary extends AbstractMethod
      * @param array $data
      */
     public function __construct(
+
         Context $context,
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
@@ -283,7 +283,6 @@ class PaymentLibrary extends AbstractMethod
         }
 
         $transaction = $client->getOrder($transactionId);
-     //   var_dump($transaction);die();
         $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
@@ -317,7 +316,6 @@ class PaymentLibrary extends AbstractMethod
      */
     public function getIssuers($client)
     {
-        //var_dump($client->getIdealIssuers());die('1111');
         return $client->getIdealIssuers();
     }
 

@@ -74,7 +74,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
                 if ($code == Ideal::METHOD_CODE && $client)
                 {
                     $config['payment'][$code]['issuers'] = $this->getIssuers($client);
-                    //var_dump($config ); die();
                 }
                 if ($code == Banktransfer::METHOD_CODE) {
                     $config['payment'][$code]['mailingAddress'] = $this->getMailingAddress($code);

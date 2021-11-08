@@ -80,6 +80,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     protected function getStoreConfig(string $path, int $storeId = 0)
     {
+      //  var_dump(ScopeInterface::SCOPE_STORE); die($path);
         return $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_STORE, $storeId);
     }
 
@@ -232,9 +233,6 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
 
     private function getTestApiKeyByPath($modusPath, $testKeyPath)
     {
-
-
-
         $testModus = $this->getStoreConfig($modusPath, $storeId);
 
         $testApiKey = $this->getStoreConfig($testKeyPath, $storeId);

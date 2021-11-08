@@ -12,6 +12,8 @@ use Magento\Quote\Api\Data\CartInterface;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Creditmemo;
+use Magento\Framework\DataObject;
+
 
 class AbstractPayment extends PaymentLibrary
 {
@@ -72,17 +74,18 @@ class AbstractPayment extends PaymentLibrary
      * @return $this->testApiKey
      */
 
-    private function getTestApiKey($method)
+    private function getTestApiKey($method, $testModus)
     {
         switch ($method)
         {
             case Afterpay::METHOD_CODE:
-                $this->testApiKey = $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
+                return $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
                 break;
             case Klarna::METHOD_CODE:
-                $this->testApiKey = $testModus ? $this->configRepository->getKlarnaTestApiKey($storeId, true) : null;
+                return $this->configRepository->getKlarnaTestApiKey($storeId, true) ;
                 break;
         }
+
         return $this->testApiKey;
     }
 
@@ -107,13 +110,23 @@ class AbstractPayment extends PaymentLibrary
 
         $storeId = (int)$order->getStoreId();
         $testModus = $order->getPayment()->getAdditionalInformation();
+
         if (array_key_exists('test_modus', $testModus)) {
             $testModus = $testModus['test_modus'];
         }
 
-        $this->testApiKey = $this->getTestApiKey($method);
-        $client = $this->loadGingerClient($storeId, $this->testApiKey);
+        switch ($method)
+        {
+            case Afterpay::METHOD_CODE:
+                $testApiKey = $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
+                break;
+            case Klarna::METHOD_CODE:
+                $testApiKey = $this->configRepository->getKlarnaTestApiKey($storeId, true) ;
+                break;
+        }
 
+        $client = $this->loadGingerClient($storeId, $testApiKey);
+        //var_dump($client); die();
         try {
             $ingOrder = $client->getOrder($order->getEmspayTransactionId());
             $orderId = $ingOrder['id'];
