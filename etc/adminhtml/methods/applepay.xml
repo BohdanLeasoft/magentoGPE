@@ -31,7 +31,7 @@
         </field>
         <field id="heading_settings" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Settings</label>
-            <frontend_model>EMSPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
+            <frontend_model>GingerPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
             <comment><![CDATA[Configure the Apple Pay payment settings.]]></comment>
             <depends>
                 <field id="active">1</field>
@@ -39,7 +39,7 @@
         </field>
         <field id="order_status_pending" translate="label comment" type="select" sortOrder="22" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Status Pending</label>
-            <source_model>EMSPay\Payment\Model\Adminhtml\Source\Pending</source_model>
+            <source_model>GingerPay\Payment\Model\Adminhtml\Source\Pending</source_model>
             <config_path>payment/ginger_methods_applepay/order_status_pending</config_path>
             <comment><![CDATA[Set the order status before the customer is redirected to Payment Gateway]]></comment>
             <depends>
@@ -67,7 +67,7 @@
         <field id="heading_limit" translate="label comment" type="text" sortOrder="90" showInDefault="1"
                showInWebsite="1" showInStore="1">
             <label>Limit &amp; Sorting</label>
-            <frontend_model>EMSPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
+            <frontend_model>GingerPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
             <depends>
                 <field id="active">1</field>
             </depends>

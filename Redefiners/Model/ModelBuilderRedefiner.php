@@ -1,8 +1,8 @@
 <?php
 
-namespace EMSPay\Payment\Redefiners\Model;
+namespace GingerPay\Payment\Redefiners\Model;
 
-use EMSPay\Payment\Model\Builders\LibraryConfigProvider;
+use GingerPay\Payment\Model\Builders\LibraryConfigProvider;
 
 class ModelBuilderRedefiner extends LibraryConfigProvider
 {

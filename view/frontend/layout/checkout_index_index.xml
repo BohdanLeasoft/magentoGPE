@@ -5,7 +5,7 @@
   -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="EMSPay_Payment::css/checkout.css" />
+        <css src="GingerPay_Payment::css/checkout.css" />
     </head>
     <body>
         <referenceBlock name="checkout.root">
@@ -23,8 +23,8 @@
                                                     <item name="children" xsi:type="array">
                                                         <item name="renders" xsi:type="array">
                                                             <item name="children" xsi:type="array">
-                                                                <item name="emspay_payment" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">EMSPay_Payment/js/view/payment/method-renderer</item>
+                                                                <item name="gingerpay_payment" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">GingerPay_Payment/js/view/payment/method-renderer</item>
                                                                     <item name="methods" xsi:type="array">
                                                                         <item name="ginger_methods_banktransfer" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>

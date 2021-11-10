@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Order;
+namespace GingerPay\Payment\Service\Order;
 
-use EMSPay\Payment\Redefiners\Service\ServiceOrderLinesRedefiner;
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Redefiners\Service\ServiceOrderLinesRedefiner;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use Magento\Framework\UrlInterface;
 use Magento\Sales\Api\Data\CreditmemoItemInterface;
 use Magento\Sales\Api\Data\OrderInterface;

@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model\Adminhtml\Source;
+namespace GingerPay\Payment\Model\Adminhtml\Source;
 
 use Magento\Framework\Option\ArrayInterface;
 

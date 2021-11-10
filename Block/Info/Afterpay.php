@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Block\Info;
+namespace GingerPay\Payment\Block\Info;
 
 use Magento\Payment\Block\Info;
 use Magento\Framework\Exception\LocalizedException;
@@ -24,7 +24,7 @@ class Afterpay extends Info
     /**
      * @var string
      */
-    protected $_template = 'EMSPay_Payment::info/afterpay.phtml';
+    protected $_template = 'GingerPay_Payment::info/afterpay.phtml';
 
     /**
      * @return mixed

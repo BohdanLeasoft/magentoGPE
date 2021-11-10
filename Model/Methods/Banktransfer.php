@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace GingerPay\Payment\Model\Methods;
 
-use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
+use GingerPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Framework\Exception\LocalizedException;
 
@@ -37,7 +37,7 @@ class Banktransfer extends PaymentLibraryRedefiner
     /**
      * @var string
      */
-    protected $_infoBlockType = \EMSPay\Payment\Block\Info\Banktransfer::class;
+    protected $_infoBlockType = \GingerPay\Payment\Block\Info\Banktransfer::class;
 
     /**
      * @return string

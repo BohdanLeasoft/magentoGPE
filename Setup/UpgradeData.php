@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Setup;
+namespace GingerPay\Payment\Setup;
 
 
-use EMSPay\Payment\Redefiners\Setup\SetupRedefiner;
+use GingerPay\Payment\Redefiners\Setup\SetupRedefiner;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\UpgradeDataInterface;

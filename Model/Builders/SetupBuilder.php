@@ -1,6 +1,6 @@
 <?php
 
-namespace EMSPay\Payment\Model\Builders;
+namespace GingerPay\Payment\Model\Builders;
 
 use Magento\Framework\App\ResourceConnection;
 use Magento\Framework\Setup\ModuleDataSetupInterface;

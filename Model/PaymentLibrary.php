@@ -5,16 +5,16 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model;
+namespace GingerPay\Payment\Model;
 
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\Api\GingerClient;
-use EMSPay\Payment\Model\Api\UrlProvider;
-use EMSPay\Payment\Service\Order\CustomerData;
-use EMSPay\Payment\Service\Order\GetOrderByTransaction;
-use EMSPay\Payment\Service\Order\OrderLines;
-use EMSPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
-use EMSPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Model\Api\GingerClient;
+use GingerPay\Payment\Model\Api\UrlProvider;
+use GingerPay\Payment\Service\Order\CustomerData;
+use GingerPay\Payment\Service\Order\GetOrderByTransaction;
+use GingerPay\Payment\Service\Order\OrderLines;
+use GingerPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
+use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;

@@ -1,10 +1,10 @@
 <?php
 
-namespace EMSPay\Payment\Model\Builders;
+namespace GingerPay\Payment\Model\Builders;
 
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
-use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModer;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
+use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModer;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -125,7 +125,7 @@ class ControllerCheckoutActionBuilder extends Action
             return $this->_redirect('checkout/cart');
         }
 
-        if ($methodInstance instanceof \EMSPay\Payment\Model\PaymentLibrary) {
+        if ($methodInstance instanceof \GingerPay\Payment\Model\PaymentLibrary) {
             try {
                 $result = $methodInstance->startTransaction($order);
             } catch (\Exception $e) {

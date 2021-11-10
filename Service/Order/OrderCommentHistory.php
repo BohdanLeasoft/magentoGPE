@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Order;
+namespace GingerPay\Payment\Service\Order;
 
-use EMSPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
+use GingerPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Phrase;
 use Magento\Sales\Api\Data\OrderInterface;

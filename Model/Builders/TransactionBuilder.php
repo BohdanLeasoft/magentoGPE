@@ -1,21 +1,21 @@
 <?php
 
-namespace EMSPay\Payment\Model\Builders;
+namespace GingerPay\Payment\Model\Builders;
 
-use EMSPay\Payment\Model\Api\UrlProvider;
-use EMSPay\Payment\Model\Methods\Afterpay;
-use EMSPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Api\UrlProvider;
+use GingerPay\Payment\Model\Methods\Afterpay;
+use GingerPay\Payment\Model\Methods\Klarna;
 use GingerPay\Payment\Model\Methods\Banktransfer;
-use EMSPay\Payment\Service\Order\Cancel as CancelOrder;
-use EMSPay\Payment\Service\Order\SendInvoiceEmail;
-use EMSPay\Payment\Service\Order\SendOrderEmail;
-use EMSPay\Payment\Service\Order\UpdateStatus;
-use EMSPay\Payment\Service\Transaction\Process\Cancelled;
-use EMSPay\Payment\Service\Transaction\Process\Complete;
-use EMSPay\Payment\Service\Transaction\Process\Error;
-use EMSPay\Payment\Service\Transaction\Process\Expired;
-use EMSPay\Payment\Service\Transaction\Process\Processing;
-use EMSPay\Payment\Service\Transaction\Process\Unknown;
+use GingerPay\Payment\Service\Order\Cancel as CancelOrder;
+use GingerPay\Payment\Service\Order\SendInvoiceEmail;
+use GingerPay\Payment\Service\Order\SendOrderEmail;
+use GingerPay\Payment\Service\Order\UpdateStatus;
+use GingerPay\Payment\Service\Transaction\Process\Cancelled;
+use GingerPay\Payment\Service\Transaction\Process\Complete;
+use GingerPay\Payment\Service\Transaction\Process\Error;
+use GingerPay\Payment\Service\Transaction\Process\Expired;
+use GingerPay\Payment\Service\Transaction\Process\Processing;
+use GingerPay\Payment\Service\Transaction\Process\Unknown;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;

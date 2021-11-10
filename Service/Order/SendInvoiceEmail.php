@@ -5,13 +5,13 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Order;
+namespace GingerPay\Payment\Service\Order;
 
-use EMSPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
+use GingerPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use Magento\Sales\Model\Order\Payment;
 
 /**

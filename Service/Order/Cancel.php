@@ -5,12 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Order;
+namespace GingerPay\Payment\Service\Order;
 
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
 
 
 /**

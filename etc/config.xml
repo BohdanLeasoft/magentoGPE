@@ -15,7 +15,7 @@
                 <payment_images>1</payment_images>
                 <debug>1</debug>
                 <apikey backend_model="Magento\Config\Model\Config\Backend\Encrypted"></apikey>
-                <model>EMSPay\Payment\Model\Methods\General</model>
+                <model>GingerPay\Payment\Model\Methods\General</model>
                 <observer>1</observer>
             </ginger_general>
             <ginger_methods_banktransfer>
@@ -39,7 +39,7 @@
             </ginger_methods_banktransfer>
             <ginger_methods_creditcard>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Creditcard</model>
+                <model>GingerPay\Payment\Model\Methods\Creditcard</model>
                 <title>Credit Cards</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -52,7 +52,7 @@
             </ginger_methods_creditcard>
             <ginger_methods_applepay>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\ApplePay</model>
+                <model>GingerPay\Payment\Model\Methods\ApplePay</model>
                 <title>Apple Pay</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -65,7 +65,7 @@
             </ginger_methods_applepay>
             <ginger_methods_ideal>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Ideal</model>
+                <model>GingerPay\Payment\Model\Methods\Ideal</model>
                 <title>iDeal</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -78,7 +78,7 @@
             </ginger_methods_ideal>
             <ginger_methods_bancontact>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Bancontact</model>
+                <model>GingerPay\Payment\Model\Methods\Bancontact</model>
                 <title>Bancontact</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -91,7 +91,7 @@
             </ginger_methods_bancontact>
             <ginger_methods_klarnadirect>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\KlarnaDirect</model>
+                <model>GingerPay\Payment\Model\Methods\KlarnaDirect</model>
                 <title>Klarna Direct</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -104,7 +104,7 @@
             </ginger_methods_klarnadirect>
             <ginger_methods_paypal>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Paypal</model>
+                <model>GingerPay\Payment\Model\Methods\Paypal</model>
                 <title>Paypal</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -117,7 +117,7 @@
             </ginger_methods_paypal>
             <ginger_methods_amex>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Amex</model>
+                <model>GingerPay\Payment\Model\Methods\Amex</model>
                 <title>American Express</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -130,7 +130,7 @@
             </ginger_methods_amex>
             <ginger_methods_klarna>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Klarna</model>
+                <model>GingerPay\Payment\Model\Methods\Klarna</model>
                 <title>Klarna</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -143,7 +143,7 @@
             </ginger_methods_klarna>
             <ginger_methods_payconiq>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Payconiq</model>
+                <model>GingerPay\Payment\Model\Methods\Payconiq</model>
                 <title>Payconiq</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -156,7 +156,7 @@
             </ginger_methods_payconiq>
             <ginger_methods_tikkie>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Tikkie</model>
+                <model>GingerPay\Payment\Model\Methods\Tikkie</model>
                 <title>Tikkie</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -169,7 +169,7 @@
             </ginger_methods_tikkie>
             <ginger_methods_afterpay>
                 <active>1</active>
-                <model>EMSPay\Payment\Model\Methods\Afterpay</model>
+                <model>GingerPay\Payment\Model\Methods\Afterpay</model>
                 <title>Afterpay</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>

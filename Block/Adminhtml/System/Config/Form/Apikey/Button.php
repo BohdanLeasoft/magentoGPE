@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Block\Adminhtml\System\Config\Form\Apikey;
+namespace GingerPay\Payment\Block\Adminhtml\System\Config\Form\Apikey;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Block\Widget\Button as WidgetButton;
@@ -22,7 +22,7 @@ class Button extends Field
     /**
      * @var string
      */
-    protected $_template = 'EMSPay_Payment::system/config/button/apikey.phtml';
+    protected $_template = 'GingerPay_Payment::system/config/button/apikey.phtml';
 
     /**
      * @var RequestInterface
@@ -76,7 +76,7 @@ class Button extends Field
      */
     public function getAjaxUrl(): string
     {
-        return $this->getUrl('emspay/action/apikey');
+        return $this->getUrl('gingerpay/action/apikey');
     }
 
     /**

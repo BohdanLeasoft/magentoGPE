@@ -5,16 +5,16 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Transaction;
+namespace GingerPay\Payment\Service\Transaction;
 
-use EMSPay\Payment\Redefiners\Service\TransactionRedefiner;
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\Api\UrlProvider;
+use GingerPay\Payment\Redefiners\Service\TransactionRedefiner;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Model\Methods\Banktransfer;
-use EMSPay\Payment\Service\Order\Cancel as CancelOrder;
-use EMSPay\Payment\Service\Order\SendInvoiceEmail;
-use EMSPay\Payment\Service\Order\SendOrderEmail;
-use EMSPay\Payment\Service\Order\UpdateStatus;
+use GingerPay\Payment\Service\Order\Cancel as CancelOrder;
+use GingerPay\Payment\Service\Order\SendInvoiceEmail;
+use GingerPay\Payment\Service\Order\SendOrderEmail;
+use GingerPay\Payment\Service\Order\UpdateStatus;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Framework\Exception\InputException;

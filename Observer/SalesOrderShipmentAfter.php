@@ -5,12 +5,12 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Observer;
+namespace GingerPay\Payment\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
-use EMSPay\Payment\Model\Methods\Klarna;
-use EMSPay\Payment\Model\Methods\Afterpay;
+use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\Afterpay;
 use Magento\Sales\Api\Data\OrderInterface;
 
 /**

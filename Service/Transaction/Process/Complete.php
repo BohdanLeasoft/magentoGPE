@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Transaction\Process;
+namespace GingerPay\Payment\Service\Transaction\Process;
 
-use EMSPay\Payment\Service\Transaction\AbstractTransaction;
+use GingerPay\Payment\Service\Transaction\AbstractTransaction;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Payment;

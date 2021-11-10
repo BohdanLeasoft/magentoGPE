@@ -1,8 +1,8 @@
 <?php
 
-namespace EMSPay\Payment\Redefiners\Setup;
+namespace GingerPay\Payment\Redefiners\Setup;
 
-use EMSPay\Payment\Model\Builders\SetupBuilder;
+use GingerPay\Payment\Model\Builders\SetupBuilder;
 
 class SetupRedefiner extends SetupBuilder
 {

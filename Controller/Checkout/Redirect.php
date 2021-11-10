@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Controller\Checkout;
+namespace GingerPay\Payment\Controller\Checkout;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -13,8 +13,8 @@ use Magento\Checkout\Model\Session;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Redefiners\Controller\ControllerCheckoutActionRedefiner as ActionRedefiner;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Redefiners\Controller\ControllerCheckoutActionRedefiner as ActionRedefiner;
 
 /**
  * Checkout redirect class

@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model\Api;
+namespace GingerPay\Payment\Model\Api;
 
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
 
 /**
  * GingerClient API class

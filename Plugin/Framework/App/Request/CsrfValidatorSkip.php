@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Plugin\Framework\App\Request;
+namespace GingerPay\Payment\Plugin\Framework\App\Request;
 
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\App\Request\CsrfValidator;

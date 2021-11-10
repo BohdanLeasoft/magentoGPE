@@ -11,7 +11,7 @@
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="EMSPay_Payment::config" title="EMS Payment"/>
+                            <resource id="GingerPay_Payment::config" title="EMS Payment"/>
                         </resource>
                     </resource>
                 </resource>

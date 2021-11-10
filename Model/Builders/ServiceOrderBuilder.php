@@ -1,10 +1,10 @@
 <?php
 
-namespace EMSPay\Payment\Model\Builders;
+namespace GingerPay\Payment\Model\Builders;
 
-use EMSPay\Payment\Model\Methods\Afterpay;
-use EMSPay\Payment\Model\Methods\Klarna;
-use EMSPay\Payment\Model\Methods\KlarnaDirect;
+use GingerPay\Payment\Model\Methods\Afterpay;
+use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\KlarnaDirect;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;

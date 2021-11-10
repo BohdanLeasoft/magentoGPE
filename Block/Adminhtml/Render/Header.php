@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Block\Adminhtml\Render;
+namespace GingerPay\Payment\Block\Adminhtml\Render;
 
 use Magento\Config\Block\System\Config\Form\Field;
 use Magento\Framework\Data\Form\Element\AbstractElement;
@@ -19,7 +19,7 @@ class Header extends Field
     /**
      * @var string
      */
-    protected $_template = 'EMSPay_Payment::system/config/fieldset/header.phtml';
+    protected $_template = 'GingerPay_Payment::system/config/fieldset/header.phtml';
 
     /**
      * @param AbstractElement $element

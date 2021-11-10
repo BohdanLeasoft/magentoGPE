@@ -1,8 +1,8 @@
 <?php
 
-namespace EMSPay\Payment\Redefiners\Service;
+namespace GingerPay\Payment\Redefiners\Service;
 
-use EMSPay\Payment\Model\Builders\TransactionBuilder;
+use GingerPay\Payment\Model\Builders\TransactionBuilder;
 
 class TransactionRedefiner extends TransactionBuilder
 {

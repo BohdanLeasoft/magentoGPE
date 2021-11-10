@@ -1,11 +1,11 @@
 <?php
 
-namespace EMSPay\Payment\Model\Builders;
+namespace GingerPay\Payment\Model\Builders;
 
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepositoryInterface;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepositoryInterface;
 
-use EMSPay\Payment\Model\Methods\Afterpay;
-use EMSPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\Afterpay;
+use GingerPay\Payment\Model\Methods\Klarna;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -89,7 +89,6 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function getApiKey(int $storeId): string
     {
-       // var_dump($this->getStoreConfig(self::XML_PATH_APIKEY, $storeId));die();
         return $this->getStoreConfig(self::XML_PATH_APIKEY, $storeId);
     }
 

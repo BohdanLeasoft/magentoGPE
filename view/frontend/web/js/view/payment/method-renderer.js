@@ -15,10 +15,10 @@ define(
         rendererList
     ) {
         'use strict';
-        var defaultComponent = 'EMSPay_Payment/js/view/payment/method-renderer/default';
-        var idealComponent = 'EMSPay_Payment/js/view/payment/method-renderer/ideal';
-        var klarnaComponent = 'EMSPay_Payment/js/view/payment/method-renderer/klarna';
-        var afterpayComponent = 'EMSPay_Payment/js/view/payment/method-renderer/afterpay';
+        var defaultComponent = 'GingerPay_Payment/js/view/payment/method-renderer/default';
+        var idealComponent = 'GingerPay_Payment/js/view/payment/method-renderer/ideal';
+        var klarnaComponent = 'GingerPay_Payment/js/view/payment/method-renderer/klarna';
+        var afterpayComponent = 'GingerPay_Payment/js/view/payment/method-renderer/afterpay';
         var methods = [
             {type: 'ginger_methods_bancontact', component: defaultComponent},
             {type: 'ginger_methods_banktransfer', component: defaultComponent},

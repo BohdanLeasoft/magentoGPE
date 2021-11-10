@@ -10,7 +10,7 @@
 				<label>EMSPay</label>
 				<group id="branding" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Branding</label>
-					<frontend_model>EMSPay\Payment\Block\Adminhtml\Render\Header</frontend_model>
+					<frontend_model>GingerPay\Payment\Block\Adminhtml\Render\Header</frontend_model>
 				</group>
 				<group id="ginger_general" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>General</label>
@@ -31,7 +31,7 @@
 					</field>
 					<field id="heading_api" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
 						<label>API Details</label>
-						<frontend_model>EMSPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
+						<frontend_model>GingerPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
 						<comment><![CDATA[Fill in your API Key below.]]></comment>
 					</field>
 					<field id="apikey" translate="label" type="text" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -41,15 +41,15 @@
 					</field>
 					<field id="apkikey_button" translate="label" type="button" sortOrder="14" showInDefault="1"
 						   showInWebsite="1" showInStore="1">
-						<frontend_model>EMSPay\Payment\Block\Adminhtml\System\Config\Form\Apikey\Button</frontend_model>
+						<frontend_model>GingerPay\Payment\Block\Adminhtml\System\Config\Form\Apikey\Button</frontend_model>
 					</field>
 					<field id="apkikey_result" translate="label" type="text" sortOrder="15" showInDefault="1"
 						   showInWebsite="1" showInStore="1">
-						<frontend_model>EMSPay\Payment\Block\Adminhtml\System\Config\Form\Apikey\Result</frontend_model>
+						<frontend_model>GingerPay\Payment\Block\Adminhtml\System\Config\Form\Apikey\Result</frontend_model>
 					</field>
 					<field id="heading_debug" translate="label comment" type="text" sortOrder="80" showInDefault="1" showInWebsite="0" showInStore="0">
 						<label>Debug</label>
-						<frontend_model>EMSPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
+						<frontend_model>GingerPay\Payment\Block\Adminhtml\Render\Heading</frontend_model>
 						<comment><![CDATA[Especially for Developers you can enable the Debug mode.]]></comment>
 					</field>
 					<field id="debug" translate="label" type="select" sortOrder="81" showInDefault="1" showInWebsite="0" showInStore="0">
@@ -59,7 +59,7 @@
 						<comment>When activated the debug file will be located in: var/log/emspay/debug.log</comment>
 					</field>
 				</group>
-				<include path="EMSPay_Payment::methods.xml"/>
+				<include path="GingerPay_Payment::methods.xml"/>
 			</group>
 		</section>
 	</system>

@@ -8,11 +8,11 @@
     <type name="Magento\Checkout\Model\CompositeConfigProvider">
         <arguments>
             <argument name="configProviders" xsi:type="array">
-                <item name="emspay_config_provider" xsi:type="object">EMSPay\Payment\Model\PaymentConfigProvider</item>
+                <item name="gingerpay_config_provider" xsi:type="object">GingerPay\Payment\Model\PaymentConfigProvider</item>
             </argument>
         </arguments>
     </type>
     <type name="Magento\Framework\App\Request\CsrfValidator">
-        <plugin name="ginger_csrf_validation_disable" type="EMSPay\Payment\Plugin\Framework\App\Request\CsrfValidatorSkip" />
+        <plugin name="ginger_csrf_validation_disable" type="GingerPay\Payment\Plugin\Framework\App\Request\CsrfValidatorSkip" />
     </type>
 </config>

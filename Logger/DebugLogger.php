@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Logger;
+namespace GingerPay\Payment\Logger;
 
 use Monolog\Logger;
 use Magento\Framework\Serialize\Serializer\Json;

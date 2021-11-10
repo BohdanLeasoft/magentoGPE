@@ -5,15 +5,15 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model\Methods;
+namespace GingerPay\Payment\Model\Methods;
 
-use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
+use GingerPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
 use Magento\Framework\DataObject;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Framework\Exception\LocalizedException;
 
 /**
- * Ideal method class
+ * Ideal method class`
  */
 class Ideal extends PaymentLibraryRedefiner
 {

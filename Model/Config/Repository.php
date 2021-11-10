@@ -5,11 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model\Config;
+namespace GingerPay\Payment\Model\Config;
 
-use EMSPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
-use EMSPay\Payment\Logger\DebugLogger;
-use EMSPay\Payment\Logger\ErrorLogger;
+use GingerPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
+use GingerPay\Payment\Logger\DebugLogger;
+use GingerPay\Payment\Logger\ErrorLogger;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\HTTP\PhpEnvironment\RemoteAddress;
 use Magento\Framework\Module\ModuleListInterface;

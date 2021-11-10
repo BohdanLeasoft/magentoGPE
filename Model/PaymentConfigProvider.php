@@ -5,14 +5,14 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model;
+namespace GingerPay\Payment\Model;
 
-use EMSPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
+use GingerPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner as PaymentLibraryModel;
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Redefiners\Model\PaymentLibraryRedefiner as PaymentLibraryModel;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use Magento\Payment\Model\MethodInterface;
 
 /**

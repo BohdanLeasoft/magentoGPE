@@ -5,15 +5,15 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Transaction;
+namespace GingerPay\Payment\Service\Transaction;
 
-use EMSPay\Payment\Redefiners\Service\TransactionRedefiner;
-use EMSPay\Payment\Service\Transaction\Process\Cancelled;
-use EMSPay\Payment\Service\Transaction\Process\Complete;
-use EMSPay\Payment\Service\Transaction\Process\Error;
-use EMSPay\Payment\Service\Transaction\Process\Expired;
-use EMSPay\Payment\Service\Transaction\Process\Processing;
-use EMSPay\Payment\Service\Transaction\Process\Unknown;
+use GingerPay\Payment\Redefiners\Service\TransactionRedefiner;
+use GingerPay\Payment\Service\Transaction\Process\Cancelled;
+use GingerPay\Payment\Service\Transaction\Process\Complete;
+use GingerPay\Payment\Service\Transaction\Process\Error;
+use GingerPay\Payment\Service\Transaction\Process\Expired;
+use GingerPay\Payment\Service\Transaction\Process\Processing;
+use GingerPay\Payment\Service\Transaction\Process\Unknown;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;
 

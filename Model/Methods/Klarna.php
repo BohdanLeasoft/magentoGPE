@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model\Methods;
+namespace GingerPay\Payment\Model\Methods;
 
-use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
+use GingerPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
 use Magento\Framework\DataObject;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Model\InfoInterface;
@@ -37,7 +37,7 @@ class Klarna extends PaymentLibraryRedefiner
     /**
      * @var string
      */
-    protected $_infoBlockType = \EMSPay\Payment\Block\Info\Klarna::class;
+    protected $_infoBlockType = \GingerPay\Payment\Block\Info\Klarna::class;
 
     /**
      * @var string

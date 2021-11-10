@@ -1,8 +1,8 @@
 <?php
 
-namespace EMSPay\Payment\Redefiners\Service;
+namespace GingerPay\Payment\Redefiners\Service;
 
-use EMSPay\Payment\Model\Builders\ServiceOrderLinesBuilder;
+use GingerPay\Payment\Model\Builders\ServiceOrderLinesBuilder;
 
 class ServiceOrderLinesRedefiner extends ServiceOrderLinesBuilder
 {

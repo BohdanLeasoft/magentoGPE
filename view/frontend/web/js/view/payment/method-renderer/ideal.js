@@ -8,14 +8,14 @@ define(
         'ko',
         'jquery',
         'mage/translate',
-        'EMSPay_Payment/js/view/payment/method-renderer/default'
+        'GingerPay_Payment/js/view/payment/method-renderer/default'
     ],
     function (ko, $, $t, Component) {
         var checkoutConfig = window.checkoutConfig.payment;
         'use strict';
         return Component.extend({
             defaults: {
-                template: 'EMSPay_Payment/payment/ideal',
+                template: 'GingerPay_Payment/payment/ideal',
                 selectedIssuer: null
             },
             getIssuers: function () {

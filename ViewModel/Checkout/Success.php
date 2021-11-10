@@ -5,13 +5,13 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\ViewModel\Checkout;
+namespace GingerPay\Payment\ViewModel\Checkout;
 
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
 use GingerPay\Payment\Model\Methods\Banktransfer;
-use EMSPay\Payment\Model\Methods\Ideal;
-use EMSPay\Payment\Model\Methods\KlarnaDirect;
+use GingerPay\Payment\Model\Methods\Ideal;
+use GingerPay\Payment\Model\Methods\KlarnaDirect;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Model\Order\Payment;

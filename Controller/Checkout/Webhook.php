@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Controller\Checkout;
+namespace GingerPay\Payment\Controller\Checkout;
 
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\PaymentLibrary as PaymentLibraryModer;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModer;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -18,7 +18,7 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Filesystem\Driver\File as FilesystemDriver;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use EMSPay\Payment\Redefiners\Controller\ControllerCheckoutActionRedefiner as ActionRedefiner;
+use GingerPay\Payment\Redefiners\Controller\ControllerCheckoutActionRedefiner as ActionRedefiner;
 
 /**
  * Webhook controller class

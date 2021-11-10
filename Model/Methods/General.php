@@ -5,9 +5,9 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Model\Methods;
+namespace GingerPay\Payment\Model\Methods;
 
-use EMSPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
+use GingerPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
 
 /**
  * General method class

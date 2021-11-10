@@ -1,10 +1,10 @@
 <?php
 
-namespace EMSPay\Payment\Model;
+namespace GingerPay\Payment\Model;
 
-use EMSPay\Payment\Model\PaymentLibrary;
-use EMSPay\Payment\Model\Methods\Afterpay;
-use EMSPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\PaymentLibrary;
+use GingerPay\Payment\Model\Methods\Afterpay;
+use GingerPay\Payment\Model\Methods\Klarna;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Model\InfoInterface;

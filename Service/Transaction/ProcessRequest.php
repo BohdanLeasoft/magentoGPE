@@ -5,11 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Service\Transaction;
+namespace GingerPay\Payment\Service\Transaction;
 
-use EMSPay\Payment\Model\Methods\Afterpay;
+use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\Banktransfer;
-use EMSPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\Klarna;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Payment;

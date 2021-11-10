@@ -7,7 +7,7 @@ define(
     [
         'ko',
         'jquery',
-        'EMSPay_Payment/js/view/payment/method-renderer/default',
+        'GingerPay_Payment/js/view/payment/method-renderer/default',
         'Magento_Checkout/js/model/quote'
     ],
     function (ko, $, Component, quote) {
@@ -16,7 +16,7 @@ define(
         return Component.extend(
             {
                 defaults: {
-                    template: 'EMSPay_Payment/payment/klarna',
+                    template: 'GingerPay_Payment/payment/klarna',
                     selectedPrefix: null
                 },
                 getCustomerPrefixes: function () {

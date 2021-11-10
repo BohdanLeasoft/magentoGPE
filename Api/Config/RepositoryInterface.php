@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Api\Config;
+namespace GingerPay\Payment\Api\Config;
 
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Store\Api\Data\StoreInterface;
@@ -31,7 +31,7 @@ interface RepositoryInterface
     const XML_PATH_STORE_NAME = 'general/store_information/name';
     const XML_PATH_IMAGES = 'payment/ginger_general/payment_images';
     const XML_PATH_COMPANY_NAME = 'general/store_information/name';
-    const MODULE_CODE = 'EMSPay_Payment';
+    const MODULE_CODE = 'GingerPay_Payment';
     const METHOD_PREFIX = 'ginger_methods_';
 
 

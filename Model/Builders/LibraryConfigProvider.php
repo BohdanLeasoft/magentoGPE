@@ -1,11 +1,11 @@
 <?php
 
-namespace EMSPay\Payment\Model\Builders;
+namespace GingerPay\Payment\Model\Builders;
 
-use EMSPay\Payment\Model\Methods\Ideal;
+use GingerPay\Payment\Model\Methods\Ideal;
 use GingerPay\Payment\Model\Methods\Banktransfer;
-use EMSPay\Payment\Model\Methods\Klarna;
-use EMSPay\Payment\Model\Methods\Afterpay;
+use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\Afterpay;
 
 class LibraryConfigProvider extends ConfigRepositoryBuilder
 {
@@ -64,7 +64,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
         } else {
             $activeMethods = $this->getActiveMethods();
         }
-       // var_dump($activeMethods);die('asda');
 
         foreach ($this->methodCodes as $code) {
 
@@ -127,7 +126,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
      */
     public function getIssuers($client)
     {
-   //     var_dump($this->paymentLibraryModel->getIssuers($client));die('ds');
         if ($issuers = $this->paymentLibraryModel->getIssuers($client)) {
 
              return $issuers;

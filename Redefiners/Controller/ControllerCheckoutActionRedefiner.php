@@ -1,8 +1,8 @@
 <?php
 
-namespace EMSPay\Payment\Redefiners\Controller;
+namespace GingerPay\Payment\Redefiners\Controller;
 
-use EMSPay\Payment\Model\Builders\ControllerCheckoutActionBuilder;
+use GingerPay\Payment\Model\Builders\ControllerCheckoutActionBuilder;
 
 class ControllerCheckoutActionRedefiner extends ControllerCheckoutActionBuilder
 {

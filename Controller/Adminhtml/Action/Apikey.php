@@ -5,10 +5,10 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Controller\Adminhtml\Action;
+namespace GingerPay\Payment\Controller\Adminhtml\Action;
 
-use EMSPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
-use EMSPay\Payment\Model\Api\GingerClient;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use GingerPay\Payment\Model\Api\GingerClient;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\RequestInterface;
@@ -24,7 +24,7 @@ class Apikey extends Action
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'EMSPay_Payment::config';
+    const ADMIN_RESOURCE = 'GingerPay_Payment::config';
 
     /**
      * @var RequestInterface
@@ -82,7 +82,6 @@ class Apikey extends Action
         }
 
         try {
-           // var_dump($apiKey);die();
             $client = $this->client->get((int)$storeId, $apiKey);
             if (!$client) {
                 $results[] = '<span class="ems-error">' . __('Error! '.$apiKey.'Invalid API Key.') . '</span>';

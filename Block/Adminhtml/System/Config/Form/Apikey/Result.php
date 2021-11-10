@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Block\Adminhtml\System\Config\Form\Apikey;
+namespace GingerPay\Payment\Block\Adminhtml\System\Config\Form\Apikey;
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Config\Block\System\Config\Form\Field;
@@ -21,7 +21,7 @@ class Result extends Field
     /**
      * @var string
      */
-    protected $_template = 'EMSPay_Payment::system/config/fieldset/apikey_result.phtml';
+    protected $_template = 'GingerPay_Payment::system/config/fieldset/apikey_result.phtml';
 
     /**
      * @var RequestInterface

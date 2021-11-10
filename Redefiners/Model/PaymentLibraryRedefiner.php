@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Redefiners\Model;
+namespace GingerPay\Payment\Redefiners\Model;
 
-use EMSPay\Payment\Model\AbstractPayment;
+use GingerPay\Payment\Model\AbstractPayment;
 
 class PaymentLibraryRedefiner extends AbstractPayment
 {

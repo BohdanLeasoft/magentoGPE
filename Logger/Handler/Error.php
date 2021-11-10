@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-namespace EMSPay\Payment\Logger\Handler;
+namespace GingerPay\Payment\Logger\Handler;
 
 use Monolog\Logger;
 use Magento\Framework\Logger\Handler\Base;
