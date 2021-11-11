@@ -90,6 +90,7 @@ You will receive the order email once the payment is successful.";
         $payment = $order->getPayment();
         $paymentMethod = $payment->getMethod();
         $transactionId = $order->getEmspayTransactionId();
+        var_dump($transactionId);die();
 
         if (!$transactionId || $paymentMethod == Banktransfer::METHOD_CODE) {
             return '';

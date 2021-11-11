@@ -76,7 +76,7 @@ class Apikey extends Action
         $result = $this->resultJsonFactory->create();
 
         if (!class_exists('Ginger\ApiClient')) {
-            $apiErrorMsg = ['<span class="ems-error">' . __('Could not load Ginger client!') . '</span>'];
+            $apiErrorMsg = ['<span class="ginger-error">' . __('Could not load Ginger client!') . '</span>'];
             $result->setData(['success' => false, 'msg' => $apiErrorMsg]);
             return $result;
         }
@@ -84,14 +84,14 @@ class Apikey extends Action
         try {
             $client = $this->client->get((int)$storeId, $apiKey);
             if (!$client) {
-                $results[] = '<span class="ems-error">' . __('Error! '.$apiKey.'Invalid API Key.') . '</span>';
+                $results[] = '<span class="ginger-error">' . __('Error! '.$apiKey.'Invalid API Key.') . '</span>';
                 $success = false;
             } else {
                 $client->getIdealIssuers();
-                $results[] = '<span class="ems-success">' . __('Success!') . '</span>';
+                $results[] = '<span class="ginger-success">' . __('Success!') . '</span>';
             }
         } catch (\Exception $e) {
-            $results[] = '<span class="ems-error">' . $e->getMessage() . '</span>';
+            $results[] = '<span class="ginger-error">' . $e->getMessage() . '</span>';
             $this->configRepository->addTolog('error', $e->getMessage());
             $success = false;
         }

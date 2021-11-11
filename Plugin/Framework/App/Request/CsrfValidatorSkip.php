@@ -29,7 +29,7 @@ class CsrfValidatorSkip
         RequestInterface $request,
         ActionInterface $action
     ) {
-        if ($request->getModuleName() == 'emspay') {
+        if ($request->getModuleName() == 'gingerpay') {
             return;
         }
 

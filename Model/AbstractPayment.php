@@ -126,7 +126,7 @@ class AbstractPayment extends PaymentLibrary
         }
 
         $client = $this->loadGingerClient($storeId, $testApiKey);
-        //var_dump($client); die();
+
         try {
             $ingOrder = $client->getOrder($order->getEmspayTransactionId());
             $orderId = $ingOrder['id'];
@@ -137,7 +137,7 @@ class AbstractPayment extends PaymentLibrary
                 $this->paymentName.' payment captured for order: ' . $order->getIncrementId()
             );
         } catch (\Exception $e) {
-            $msg = __('Warning: Unable to capture '.$this->paymentName.' Payment for this order, full detail: var/log/ems-payment.log');
+            $msg = __('Warning: Unable to capture '.$this->paymentName.' Payment for this order, full detail: var/log/ginger-payment.log');
             $this->messageManager->addErrorMessage($msg);
             $this->configRepository->addTolog('error', 'Function: captureOrder: ' . $e->getMessage());
         }

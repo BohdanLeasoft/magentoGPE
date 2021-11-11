@@ -3,7 +3,7 @@
  * See COPYING.txt for license details.
  */
 
-.mm-heading-ems {
+.mm-heading-ginger{
     color: #666;
     text-align: left;
     border: 1px solid rgba(229, 229, 229, 0.27);
@@ -14,12 +14,12 @@
     background: #F8F8F8;
 }
 
-.mm-comment-ems {
+.mm-comment-ginger {
     padding: 10px 0px;
     font-size: 12px;
 }
 
-.mm-block-ems {
+.mm-block-ginger {
     background: #F8F8F8 no-repeat 8px;
     border: 1px solid #E5E5E5;
     border-left: 2px solid #EA4C00;
@@ -30,41 +30,41 @@
     background-size: 55px;
 }
 
-.mm-block-ems table {
+.mm-block-ginger table {
     width: 520px !important;
 }
 
-.mm-block-ems strong {
+.mm-block-ginger strong {
     font-weight: 600;
     color: #514943;
 }
 
-.mm-block-ems p {
+.mm-block-ginger p {
     font-size: 12px;
     padding: 0 0 0.3em;
 }
 
-.mm-block-ems tr a {
+.mm-block-ginger tr a {
     color: #6D6761;
     margin-top: 3px;
     display: block;
 }
 
-.mm-block-ems tr td {
+.mm-block-ginger tr td {
     padding: 5px 0px 0px 0px !important;
     max-width: 85px;
 }
 
-.mm-block-ems .accordion .form-inline .config td {
+.mm-block-ginger .accordion .form-inline .config td {
     padding: 0.8rem 1.5rem 0 0;
 }
 
-.mm-block-ems tr .signup a {
+.mm-block-ginger tr .signup a {
     color: #04ADE4;
     font-weight: bold;
 }
 
-.mm-block-ems .helpbutton {
+.mm-block-ginger .helpbutton {
     padding: 10px 15px;
     width: 100px;
     height: 31px;
@@ -72,21 +72,21 @@
     background: url(../images/icons.png) no-repeat scroll 0px -175px #F8F8F8;
 }
 
-.mm-block-ems .icon1 {
+.mm-block-ginger .icon1 {
     background: url(../images/icons.png) no-repeat scroll -20px -14px;
     width: 45px;
     height: 25px;
     float: left;
 }
 
-.mm-block-ems .icon2 {
+.mm-block-ginger .icon2 {
     background: url(../images/icons.png) no-repeat scroll -30px -70px;
     width: 36px;
     height: 25px;
     float: left;
 }
 
-.mm-block-ems .icon3 {
+.mm-block-ginger .icon3 {
     background: url(../images/icons.png) no-repeat scroll -20px -129px;
     width: 43px;
     height: 25px;
@@ -94,22 +94,22 @@
 }
 
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .mm-block-ems .icon1 {
+    .mm-block-ginger .icon1 {
         background: url(../images/icons@x2.png) no-repeat scroll 0px -7px;
         background-size: 55px;
     }
 
-    .mm-block-ems .icon2 {
+    .mm-block-ginger .icon2 {
         background: url(../images/icons@x2.png) no-repeat scroll -4px -32px;
         background-size: 45px;
     }
 
-    .mm-block-ems .icon3 {
+    .mm-block-ginger .icon3 {
         background: url(../images/icons@x2.png) no-repeat scroll 0px -75px;
         background-size: 52px;
     }
 
-    .mm-block-ems .helpbutton {
+    .mm-block-ginger .helpbutton {
         background: url(../images/icons@x2.png) no-repeat scroll 0px -260px #F8F8F8;
         background-size: 125px;
     }
@@ -182,12 +182,12 @@
     display: block;
 }
 
-.ems-success {
+.ginger-success {
     display: block;
     line-height: 30px;
 }
 
-.ems-success:before {
+.ginger-success:before {
     font-family: 'Admin Icons';
     font-size: 12px;
     font-style: normal;
@@ -197,13 +197,13 @@
     content: '\e62d';
 }
 
-.ems-error {
+.ginger-error {
     display: block;
     background-color: white;
     line-height: 30px;
 }
 
-.ems-error:before {
+.ginger-error:before {
     color: #EB5202;
     content: '\e623';
     font-family: 'Admin Icons';

@@ -28,8 +28,8 @@ class Heading extends Field
         $html = '<tr id="row_' . $element->getHtmlId() . '">';
         $html .= '  <td class="label"></td>';
         $html .= '  <td class="value">';
-        $html .= '    <div class="mm-heading-ems">' . $element->getData('label') . '</div>';
-        $html .= '	  <div class="mm-comment-ems">';
+        $html .= '    <div class="mm-heading-ginger">' . $element->getData('label') . '</div>';
+        $html .= '	  <div class="mm-comment-ginger">';
         $html .= '        <div id="content">' . $element->getData('comment') . '</div>';
         $html .= '    </div>';
         $html .= '  </td>';

@@ -24,5 +24,5 @@ class Error extends Base
     /**
      * @var string
      */
-    protected $fileName = '/var/log/emspay/error.log';
+    protected $fileName = '/var/log/gingerpay/error.log';
 }

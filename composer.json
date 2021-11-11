@@ -1,5 +1,5 @@
 {
-    "description": "EMS Pay for Magento 2",
+    "description": "Ginger Pay for Magento 2",
     "version": "1.0.5",
     "require": {
         "magento/module-sales": ">=101.0.1",

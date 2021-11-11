@@ -30,7 +30,7 @@ class ApiBuilder
     protected $endpoint = null;
 
     /**
-     * EMS Endpoint
+     * Endpoint
      */
     const ENDPOINT = 'https://api.online.emspay.eu/';
 

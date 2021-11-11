@@ -13,7 +13,7 @@ use Magento\Framework\Setup\UpgradeDataInterface;
 class SetupBuilder
 {
     /** Transaction id */
-    const TRANSACTION_ID = 'ginger_transaction_id';
+    const TRANSACTION_ID = 'gingerpay_transaction_id';
 
     /**
      * @var SalesSetupFactory

@@ -4,12 +4,12 @@
  * See COPYING.txt for license details.
  */
 
-/* @var \EMSPay\Payment\ViewModel\Success $viewModel */
+/* @var \GingerPay\Payment\ViewModel\Success $viewModel */
 $viewModel = $block->getViewModel();
 
 ?>
 <?php if ($mailingAddress = $viewModel->getMailingAddress()): ?>
-    <div class="emspay-payment-instuctions">
+    <div class="gingerpay-payment-instuctions">
         <?= $block->escapeHtml(__("Your order has been received. Thank you for your purchase!
         We will dispatch your order as soon as possible. For any questions,
         please contact our customer support.")); ?>
@@ -30,7 +30,7 @@ $viewModel = $block->getViewModel();
     </div>
 <?php endif; ?>
 <?php if ($thankYouMessage = $viewModel->getThankYouMessage()): ?>
-    <div class="ems-thank-you-message">
+    <div class="ginger-thank-you-message">
         <?= $block->escapeHtml($thankYouMessage); ?>
     </div>
 <?php endif; ?>

@@ -56,7 +56,7 @@
 						<label>Debug requests</label>
 						<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 						<config_path>payment/ginger_general/debug</config_path>
-						<comment>When activated the debug file will be located in: var/log/emspay/debug.log</comment>
+						<comment>When activated the debug file will be located in: var/log/gingerpay/debug.log</comment>
 					</field>
 				</group>
 				<include path="GingerPay_Payment::methods.xml"/>

@@ -32,7 +32,7 @@ class GetOrderByTransaction extends ServiceOrderRedefiner
     }
 
     /**
-     * Get Order by EMS Transaction ID
+     * Get Order by Transaction ID
      *
      * @param string $transactionId
      *

@@ -22,7 +22,7 @@ class DebugLogger extends Logger
     private $json;
 
     /**
-     * EmsDebugLogger constructor.
+     * DebugLogger constructor.
      * @param Json $json
      * @param string $name
      * @param array $handlers
@@ -39,7 +39,7 @@ class DebugLogger extends Logger
     }
 
     /**
-     * Add debug data to EMS Log
+     * Add debug data to Log
      *
      * @param string $type
      * @param mixed $data

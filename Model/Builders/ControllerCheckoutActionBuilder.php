@@ -59,7 +59,7 @@ class ControllerCheckoutActionBuilder extends Action
 
     public function execute()
     {
-        // Overriding by classes in Checkout due to theare functionality
+        // Overriding by classes in Checkout due to their functionality
     }
 
     public function process()
@@ -75,7 +75,6 @@ class ControllerCheckoutActionBuilder extends Action
         try
         {
             $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
-          //  var_dump($status); die();
 
             if (!empty($status['success']))
             {
@@ -105,7 +104,7 @@ class ControllerCheckoutActionBuilder extends Action
     }
 
     /**
-     * EMS Redirect Controller
+     * Redirect Controller
      *
      * @return ResponseInterface|ResultInterface
      */

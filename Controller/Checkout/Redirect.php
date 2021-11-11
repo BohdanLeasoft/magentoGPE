@@ -42,7 +42,7 @@ class Redirect extends ActionRedefiner
     }
 
     /**
-     * EMS Redirect Controller
+     * Redirect Controller
      *
      * @return ResponseInterface|ResultInterface
      */

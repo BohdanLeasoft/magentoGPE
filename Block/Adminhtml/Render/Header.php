@@ -28,7 +28,7 @@ class Header extends Field
      */
     public function render(AbstractElement $element): string
     {
-        $element->addClass('emspay-payment');
+        $element->addClass('gingerpay-payment');
         return $this->toHtml();
     }
 }

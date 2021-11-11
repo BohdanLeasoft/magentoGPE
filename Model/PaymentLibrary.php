@@ -251,6 +251,7 @@ class PaymentLibrary extends AbstractMethod
      */
     public function processTransaction(string $transactionId, string $type): array
     {
+
         if (empty($transactionId)) {
             $msg = ['error' => true, 'msg' => __('OrderId not set')];
             $this->configRepository->addTolog('error', $msg);
@@ -276,6 +277,7 @@ class PaymentLibrary extends AbstractMethod
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId, (string)$testModus);
 
         $client = $this->loadGingerClient($storeId, $testApiKey);
+
         if (!$client) {
             $msg = ['error' => true, 'msg' => __('Could not load Client')];
             $this->configRepository->addTolog('error', $msg);
@@ -283,6 +285,7 @@ class PaymentLibrary extends AbstractMethod
         }
 
         $transaction = $client->getOrder($transactionId);
+
         $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
