@@ -29,8 +29,8 @@ class Cancelled extends AbstractTransaction
      *
      * @return array
      */
-    public function execute(OrderInterface $order, string $type): array
+    public function execute(OrderInterface $order, string $type, $customerMessage = ''): array
     {
-        return $this->cancelled($order, $type);
+        return $this->cancelled($order, $type, $customerMessage);
     }
 }

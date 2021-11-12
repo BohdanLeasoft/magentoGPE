@@ -28,8 +28,8 @@ class Error extends AbstractTransaction
      *
      * @return array
      */
-    public function execute(OrderInterface $order, string $type): array
+    public function execute(OrderInterface $order, string $type, $customerMessage = ''): array
     {
-        return $this->error($order, $type);
+        return $this->error($order, $type, $customerMessage);
     }
 }

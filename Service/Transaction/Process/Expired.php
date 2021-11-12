@@ -28,8 +28,8 @@ class Expired extends AbstractTransaction
      *
      * @return array
      */
-    public function execute(OrderInterface $order, string $type): array
+    public function execute(OrderInterface $order, string $type, $customerMessage = ''): array
     {
-        return $this->expired($order, $type);
+        return $this->expired($order, $type, $customerMessage);
     }
 }

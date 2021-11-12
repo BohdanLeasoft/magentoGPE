@@ -23,10 +23,10 @@ class Success implements ArgumentInterface
 {
 
     const IDEAL_PROCESSING_MESSAGE = "Your order has been received. Thank you for your purchase!
-The payment with iDeal is still <strong>processing</strong>.
+The payment with iDeal is still processing.
 You will receive the order email once the payment is successful.";
     const SOFORT_PENDING_MESSAGE = "Your order has been received. Thank you for your purchase!
-The payment with iDeal is still <strong>processing</strong>.
+The payment with iDeal is still processing.
 You will receive the order email once the payment is successful.";
 
     /**

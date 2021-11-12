@@ -267,14 +267,15 @@ class TransactionBuilder
     public function processUpdate(array $transaction, OrderInterface $order, string $type): array
     {
         $status = !empty($transaction['status']) ? $transaction['status'] : '';
+        $customerMessage = !empty(current($transaction['transactions'])['customer_message']) ? current($transaction['transactions'])['customer_message'] : '';
 
         switch ($status) {
             case 'error':
-                return $this->error->execute($order, $type);
+                return $this->error->execute($order, $type, $customerMessage);
             case 'expired':
-                return $this->expired->execute($order, $type);
+                return $this->expired->execute($order, $type, $customerMessage);
             case 'cancelled':
-                return $this->cancelled->execute($order, $type);
+                return $this->cancelled->execute($order, $type, $customerMessage);
             case 'completed':
                 return $this->complete->execute($transaction, $order, $type);
             case 'processing':
@@ -292,7 +293,7 @@ class TransactionBuilder
      *
      * @return array
      */
-    public function cancelled(OrderInterface $order, string $type): array
+    public function cancelled(OrderInterface $order, string $type, $customerMessage = ''): array
     {
         if ($type == 'webhook') {
             $this->cancelOrder->execute($order);
@@ -303,10 +304,17 @@ class TransactionBuilder
             'status' => $this->status,
             'order_id' => $order->getEntityId(),
             'type' => $type,
-            'cart_msg' => __(
-                'There was a problem processing your payment because it has been cancelled. Please try again.'
-            ),
         ];
+
+        if ($customerMessage)
+        {
+            $result += [ 'cart_msg' => __($customerMessage), ];
+        }
+        else
+        {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it has been cancelled. Please try again.'), ];
+        }
+
 
         $this->configRepository->addTolog('success', $result);
         return $result;
@@ -360,10 +368,11 @@ class TransactionBuilder
      *
      * @param OrderInterface $order
      * @param string $type
+     * @param string $customerMessage
      *
      * @return array
      */
-    public function error(OrderInterface $order, string $type): array
+    public function error(OrderInterface $order, string $type, $customerMessage = ''): array
     {
         if ($type == 'webhook') {
             $this->cancelOrder->execute($order);
@@ -374,9 +383,17 @@ class TransactionBuilder
             'status' => $this->status,
             'order_id' => $order->getEntityId(),
             'type' => $type,
-            'cart_msg' => __('There was a problem processing your payment because it failed. Please try again.'),
+
         ];
 
+        if ($customerMessage)
+        {
+            $result += [ 'cart_msg' => __($customerMessage), ];
+        }
+        else
+        {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it failed. Please try again.'), ];
+        }
         $this->configRepository->addTolog('success', $result);
         return $result;
     }
@@ -389,7 +406,7 @@ class TransactionBuilder
      *
      * @return array
      */
-    public function expired(OrderInterface $order, string $type): array
+    public function expired(OrderInterface $order, string $type, $customerMessage = ''): array
     {
         if ($type == 'webhook') {
             $this->cancelOrder->execute($order);
@@ -400,8 +417,15 @@ class TransactionBuilder
             'status' => $this->status,
             'order_id' => $order->getEntityId(),
             'type' => $type,
-            'cart_msg' => __('There was a problem processing your payment because it expired. Please try again.'),
         ];
+        if ($customerMessage)
+        {
+            $result += [ 'cart_msg' => __($customerMessage), ];
+        }
+        else
+        {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it expired. Please try again.'), ];
+        }
 
         $this->configRepository->addTolog('success', $result);
         return $result;
@@ -419,15 +443,15 @@ class TransactionBuilder
      */
     public function processing(array $transaction, OrderInterface $order, string $type): array
     {
-        $method = $this->getMethodFromOrder($order);
-        if ($method != Banktransfer::METHOD_CODE) {
-            return [
-                'success' => false,
-                'status' => $this->status,
-                'order_id' => $order->getEntityId(),
-                'type' => $type
-            ];
-        }
+//        $method = $this->getMethodFromOrder($order);
+////        if ($method != Banktransfer::METHOD_CODE) {
+////            return [
+////                'success' => false,
+////                'status' => $this->status,
+////                'order_id' => $order->getEntityId(),
+////                'type' => $type
+////            ];
+////        }
 
         if ($type == 'webhook') {
             $order = $this->updateOrderTransaction($order, $transaction, Transaction::TYPE_AUTH);
