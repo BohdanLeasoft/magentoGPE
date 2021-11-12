@@ -161,7 +161,7 @@ class TransactionBuilder
         $methodInstance = $payment->getMethodInstance();
         $mailingAddress = $methodInstance->getMailingAddress();
         $grandTotal = $this->configRepository->formatPrice($transaction['amount'] / 100);
-        $reference = $transaction['transactions'][0]['payment_method_details']['reference'];
+        $reference = current($transaction['transactions'])['payment_method_details']['reference'];
         $mailingAddress = str_replace('%AMOUNT%', $grandTotal, $mailingAddress);
         $mailingAddress = str_replace('%REFERENCE%', $reference, $mailingAddress);
         $mailingAddress = str_replace('\n', PHP_EOL, $mailingAddress);
@@ -229,7 +229,7 @@ class TransactionBuilder
             $message = __('EMS Order ID: %1', $transactionId);
             $status = $this->configRepository->getStatusPending($method, (int)$order->getStoreId());
             $order->addStatusToHistory($status, $message, false);
-            $order->setEmspayTransactionId($transactionId);
+            $order->setGingerpayTransactionId($transactionId);
 
             if ($testModus !== null) {
                 /** @var Payment $payment */
@@ -248,8 +248,8 @@ class TransactionBuilder
             return ['redirect' => $this->urlProvider->getSuccessProcessUrl((string)$transactionId)];
         }
 
-        if ($transaction !== null && !empty($transaction['transactions'][0]['payment_url'])) {
-            return ['redirect' => $transaction['transactions'][0]['payment_url']];
+        if ($transaction !== null && !empty(current($transaction['transactions'])['payment_url'])) {
+            return ['redirect' => current($transaction['transactions'])['payment_url']];
         }
 
         return ['error' => __('Error, could not fetch redirect url')];

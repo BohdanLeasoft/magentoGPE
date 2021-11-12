@@ -88,9 +88,10 @@ You will receive the order email once the payment is successful.";
 
         /** @var Payment $payment */
         $payment = $order->getPayment();
+
         $paymentMethod = $payment->getMethod();
-        $transactionId = $order->getEmspayTransactionId();
-        var_dump($transactionId);die();
+
+        $transactionId = $order->getGingerpayTransactionId();
 
         if (!$transactionId || $paymentMethod == Banktransfer::METHOD_CODE) {
             return '';

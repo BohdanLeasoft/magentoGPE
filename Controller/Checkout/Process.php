@@ -15,6 +15,7 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Payment\Helper\Data as PaymentHelper;
 use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use Magento\Sales\Model\Order\Payment;
 use GingerPay\Payment\Redefiners\Controller\ControllerCheckoutActionRedefiner as ActionRedefiner;
 
 /**

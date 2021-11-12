@@ -251,7 +251,6 @@ class PaymentLibrary extends AbstractMethod
      */
     public function processTransaction(string $transactionId, string $type): array
     {
-
         if (empty($transactionId)) {
             $msg = ['error' => true, 'msg' => __('OrderId not set')];
             $this->configRepository->addTolog('error', $msg);
@@ -334,7 +333,8 @@ class PaymentLibrary extends AbstractMethod
         /** @var Order $order */
         $order = $payment->getOrder();
         $storeId = (int)$order->getStoreId();
-        $transactionId = $order->getEmspayTransactionId();
+        $transactionId = $order->getGingerpayTransactionId();
+
 
         $method = $order->getPayment()->getMethodInstance()->getCode();
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId);

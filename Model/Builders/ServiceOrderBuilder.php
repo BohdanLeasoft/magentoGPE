@@ -209,11 +209,13 @@ class ServiceOrderBuilder
     public function getOrderByTransaction(string $transactionId)
     {
         $searchCriteria = $this->searchCriteriaBuilder
-            ->addFilter('emspay_transaction_id', $transactionId, 'eq')
+            ->addFilter('gingerpay_transaction_id', $transactionId, 'eq')
             ->setPageSize(1)
             ->create();
 
+
         $orders = $this->orderRepository->getList($searchCriteria)->getItems();
+
         return reset($orders);
     }
 

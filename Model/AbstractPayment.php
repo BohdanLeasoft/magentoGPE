@@ -128,7 +128,7 @@ class AbstractPayment extends PaymentLibrary
         $client = $this->loadGingerClient($storeId, $testApiKey);
 
         try {
-            $ingOrder = $client->getOrder($order->getEmspayTransactionId());
+            $ingOrder = $client->getOrder($order->getGingerpayTransactionId());
             $orderId = $ingOrder['id'];
             $transactionId = current($ingOrder['transactions'])['id'];
             $client->captureOrderTransaction($orderId, $transactionId);
@@ -176,7 +176,7 @@ class AbstractPayment extends PaymentLibrary
             $testModus = $testModus['test_modus'];
         }
         $testApiKey = $this->getTestApiKey($method);
-        $transactionId = $order->getEmspayTransactionId();
+        $transactionId = $order->getGingerpayTransactionId();
 
         try {
             $addShipping = $creditmemo->getShippingAmount() > 0 ? 1 : 0;
