@@ -22,6 +22,8 @@ use Magento\Sales\Model\Order\Creditmemo;
  */
 class Afterpay extends PaymentLibraryRedefiner
 {
+    protected $_canRefund = true;
+    protected $_canRefundInvoicePartial = true;
 
     /** Afterpay terms */
     const TERMS_NL_URL = 'https://www.afterpay.nl/nl/algemeen/betalen-met-afterpay/betalingsvoorwaarden';
@@ -88,13 +90,31 @@ class Afterpay extends PaymentLibraryRedefiner
     }
 
     /**
-     * @param InfoInterface $payment
-     * @param float $amount
+     * Refund specified amount for payment
      *
+     * @param \Magento\Framework\DataObject|InfoInterface $payment
+     * @param float $amount
      * @return $this
+     * @throws \Magento\Framework\Exception\LocalizedException
+     * @api
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function refund(InfoInterface $payment, $amount)
+    public function refund(\Magento\Payment\Model\InfoInterface $payment, $amount)
     {
-        return $this->refundFunctionality($this->method_code, $payment, $amount);
+        if (!$this->canRefund()) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('The refund action is not available.'));
+        }
+        return $this;
     }
+
+//    /**
+//     * @param InfoInterface $payment
+//     * @param float $amount
+//     *
+//     * @return $this
+//     */
+//    public function refund(InfoInterface $payment, $amount)
+//    {
+//        return $this->refundFunctionality($this->method_code, $payment, $amount);
+//    }
 }
