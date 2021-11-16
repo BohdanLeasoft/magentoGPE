@@ -35,7 +35,10 @@ class PaymentConfigProvider extends ModelBuilderRedefiner
         Methods\Payconiq::METHOD_CODE,
         Methods\Afterpay::METHOD_CODE,
         Methods\Amex::METHOD_CODE,
-        Methods\Tikkie::METHOD_CODE
+        Methods\Tikkie::METHOD_CODE,
+        Methods\Googlepay::METHOD_CODE,
+        Methods\Sofort::METHOD_CODE,
+        Methods\KlarnaDirectDebit::METHOD_CODE,
     ];
 
     /**

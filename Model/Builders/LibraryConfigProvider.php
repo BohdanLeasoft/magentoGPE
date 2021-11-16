@@ -64,7 +64,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
         } else {
             $activeMethods = $this->getActiveMethods();
         }
-
         foreach ($this->methodCodes as $code) {
 
             if (!empty($this->methods[$code]) && $this->methods[$code]->isAvailable()) {

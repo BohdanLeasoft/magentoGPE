@@ -80,7 +80,6 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     protected function getStoreConfig(string $path, int $storeId = 0)
     {
-      //  var_dump(ScopeInterface::SCOPE_STORE); die($path);
         return $this->scopeConfig->getValue($path, ScopeInterface::SCOPE_STORE, $storeId);
     }
 
@@ -270,11 +269,6 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
         }
         return $testApiKey;
     }
-//    public function getAfterpayTestApiKey(int $storeId, bool $force = false)
-//    {
-//
-//        return $this->getTestApiKeyByPath(self::XML_PATH_AFTERPAY_TEST_MODUS, self::XML_PATH_AFTERPAY_TEST_API_KEY);
-//    }
 
     /**
      * {@inheritDoc}
@@ -303,7 +297,15 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function getPluginVersion(): string
     {
-        return 'Magento2-' . $this->getExtensionVersion();
+        return $this->getExtensionVersion();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPluginName(): string
+    {
+        return self::PLUGIN_NAME;
     }
 
     /**
@@ -319,10 +321,10 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function getError(array $transaction)
     {
-        if ($transaction['status'] == 'error' && !empty($transaction['transactions'][0]['reason'])) {
-            return $transaction['transactions'][0]['reason'];
+        if ($transaction['status'] == 'error' && !empty(current($transaction['transactions'])['reason'])) {
+            return current($transaction['transactions'])['reason'];
         } elseif ($transaction['status'] == 'cancelled') {
-            $method = $transaction['transactions'][0]['payment_method'];
+            $method = current($transaction['transactions'])['payment_method'];
             if ($method == $this->getShortMethodCode(Afterpay::METHOD_CODE)) {
                 return (string)__('Unfortunately, we can not currently accept
                 your purchase with Afterpay. Please choose another payment

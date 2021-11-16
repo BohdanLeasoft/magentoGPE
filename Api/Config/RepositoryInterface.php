@@ -15,7 +15,6 @@ use Magento\Store\Api\Data\StoreInterface;
  */
 interface RepositoryInterface
 {
-
     const XML_PATH_MODULE_ACTIVE = 'payment/ginger_general/enabled';
     const XML_PATH_APIKEY = 'payment/ginger_general/apikey';
     const XML_PATH_VERSION = 'payment/ginger_general/version';
@@ -33,7 +32,7 @@ interface RepositoryInterface
     const XML_PATH_COMPANY_NAME = 'general/store_information/name';
     const MODULE_CODE = 'GingerPay_Payment';
     const METHOD_PREFIX = 'ginger_methods_';
-
+    const PLUGIN_NAME = 'ems-online-magento-2';
 
     /**
      * Availability check, on Active, API Client & API Key

@@ -6,6 +6,7 @@ use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\Klarna;
 use GingerPay\Payment\Model\Methods\KlarnaDirect;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\App\ProductMetadata;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
 
@@ -59,6 +60,11 @@ class ServiceOrderBuilder
      * @var OrderSender
      */
     protected $orderSender;
+
+    /**
+     * @var ProductMetadata
+     */
+    protected $productMetadata;
 
     /**
      * @param OrderInterface $order
@@ -189,6 +195,23 @@ class ServiceOrderBuilder
         return $size - $pos - strlen($needle);
     }
 
+
+    /**
+     * Collect data for extra_lines
+     *
+     * @return array
+     */
+    public function getExtraLines()
+    {
+        return [
+            'user_agent' => $this->getUserAgent(),
+            'platform_name' => 'Magento2',
+            'platform_version' => $this->productMetadata->getVersion(),
+            'plugin_name' => $this->configRepository->getPluginName(),
+            'plugin_version' => $this->configRepository->getPluginVersion()
+        ];
+    }
+
     /**
      * Customer user agent for API
      *
@@ -196,7 +219,7 @@ class ServiceOrderBuilder
      */
     protected function getUserAgent()
     {
-        return $this->httpHeader->getHttpUserAgent();
+        return $_SERVER['HTTP_USER_AGENT'];
     }
 
     /**

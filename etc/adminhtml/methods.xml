@@ -16,4 +16,7 @@
     <include path="GingerPay_Payment::methods/afterpay.xml"/>
     <include path="GingerPay_Payment::methods/banktransfer.xml"/>
     <include path="GingerPay_Payment::methods/tikkie.xml"/>
+    <include path="GingerPay_Payment::methods/googlepay.xml"/>
+    <include path="GingerPay_Payment::methods/sofort.xml"/>
+    <include path="GingerPay_Payment::methods/klarnadirectdebit.xml"/>
 </include>

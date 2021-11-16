@@ -42,5 +42,14 @@
         <method name="ginger_methods_tikie">
             <allow_multiple_address>0</allow_multiple_address>
         </method>
+        <method name="ginger_methods_googlepay">
+            <allow_multiple_address>0</allow_multiple_address>
+        </method>
+        <method name="ginger_methods_sofort">
+            <allow_multiple_address>0</allow_multiple_address>
+        </method>
+        <method name="ginger_methods_klarnadirectdebit">
+            <allow_multiple_address>0</allow_multiple_address>
+        </method>
     </methods>
 </payment>

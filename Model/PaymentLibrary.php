@@ -13,6 +13,7 @@ use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Service\Order\CustomerData;
 use GingerPay\Payment\Service\Order\GetOrderByTransaction;
 use GingerPay\Payment\Service\Order\OrderLines;
+use GingerPay\Payment\Service\Order\ExtraLines;
 use GingerPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
 use Magento\Checkout\Model\Session;
@@ -63,6 +64,10 @@ class PaymentLibrary extends AbstractMethod
      * @var OrderLines
      */
     public $orderLines;
+    /**
+     * @var ExtraLines
+     */
+    public $extraLines;
     /**
      * @var ManagerInterface
      */
@@ -135,6 +140,7 @@ class PaymentLibrary extends AbstractMethod
      * @param ProcessTransactionRequest $processTransactionRequest
      * @param ProcessTransactionUpdate $processTransactionUpdate
      * @param OrderLines $orderLines
+     * @param ExtraLines $extraLines
      * @param CustomerData $customerData
      * @param Session $checkoutSession
      * @param Order $order
@@ -146,7 +152,6 @@ class PaymentLibrary extends AbstractMethod
      * @param array $data
      */
     public function __construct(
-
         Context $context,
         Registry $registry,
         ExtensionAttributesFactory $extensionFactory,
@@ -159,6 +164,7 @@ class PaymentLibrary extends AbstractMethod
         ProcessTransactionRequest $processTransactionRequest,
         ProcessTransactionUpdate $processTransactionUpdate,
         OrderLines $orderLines,
+        ExtraLines $extraLines,
         CustomerData $customerData,
         Session $checkoutSession,
         Order $order,
@@ -187,6 +193,7 @@ class PaymentLibrary extends AbstractMethod
         $this->processTransactionUpdate = $processTransactionUpdate;
         $this->customerData = $customerData;
         $this->orderLines = $orderLines;
+        $this->extraLines = $extraLines;
         $this->checkoutSession = $checkoutSession;
         $this->order = $order;
         $this->getOrderByTransaction = $getOrderByTransaction;
@@ -383,7 +390,7 @@ class PaymentLibrary extends AbstractMethod
             'return_url' => $this->getReturnUrl(),
             'webhook_url' => $this->getWebhookUrl(),
             'transactions' => [['payment_method' => $platformCode]],
-            'extra' => ['plugin' => $this->configRepository->getPluginVersion()]
+            'extra' => $this->extraLines->getExtraLines()// ['plugin' => $this->configRepository->getPluginVersion()]
         ];
 
 
@@ -441,7 +448,6 @@ class PaymentLibrary extends AbstractMethod
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
         $transaction = $client->createOrder($orderData);
-
 
         return $this->processRequest($order, $transaction, $testModus);
     }

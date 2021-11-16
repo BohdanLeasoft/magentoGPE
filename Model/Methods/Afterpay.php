@@ -22,11 +22,10 @@ use Magento\Sales\Model\Order\Creditmemo;
  */
 class Afterpay extends PaymentLibraryRedefiner
 {
-
-    /** Afterpay terms */
+    /** Afterpay terms for NL*/
     const TERMS_NL_URL = 'https://www.afterpay.nl/nl/algemeen/betalen-met-afterpay/betalingsvoorwaarden';
 
-    /** Afterpay terms */
+    /** Afterpay terms for BE*/
     const TERMS_BE_URL = 'https://www.afterpay.be/be/footer/betalen-met-afterpay/betalingsvoorwaarden';
 
     /** Payment Code */

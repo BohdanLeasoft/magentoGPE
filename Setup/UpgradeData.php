@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace GingerPay\Payment\Setup;
 
-
 use GingerPay\Payment\Redefiners\Setup\SetupRedefiner as SetupData;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
@@ -16,7 +15,7 @@ use Magento\Framework\Setup\UpgradeDataInterface;
 /**
  * UpgradeData setup class
  */
-class UpgradeData extends SetupRedefiner implements UpgradeDataInterface
+class UpgradeData extends SetupData implements UpgradeDataInterface
 {
     /**
      * @var SetupData
