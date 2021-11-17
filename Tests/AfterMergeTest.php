@@ -2,25 +2,30 @@
 
 namespace GingerPay\Payment\Tests;
 
+require_once 'PathsToFiles/SetupAndServiceFiles.php';
+
 use PHPUnit\Framework\TestCase;
 
 class AfterMergeTest extends TestCase
 {
+    private $pathToFiles;
+
     public function setUp() : void
     {
+        $this->pathToFiles = [
+            \SetupAndServiceFiles::getServiceFiles(),
+            \SetupAndServiceFiles::getSetupFiles()
+        ];
     }
 
     public function testIsFilesExist()
     {
-        $filenames = [
-            "../registration.php",
-            "../Setup/SetupData.php",
-            //"adasda.php"
-            ];
-
-        foreach ($filenames as $pathToFile)
+        foreach ($this->pathToFiles as $subDirectoryFiles)
         {
-            $this->assertFileExists($pathToFile, 'Not found file in '. $pathToFile);
+            foreach ($subDirectoryFiles as $pathToFile)
+            {
+                $this->assertFileExists('../'.$pathToFile, 'Not found file in '. $pathToFile);
+            }
         }
     }
 }
