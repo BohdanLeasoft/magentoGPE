@@ -4,6 +4,8 @@ namespace GingerPay\Payment\Tests;
 
 require_once 'PathsToFiles/SetupAndServiceFiles.php';
 require_once 'PathsToFiles/RedefinersAndPluginFiles.php';
+require_once 'PathsToFiles/LoggerAndObserverFiles.php';
+require_once 'PathsToFiles/ModelFiles.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -18,6 +20,9 @@ class AfterMergeTest extends TestCase
             \SetupAndServiceFiles::getSetupFiles(),
             \RedefinersAndPluginFiles::getPluginFiles(),
             \RedefinersAndPluginFiles::getRedefinersFiles(),
+            \LoggerAndObserverFiles::getLoggerFiles(),
+            \LoggerAndObserverFiles::getObserverFile(),
+            \ModelFiles::getModuleFiles(),
         ];
     }
 
