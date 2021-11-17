@@ -6,6 +6,10 @@ require_once 'PathsToFiles/SetupAndServiceFiles.php';
 require_once 'PathsToFiles/RedefinersAndPluginFiles.php';
 require_once 'PathsToFiles/LoggerAndObserverFiles.php';
 require_once 'PathsToFiles/ModelFiles.php';
+require_once 'PathsToFiles/LanguageAndBlockAndApiFiles.php';
+require_once 'PathsToFiles/ControllerAndViewModuleFiles.php';
+require_once 'PathsToFiles/EtcFiles.php';
+require_once 'PathsToFiles/ViewFiles.php';
 
 use PHPUnit\Framework\TestCase;
 
@@ -23,6 +27,12 @@ class AfterMergeTest extends TestCase
             \LoggerAndObserverFiles::getLoggerFiles(),
             \LoggerAndObserverFiles::getObserverFile(),
             \ModelFiles::getModuleFiles(),
+            \LanguageAndBlockAndApiFiles::getApiAndBlockFiles(),
+            \LanguageAndBlockAndApiFiles::getLanguageFiles(),
+            \ControllerAndViewModuleFiles::getControllerFiles(),
+            \ControllerAndViewModuleFiles::getViewModuleFile(),
+            \EtcFiles::getEtcFiles(),
+            \ViewFiles::getViewFiles()
         ];
     }
 
