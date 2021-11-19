@@ -384,25 +384,25 @@ class PaymentLibrary extends AbstractMethod
     {
         $testModus = false;
         $testApiKey = null;
-        $custumerData = null;
+        $custumerData = $this->customerData->get($order, $methodCode);
         $issuer = null;
 
         switch ($platformCode) {
             case 'afterpay':
-                $custumerData = $this->customerData->get($order, $methodCode);
+//                $custumerData = $this->customerData->get($order, $methodCode);
                 $testApiKey = $this->configRepository->getAfterpayTestApiKey((int)$order->getStoreId());
                 $testModus = $testApiKey ? 'afterpay' : false;
                 break;
             case 'klarna-pay-later':
-                $custumerData = $this->customerData->get($order, $methodCode);
+//                $custumerData = $this->customerData->get($order, $methodCode);
                 $testApiKey = $this->configRepository->getKlarnaTestApiKey((int)$order->getStoreId());
                 $testModus = $testApiKey ? 'klarna' : false;
                 break;
-            case 'klarna-pay-now':
-            case 'tikkie-payment-request':
-            case 'payconiq':
-            case 'amex':
-                 $custumerData = $this->customerData->get($order, $methodCode);
+//            case 'klarna-pay-now':
+//            case 'tikkie-payment-request':
+//            case 'payconiq':
+//            case 'amex':
+//                 $custumerData = $this->customerData->get($order, $methodCode);
             break;
             case 'ideal':
                 $additionalData = $order->getPayment()->getAdditionalInformation();
@@ -414,9 +414,7 @@ class PaymentLibrary extends AbstractMethod
         }
 
         $orderData = $this->orderDataCollector->collectDataForOrder($order, $platformCode, $methodCode, $this->urlProvider, $this->orderLines, $custumerData, $issuer);
-
         var_dump($orderData);die();
-
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
         $transaction = $client->createOrder($orderData);
 

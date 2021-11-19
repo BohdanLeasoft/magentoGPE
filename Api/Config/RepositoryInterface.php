@@ -91,12 +91,12 @@ interface RepositoryInterface
     /**
      * Process order transaction description
      *
-     * @param OrderInterface $order
+     * @param object $order
      * @param string $method
      *
      * @return string
      */
-    public function getDescription(OrderInterface $order, string $method): string;
+    public function getDescription($order, $method): string;
 
     /**
      * Return account details for Banktransfer method
