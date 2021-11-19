@@ -195,6 +195,38 @@ class ServiceOrderBuilder
         return $size - $pos - strlen($needle);
     }
 
+    public function getTransactions($platformCode, $issuer_id = null)
+    {
+        return [
+            array_filter([
+                "payment_method"         => $platformCode,
+                "payment_method_details" => array_filter(["issuer_id" => $issuer_id])
+            ])
+        ];
+    }
+
+    /**
+     * Collect data for order
+     *
+     * @return array
+     */
+
+    public function collectDataForOrder($order, $platformCode, $methodCode, $urlProvider, $orderLines, $customerData = null, $issuer = null)
+    {
+        $orderData = array_filter([
+            'amount' => $this->configRepository->getAmountInCents((float)$order->getBaseGrandTotal()),
+            'currency' => $order->getOrderCurrencyCode(),
+            'description' => $this->configRepository->getDescription($order, $methodCode),
+            'merchant_order_id' => $order->getIncrementId(),
+            'return_url' => $urlProvider->getReturnUrl(),
+            'webhook_url' => $urlProvider->getWebhookUrl(),
+            'transactions' => $this->getTransactions($platformCode, $issuer),
+            'extra' => $this->getExtraLines(),
+            'order_lines' => $orderLines->get($order),
+            'customer' => $customerData
+        ]);
+        return $orderData;
+    }
 
     /**
      * Collect data for extra_lines

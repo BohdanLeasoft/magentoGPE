@@ -2,8 +2,10 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
-use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepositoryInterface;
+require_once __DIR__.'/ApiBuilder.php';
+require_once __DIR__.'/../../Api/Config/RepositoryInterface.php';
 
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepositoryInterface;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\Klarna;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -151,11 +153,11 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     /**
      * {@inheritDoc}
      */
-    public function getDescription(OrderInterface $order, string $method): string
+    public function getDescription($order, $method): string
     {
         $storeId = (int)$order->getStoreId();
 
-        $description = __($this->getStoreConfig($path = 'payment/' . $method . '/description', $storeId));
+        $description = ($this->getStoreConfig($path = 'payment/' . $method . '/description', $storeId));
         $description = str_replace('%id%', $order->getIncrementId(), $description);
 
         $storeName = $this->getStoreConfig(self::XML_PATH_STORE_NAME, $storeId);

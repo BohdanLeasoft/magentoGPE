@@ -2,6 +2,8 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+require_once __DIR__.'/../Builders/ConfigRepositoryBuilder.php';
+
 use GingerPay\Payment\Model\Methods\Ideal;
 use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Model\Methods\Klarna;

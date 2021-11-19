@@ -22,7 +22,8 @@ class ServiceOrderLinesBuilder
     public function get(OrderInterface $order)
     {
         $orderLines = [];
-        foreach ($order->getItems() as $item) {
+        foreach ($order->getItems() as $item)
+        {
             $orderLines[] = [
                 'type' => 'physical',
                 'url' => $this->getItemUrl($item),

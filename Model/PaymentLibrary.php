@@ -13,7 +13,7 @@ use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Service\Order\CustomerData;
 use GingerPay\Payment\Service\Order\GetOrderByTransaction;
 use GingerPay\Payment\Service\Order\OrderLines;
-use GingerPay\Payment\Service\Order\ExtraLines;
+use GingerPay\Payment\Service\Order\OrderDataCollector;
 use GingerPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
 use Magento\Checkout\Model\Session;
@@ -65,9 +65,9 @@ class PaymentLibrary extends AbstractMethod
      */
     public $orderLines;
     /**
-     * @var ExtraLines
+     * @var OrderDataCollector
      */
-    public $extraLines;
+    public $orderDataCollector;
     /**
      * @var ManagerInterface
      */
@@ -140,7 +140,7 @@ class PaymentLibrary extends AbstractMethod
      * @param ProcessTransactionRequest $processTransactionRequest
      * @param ProcessTransactionUpdate $processTransactionUpdate
      * @param OrderLines $orderLines
-     * @param ExtraLines $extraLines
+     * @param OrderDataCollector $orderDataCollector
      * @param CustomerData $customerData
      * @param Session $checkoutSession
      * @param Order $order
@@ -164,7 +164,7 @@ class PaymentLibrary extends AbstractMethod
         ProcessTransactionRequest $processTransactionRequest,
         ProcessTransactionUpdate $processTransactionUpdate,
         OrderLines $orderLines,
-        ExtraLines $extraLines,
+        OrderDataCollector $orderDataCollector,
         CustomerData $customerData,
         Session $checkoutSession,
         Order $order,
@@ -193,7 +193,7 @@ class PaymentLibrary extends AbstractMethod
         $this->processTransactionUpdate = $processTransactionUpdate;
         $this->customerData = $customerData;
         $this->orderLines = $orderLines;
-        $this->extraLines = $extraLines;
+        $this->orderDataCollector = $orderDataCollector;
         $this->checkoutSession = $checkoutSession;
         $this->order = $order;
         $this->getOrderByTransaction = $getOrderByTransaction;
@@ -382,39 +382,19 @@ class PaymentLibrary extends AbstractMethod
      */
     public function prepareTransaction(OrderInterface $order, $platformCode, $methodCode): array
     {
-        $orderData = [
-            'amount' => $this->configRepository->getAmountInCents((float)$order->getBaseGrandTotal()),
-            'currency' => $order->getOrderCurrencyCode(),
-            'description' => $this->configRepository->getDescription($order, $methodCode),
-            'merchant_order_id' => $order->getIncrementId(),
-            'return_url' => $this->getReturnUrl(),
-            'webhook_url' => $this->getWebhookUrl(),
-            'transactions' => [['payment_method' => $platformCode]],
-            'extra' => $this->extraLines->getExtraLines()// ['plugin' => $this->configRepository->getPluginVersion()]
-        ];
-
-
         $testModus = false;
         $testApiKey = null;
+        $custumerData = null;
+        $issuer = null;
 
         switch ($platformCode) {
             case 'afterpay':
-
-                $orderData += [
-                    'order_lines' => $this->orderLines->get($order),
-                    'customer' => $this->customerData->get($order, $methodCode)
-                ];
-
+                $custumerData = $this->customerData->get($order, $methodCode);
                 $testApiKey = $this->configRepository->getAfterpayTestApiKey((int)$order->getStoreId());
-
                 $testModus = $testApiKey ? 'afterpay' : false;
-
                 break;
             case 'klarna-pay-later':
-                $orderData += [
-                    'order_lines' => $this->orderLines->get($order),
-                    'customer' => $this->customerData->get($order, $methodCode)
-                ];
+                $custumerData = $this->customerData->get($order, $methodCode);
                 $testApiKey = $this->configRepository->getKlarnaTestApiKey((int)$order->getStoreId());
                 $testModus = $testApiKey ? 'klarna' : false;
                 break;
@@ -422,29 +402,20 @@ class PaymentLibrary extends AbstractMethod
             case 'tikkie-payment-request':
             case 'payconiq':
             case 'amex':
-                $orderData += [
-                    'order_lines' => $this->orderLines->get($order),
-                    'customer' => $this->customerData->get($order, $methodCode)
-                ];
-                break;
+                 $custumerData = $this->customerData->get($order, $methodCode);
+            break;
             case 'ideal':
-                $issuer = null;
                 $additionalData = $order->getPayment()->getAdditionalInformation();
-
-                if (isset($additionalData['issuer'])) {
+                if (isset($additionalData['issuer']))
+                {
                     $issuer = $additionalData['issuer'];
                 }
-                $orderData += [
-                    'order_lines' => $this->orderLines->get($order)
-                ];
-                $orderData['transactions'] = [
-                    [
-                        'payment_method' => $platformCode,
-                        'payment_method_details' => ['issuer_id' => $issuer]
-                    ]
-                ];
                 break;
         }
+
+        $orderData = $this->orderDataCollector->collectDataForOrder($order, $platformCode, $methodCode, $this->urlProvider, $this->orderLines, $custumerData, $issuer);
+
+        var_dump($orderData);die();
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
         $transaction = $client->createOrder($orderData);
