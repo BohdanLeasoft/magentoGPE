@@ -11,7 +11,7 @@ class OrderLines
                 "type" => "physical",
                 "url" => "https://magento2.test/newsuperproduct.html",
                 "name" => "NewSuperProduct",
-                "amount" => "100",
+                "amount" => "500",
                 "currency" => "EUR",
                 "quantity" => 1,
                 "vat_percentage" => 0,

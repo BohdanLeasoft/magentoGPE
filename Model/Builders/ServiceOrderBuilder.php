@@ -64,7 +64,7 @@ class ServiceOrderBuilder
     /**
      * @var ProductMetadata
      */
-    protected $productMetadata;
+    public $productMetadata;
 
     /**
      * @param OrderInterface $order
@@ -195,6 +195,13 @@ class ServiceOrderBuilder
         return $size - $pos - strlen($needle);
     }
 
+    /**
+     * @param $platformCode
+     * @param $issuer_id
+     *
+     * @return array
+     */
+
     public function getTransactions($platformCode, $issuer_id = null)
     {
         return [
@@ -249,7 +256,7 @@ class ServiceOrderBuilder
      *
      * @return mixed
      */
-    protected function getUserAgent()
+    public function getUserAgent()
     {
         return $_SERVER['HTTP_USER_AGENT'];
     }
