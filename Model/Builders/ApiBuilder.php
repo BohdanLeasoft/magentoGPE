@@ -48,6 +48,8 @@ class ApiBuilder
      */
     public function get(int $storeId = null, string $testApiKey = null)
     {
+       // require_once __DIR__ ."/../../vendor/autoload.php";
+
         if ($this->client !== null && $testApiKey === null)
         {
             return $this->client;
