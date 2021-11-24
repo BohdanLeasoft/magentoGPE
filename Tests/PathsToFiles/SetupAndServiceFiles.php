@@ -10,7 +10,6 @@ class SetupAndServiceFiles
     private static $serviceFiles = [
         'Service/Order/Cancel.php',
         'Service/Order/CustomerData.php',
-        'Service/Order/ExtraLines.php',
         'Service/Order/GetOrderByTransaction.php',
         'Service/Order/OrderCommentHistory.php',
         'Service/Order/OrderLines.php',
