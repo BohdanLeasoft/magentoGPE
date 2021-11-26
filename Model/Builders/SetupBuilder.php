@@ -18,12 +18,12 @@ class SetupBuilder
     /**
      * @var SalesSetupFactory
      */
-    protected $salesSetupFactory;
+    public $salesSetupFactory;
 
     /**
      * @var ResourceConnection
      */
-    protected $resourceConnection;
+    public $resourceConnection;
 
     /**
      * @param ModuleDataSetupInterface $setup
@@ -31,13 +31,9 @@ class SetupBuilder
     public function addTansactionId(ModuleDataSetupInterface $setup)
     {
         /** @var SalesSetup $salesSetup */
-      //  var_dump(['setup' => $setup]);
-
         $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
-        die('a');
         $options = ['type' => 'varchar', 'visible' => false, 'required' => false];
         $salesSetup->addAttribute('order', self::TRANSACTION_ID, $options);
-        die('ss');
     }
 
     /**
@@ -50,25 +46,6 @@ class SetupBuilder
             $this->resourceConnection->getIdxName('sales_order', [self::TRANSACTION_ID]),
             [self::TRANSACTION_ID]
         );
-    }
-
-    /**
-     * @param ModuleDataSetupInterface $setup
-     * @param ModuleContextInterface   $context
-     */
-    public function upgradeData(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
-    {
-        $moduleVersion = $context->getVersion();
-
-        $this->installer->addTansactionId($setup);
-        $this->installer->addIndex($setup);
-//        var_dump($moduleVersion);
-//
-//        if (version_compare($moduleVersion, '0.9.0', '<'))
-//        {
-//            $this->installer->addTansactionId($setup);
-//            $this->installer->addIndex($setup);
-//        }
     }
 }
 

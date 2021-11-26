@@ -16,19 +16,9 @@ use Magento\Sales\Setup\SalesSetupFactory;
 /**
  * InstallData setup class
  */
-class SetupData //extends SetupRedefiner
+class SetupData extends SetupRedefiner
 {
     const TRANSACTION_ID = 'gingerpay_transaction_id';
-
-    /**
-     * @var SalesSetupFactory
-     */
-    private $salesSetupFactory;
-
-    /**
-     * @var ResourceConnection
-     */
-    private $resourceConnection;
 
     /**
      * SetupData constructor.
@@ -42,28 +32,5 @@ class SetupData //extends SetupRedefiner
     ) {
         $this->salesSetupFactory = $salesSetupFactory;
         $this->resourceConnection = $resourceConnection;
-    }
-
-    /**
-     * @param ModuleDataSetupInterface $setup
-     */
-    public function addTansactionId(ModuleDataSetupInterface $setup)
-    {
-        /** @var SalesSetup $salesSetup */
-        $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
-        $options = ['type' => 'varchar', 'visible' => false, 'required' => false];
-        $salesSetup->addAttribute('order', self::TRANSACTION_ID, $options);
-    }
-
-    /**
-     * @param ModuleDataSetupInterface $setup
-     */
-    public function addIndex(ModuleDataSetupInterface $setup)
-    {
-        $setup->getConnection()->addIndex(
-            $setup->getTable('sales_order'),
-            $this->resourceConnection->getIdxName('sales_order', [self::TRANSACTION_ID]),
-            [self::TRANSACTION_ID]
-        );
     }
 }
