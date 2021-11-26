@@ -7,20 +7,20 @@ declare(strict_types=1);
 
 namespace GingerPay\Payment\Setup;
 
-use GingerPay\Payment\Redefiners\Setup\SetupRedefiner as SetupData;
+//use GingerPay\Payment\Redefiners\Setup\SetupRedefiner as SetupData;
+use GingerPay\Payment\Setup\SetupData;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\UpgradeDataInterface;
 
+
 /**
  * UpgradeData setup class
  */
-class UpgradeData extends SetupData implements UpgradeDataInterface
+class UpgradeData implements UpgradeDataInterface
 {
-    /**
-     * @var SetupData
-     */
-    public $installer;
+
+    private $installer;
 
     /**
      * UpgradeData constructor.
@@ -40,6 +40,11 @@ class UpgradeData extends SetupData implements UpgradeDataInterface
         ModuleDataSetupInterface $setup,
         ModuleContextInterface $context
     ) {
-        $this->upgradeData($setup, $context);
+        $moduleVersion = $context->getVersion();
+
+        if (version_compare($moduleVersion, '0.9.0', '<')) {
+            $this->installer->addTansactionId($setup);
+            $this->installer->addIndex($setup);
+        }
     }
 }

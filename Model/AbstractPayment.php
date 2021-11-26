@@ -129,6 +129,7 @@ class AbstractPayment extends PaymentLibrary
 
         try {
             $ingOrder = $client->getOrder($order->getGingerpayTransactionId());
+
             $orderId = $ingOrder['id'];
             $transactionId = current($ingOrder['transactions'])['id'];
             $client->captureOrderTransaction($orderId, $transactionId);

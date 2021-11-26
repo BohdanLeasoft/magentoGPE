@@ -2,6 +2,8 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+require_once __DIR__ ."/../../Library/vendor/autoload.php";
+
 class ApiBuilder
 {
     /**
@@ -35,6 +37,11 @@ class ApiBuilder
     const ENDPOINT = 'https://api.online.emspay.eu/';
 
     /**
+     * Ginger
+     */
+    protected $ginger_lib;
+
+    /**
      * @var UrlInterface
      */
     protected $urlBuilder;
@@ -48,7 +55,6 @@ class ApiBuilder
      */
     public function get(int $storeId = null, string $testApiKey = null)
     {
-       // require_once __DIR__ ."/../../vendor/autoload.php";
 
         if ($this->client !== null && $testApiKey === null)
         {

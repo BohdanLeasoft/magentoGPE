@@ -31,9 +31,13 @@ class SetupBuilder
     public function addTansactionId(ModuleDataSetupInterface $setup)
     {
         /** @var SalesSetup $salesSetup */
+      //  var_dump(['setup' => $setup]);
+
         $salesSetup = $this->salesSetupFactory->create(['setup' => $setup]);
+        die('a');
         $options = ['type' => 'varchar', 'visible' => false, 'required' => false];
         $salesSetup->addAttribute('order', self::TRANSACTION_ID, $options);
+        die('ss');
     }
 
     /**
@@ -56,11 +60,15 @@ class SetupBuilder
     {
         $moduleVersion = $context->getVersion();
 
-        if (version_compare($moduleVersion, '0.9.0', '<'))
-        {
-            $this->installer->addTansactionId($setup);
-            $this->installer->addIndex($setup);
-        }
+        $this->installer->addTansactionId($setup);
+        $this->installer->addIndex($setup);
+//        var_dump($moduleVersion);
+//
+//        if (version_compare($moduleVersion, '0.9.0', '<'))
+//        {
+//            $this->installer->addTansactionId($setup);
+//            $this->installer->addIndex($setup);
+//        }
     }
 }
 
