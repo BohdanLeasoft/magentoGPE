@@ -1,4 +1,4 @@
-Magento 2 1.1.0
+Magento 2 VERSION_HERE
 ------------------------------   
 
 # Changelog #

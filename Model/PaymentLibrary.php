@@ -298,6 +298,7 @@ class PaymentLibrary extends AbstractMethod
             $this->configRepository->addTolog('error', $msg);
             return $msg;
         }
+
         $order = $this->getOrderByTransaction->execute($transactionId);
 
         if (!$order) {
@@ -325,7 +326,6 @@ class PaymentLibrary extends AbstractMethod
         }
 
         $transaction = $client->getOrder($transactionId);
-
 
         $this->configRepository->addTolog('process', $transaction);
 
@@ -439,6 +439,7 @@ class PaymentLibrary extends AbstractMethod
                 }
                 break;
         }
+
         $orderData = $this->orderDataCollector->collectDataForOrder($order, $platformCode, $methodCode, $this->urlProvider, $this->orderLines, $custumerData, $issuer);
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
