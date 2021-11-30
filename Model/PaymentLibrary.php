@@ -203,15 +203,10 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Extra checks for method availability
-     *
-     * @param CartInterface|null $quote
-     *
-     * @return bool
-     * @throws LocalizedException
-     * @throws NoSuchEntityException
+     * @return bool|array
      */
-    public function isAvailable(CartInterface $quote = null)
+
+    public function getAvailableCurrency()
     {
         $client = $this->loadGingerClient();
 
@@ -234,7 +229,7 @@ class PaymentLibrary extends AbstractMethod
         {
             if (array_key_exists($this->platform_code, $this->checkoutSession->getMultiCurrency()['payment_methods']))
             {
-                $currencyForCurrentPayment = $this->checkoutSession->getMultiCurrency()['payment_methods'][$this->platform_code]['currencies'];
+                return $this->checkoutSession->getMultiCurrency()['payment_methods'][$this->platform_code]['currencies'];
             }
             else
             {
@@ -243,7 +238,27 @@ class PaymentLibrary extends AbstractMethod
         }
         else
         {
-            $currencyForCurrentPayment = ['EUR'];
+            return ['EUR'];
+        }
+    }
+
+
+    /**
+     * Extra checks for method availability
+     *
+     * @param CartInterface|null $quote
+     *
+     * @return bool
+     * @throws LocalizedException
+     * @throws NoSuchEntityException
+     */
+    public function isAvailable(CartInterface $quote = null)
+    {
+        $currencyForCurrentPayment = $this->getAvailableCurrency();
+
+        if (!$currencyForCurrentPayment)
+        {
+            return false;
         }
 
         if ($quote == null) {
@@ -298,7 +313,6 @@ class PaymentLibrary extends AbstractMethod
             $this->configRepository->addTolog('error', $msg);
             return $msg;
         }
-
         $order = $this->getOrderByTransaction->execute($transactionId);
 
         if (!$order) {
@@ -326,6 +340,7 @@ class PaymentLibrary extends AbstractMethod
         }
 
         $transaction = $client->getOrder($transactionId);
+
 
         $this->configRepository->addTolog('process', $transaction);
 
@@ -439,7 +454,6 @@ class PaymentLibrary extends AbstractMethod
                 }
                 break;
         }
-
         $orderData = $this->orderDataCollector->collectDataForOrder($order, $platformCode, $methodCode, $this->urlProvider, $this->orderLines, $custumerData, $issuer);
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
