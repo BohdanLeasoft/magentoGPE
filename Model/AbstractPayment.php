@@ -4,7 +4,7 @@ namespace GingerPay\Payment\Model;
 
 use GingerPay\Payment\Model\PaymentLibrary;
 use GingerPay\Payment\Model\Methods\Afterpay;
-use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\KlarnaPayLater;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Payment\Model\InfoInterface;
@@ -52,7 +52,7 @@ class AbstractPayment extends PaymentLibrary
      */
     public function isAvailable(CartInterface $quote = null): bool
     {
-        if ($this->method_code == Afterpay::METHOD_CODE || $this->method_code == Klarna::METHOD_CODE)
+        if (in_array($this->method_code, [Afterpay::METHOD_CODE, KlarnaPayLater::METHOD_CODE]))
         {
             if ($quote == null)
             {
@@ -81,7 +81,7 @@ class AbstractPayment extends PaymentLibrary
             case Afterpay::METHOD_CODE:
                 return $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
                 break;
-            case Klarna::METHOD_CODE:
+            case KlarnaPayLater::METHOD_CODE:
                 return $this->configRepository->getKlarnaTestApiKey($storeId, true) ;
                 break;
         }
@@ -103,7 +103,7 @@ class AbstractPayment extends PaymentLibrary
             case Afterpay::METHOD_CODE:
                 $this->paymentName = 'Afterpay';
                 break;
-            case Klarna::METHOD_CODE:
+            case KlarnaPayLater::METHOD_CODE:
                 $this->paymentName = 'Klarna';
                 break;
         }
@@ -120,7 +120,7 @@ class AbstractPayment extends PaymentLibrary
             case Afterpay::METHOD_CODE:
                 $testApiKey = $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
                 break;
-            case Klarna::METHOD_CODE:
+            case KlarnaPayLater::METHOD_CODE:
                 $testApiKey = $this->configRepository->getKlarnaTestApiKey($storeId, true) ;
                 break;
         }
@@ -128,9 +128,10 @@ class AbstractPayment extends PaymentLibrary
         $client = $this->loadGingerClient($storeId, $testApiKey);
 
         try {
-            $ingOrder = $client->getOrder($order->getGingerpayTransactionId());
-            $orderId = $ingOrder['id'];
-            $transactionId = current($ingOrder['transactions'])['id'];
+            $gingerOrder = $client->getOrder($order->getGingerpayTransactionId());
+
+            $orderId = $gingerOrder['id'];
+            $transactionId = current($gingerOrder['transactions'])['id'];
             $client->captureOrderTransaction($orderId, $transactionId);
             $this->configRepository->addTolog(
                 'success',

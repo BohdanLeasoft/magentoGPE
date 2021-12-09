@@ -10,6 +10,7 @@ namespace GingerPay\Payment\Model\Api;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
 
+
 /**
  * GingerClient API class
  */
@@ -24,6 +25,7 @@ class GingerClient extends ModelBuilderRedefiner
     public function __construct(
         ConfigRepository $configRepository,
         UrlProvider $urlProvider
+
     )
     {
         $this->configRepository = $configRepository;

@@ -6,7 +6,7 @@ require_once __DIR__.'/../Builders/ConfigRepositoryBuilder.php';
 
 use GingerPay\Payment\Model\Methods\Ideal;
 use GingerPay\Payment\Model\Methods\Banktransfer;
-use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\KlarnaPayLater;
 use GingerPay\Payment\Model\Methods\Afterpay;
 
 class LibraryConfigProvider extends ConfigRepositoryBuilder
@@ -60,15 +60,16 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     {
         $config = [];
 
-        if (!$client = $this->paymentLibraryModel->loadGingerClient()) {
-
+        if (!$client = $this->paymentLibraryModel->loadGingerClient())
+        {
             $activeMethods = [];
         } else {
             $activeMethods = $this->getActiveMethods();
         }
-        foreach ($this->methodCodes as $code) {
-
-            if (!empty($this->methods[$code]) && $this->methods[$code]->isAvailable()) {
+        foreach ($this->methodCodes as $code)
+        {
+            if ($this->methods[$code] && $this->methods[$code]->isAvailable())
+            {
                 $config['payment'][$code]['instructions'] = $this->getInstructions($code);
 
                 if ($code == Ideal::METHOD_CODE && $client)
@@ -78,7 +79,7 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
                 if ($code == Banktransfer::METHOD_CODE) {
                     $config['payment'][$code]['mailingAddress'] = $this->getMailingAddress($code);
                 }
-                if ($code == Klarna::METHOD_CODE) {
+                if ($code == KlarnaPayLater::METHOD_CODE) {
                     $config['payment'][$code]['prefix'] = $this->getCustomerPrefixes();
                 }
                 if ($code == Afterpay::METHOD_CODE) {
@@ -86,13 +87,13 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
                     $config['payment'][$code]['conditionsLinkNl'] = Afterpay::TERMS_NL_URL;
                     $config['payment'][$code]['conditionsLinkBe'] = Afterpay::TERMS_BE_URL;
                 }
-                if (in_array($code, $activeMethods)) {
-                    $config['payment'][$code]['isActive'] = true;
-                } else {
-                    $config['payment'][$code]['isActive'] = false;
-                }
+
+                $config['payment'][$code]['isActive'] = in_array($code, $activeMethods);
+
                 $config['payment'][$code]['logo'] = $this->configRepository->getPaymentLogo($code);
-            } else {
+            }
+            else
+            {
                 $config['payment'][$code]['isActive'] = false;
             }
         }

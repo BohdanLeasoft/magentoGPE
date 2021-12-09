@@ -7,7 +7,7 @@ require_once __DIR__.'/../../Api/Config/RepositoryInterface.php';
 
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepositoryInterface;
 use GingerPay\Payment\Model\Methods\Afterpay;
-use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\KlarnaPayLater;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -193,7 +193,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
                 $paymentTestModus = self::XML_PATH_AFTERPAY_TEST_MODUS;
                 $paymentIpFilterList = self::XML_PATH_AFTERPAY_IP_FILTER;
                 break;
-            case Klarna::METHOD_CODE:
+            case KlarnaPayLater::METHOD_CODE:
                 $paymentTestModus = self::XML_PATH_KLARNA_TEST_MODUS;
                 $paymentIpFilterList = self::XML_PATH_KLARNA_IP_FILTER;
                 break;
@@ -222,13 +222,16 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function getTestKey(string $method, int $storeId, string $testFlag = ''): string
     {
-        if ($method == Klarna::METHOD_CODE && $testFlag == 'klarna') {
+        if ($method == KlarnaPayLater::METHOD_CODE && $testFlag == 'klarna')
+        {
             return $this->getKlarnaTestApiKey($storeId, true);
-        } elseif ($method == Afterpay::METHOD_CODE && $testFlag == 'afterpay') {
-            return $this->getAfterpayTestApiKey($storeId, true);
-        } else {
-            return $this->getApiKey($storeId);
         }
+        elseif ($method == Afterpay::METHOD_CODE && $testFlag == 'afterpay')
+        {
+            return $this->getAfterpayTestApiKey($storeId, true);
+        }
+
+        return $this->getApiKey($storeId);
     }
 
     private function getTestApiKeyByPath($modusPath, $testKeyPath)
@@ -323,22 +326,26 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function getError(array $transaction)
     {
-        if ($transaction['status'] == 'error' && !empty(current($transaction['transactions'])['reason'])) {
-            return current($transaction['transactions'])['reason'];
-        } elseif ($transaction['status'] == 'cancelled') {
+        if ($transaction['status'] == 'error' && (current($transaction['transactions'])['customer_message']))
+        {
+            return current($transaction['transactions'])['customer_message'];
+        }
+        if ($transaction['status'] == 'cancelled')
+        {
             $method = current($transaction['transactions'])['payment_method'];
-            if ($method == $this->getShortMethodCode(Afterpay::METHOD_CODE)) {
+            if ($method == $this->getShortMethodCode(Afterpay::METHOD_CODE) || $method == $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE))
+            {
+                $methodName = 'payment';
+                switch ($method)
+                {
+                    case $this->getShortMethodCode(Afterpay::METHOD_CODE): $methodName = 'Afterpay'; break;
+                    case $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE): $methodName = 'Klarna'; break;
+                }
                 return (string)__('Unfortunately, we can not currently accept
-                your purchase with Afterpay. Please choose another payment
-                option to complete your order. We apologize for the inconvenience.');
-            }
-            if ($method == $this->getShortMethodCode(Klarna::METHOD_CODE)) {
-                return (string)__('Unfortunately, we can not currently
-                accept your purchase with Klarna. Please choose another payment
+                your purchase with '.$methodName.'. Please choose another payment
                 option to complete your order. We apologize for the inconvenience.');
             }
         }
-
         return false;
     }
 

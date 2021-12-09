@@ -21,9 +21,9 @@ interface RepositoryInterface
     const XML_PATH_DEBUG = 'payment/ginger_general/debug';
     const XML_PATH_OBSERVER = 'payment/ginger_general/observer';
     const XML_PATH_ACCOUNT_DETAILS = 'payment/ginger_methods_banktransfer/account_details';
-    const XML_PATH_KLARNA_TEST_MODUS = 'payment/ginger_methods_klarna/test_modus';
-    const XML_PATH_KLARNA_TEST_API_KEY = 'payment/ginger_methods_klarna/test_apikey';
-    const XML_PATH_KLARNA_IP_FILTER = 'payment/ginger_methods_klarna/ip_filter';
+    const XML_PATH_KLARNA_TEST_MODUS = 'payment/ginger_methods_klarnapaylater/test_modus';
+    const XML_PATH_KLARNA_TEST_API_KEY = 'payment/ginger_methods_klarnapaylater/test_apikey';
+    const XML_PATH_KLARNA_IP_FILTER = 'payment/ginger_methods_klarnapaylater/ip_filter';
     const XML_PATH_AFTERPAY_TEST_MODUS = 'payment/ginger_methods_afterpay/test_modus';
     const XML_PATH_AFTERPAY_TEST_API_KEY = 'payment/ginger_methods_afterpay/test_apikey';
     const XML_PATH_AFTERPAY_IP_FILTER = 'payment/ginger_methods_afterpay/ip_filter';

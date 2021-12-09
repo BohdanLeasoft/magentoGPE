@@ -89,9 +89,9 @@
                 <allowspecific>0</allowspecific>
                 <instructions/>
             </ginger_methods_bancontact>
-            <ginger_methods_klarnadirect>
+            <ginger_methods_klarnapaynow>
                 <active>1</active>
-                <model>GingerPay\Payment\Model\Methods\KlarnaDirect</model>
+                <model>GingerPay\Payment\Model\Methods\KlarnaPayNow</model>
                 <title>Klarna Pay Now</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -101,7 +101,7 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </ginger_methods_klarnadirect>
+            </ginger_methods_klarnapaynow>
             <ginger_methods_paypal>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Paypal</model>
@@ -128,9 +128,9 @@
                 <allowspecific>0</allowspecific>
                 <instructions/>
             </ginger_methods_amex>
-            <ginger_methods_klarna>
+            <ginger_methods_klarnapaylater>
                 <active>1</active>
-                <model>GingerPay\Payment\Model\Methods\Klarna</model>
+                <model>GingerPay\Payment\Model\Methods\KlarnaPayLater</model>
                 <title>Klarna Pay Later</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
@@ -140,7 +140,7 @@
                 <payment_action>order</payment_action>
                 <allowspecific>0</allowspecific>
                 <instructions/>
-            </ginger_methods_klarna>
+            </ginger_methods_klarnapaylater>
             <ginger_methods_payconiq>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Payconiq</model>
