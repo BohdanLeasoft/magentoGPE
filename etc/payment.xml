@@ -21,7 +21,7 @@
         <method name="ginger_methods_banktransfer">
             <allow_multiple_address>0</allow_multiple_address>
         </method>
-        <method name="ginger_methods_klarnadirect">
+        <method name="ginger_methods_klarnapaynow">
             <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="ginger_methods_paypal">
@@ -30,7 +30,7 @@
         <method name="ginger_methods_amex">
             <allow_multiple_address>0</allow_multiple_address>
         </method>
-        <method name="ginger_methods_klarna">
+        <method name="ginger_methods_klarnapaylater">
             <allow_multiple_address>0</allow_multiple_address>
         </method>
         <method name="ginger_methods_payconiq">

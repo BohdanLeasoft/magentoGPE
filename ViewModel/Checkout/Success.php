@@ -11,7 +11,7 @@ use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
 use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Model\Methods\Ideal;
-use GingerPay\Payment\Model\Methods\KlarnaDirect;
+use GingerPay\Payment\Model\Methods\KlarnaPayNow;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Sales\Model\Order\Payment;
@@ -115,7 +115,7 @@ You will receive the order email once the payment is successful.";
             $message = self::IDEAL_PROCESSING_MESSAGE;
             return __($message)->render();
         }
-        if (($paymentStatus == 'pending') && ($paymentMethod == KlarnaDirect::METHOD_CODE)) {
+        if (($paymentStatus == 'pending') && ($paymentMethod == KlarnaPayNow::METHOD_CODE)) {
             $message = self::SOFORT_PENDING_MESSAGE;
             return __($message)->render();
         }

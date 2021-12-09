@@ -8,11 +8,11 @@
     <include path="GingerPay_Payment::methods/creditcard.xml"/>
     <include path="GingerPay_Payment::methods/applepay.xml"/>
     <include path="GingerPay_Payment::methods/bancontact.xml"/>
-    <include path="GingerPay_Payment::methods/klarnadirect.xml"/>
+    <include path="GingerPay_Payment::methods/klarnapaynow.xml"/>
     <include path="GingerPay_Payment::methods/payconiq.xml"/>
     <include path="GingerPay_Payment::methods/paypal.xml"/>
     <include path="GingerPay_Payment::methods/amex.xml"/>
-    <include path="GingerPay_Payment::methods/klarna.xml"/>
+    <include path="GingerPay_Payment::methods/klarnapaylater.xml"/>
     <include path="GingerPay_Payment::methods/afterpay.xml"/>
     <include path="GingerPay_Payment::methods/banktransfer.xml"/>
     <include path="GingerPay_Payment::methods/tikkie.xml"/>

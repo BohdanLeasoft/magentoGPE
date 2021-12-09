@@ -11,7 +11,7 @@ use GingerPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\Klarna;
-use GingerPay\Payment\Model\Methods\KlarnaDirect;
+use GingerPay\Payment\Model\Methods\KlarnaPayNow;
 use Magento\Framework\HTTP\Header;
 use Magento\Framework\Locale\Resolver;
 use Magento\Sales\Api\Data\OrderInterface;

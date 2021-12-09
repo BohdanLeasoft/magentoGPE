@@ -32,10 +32,19 @@ class ApiBuilder
     protected $endpoint = null;
 
     /**
+     * Endpoint
+     */
+    const ENDPOINT = 'https://api.online.emspay.eu/';
+
+    /**
+     * Ginger
+     */
+    protected $ginger_lib;
+
+    /**
      * @var UrlInterface
      */
     protected $urlBuilder;
-
 
     /**
      * @param int $storeId
@@ -46,6 +55,7 @@ class ApiBuilder
      */
     public function get(int $storeId = null, string $testApiKey = null)
     {
+
         if ($this->client !== null && $testApiKey === null)
         {
             return $this->client;
@@ -131,6 +141,6 @@ class ApiBuilder
      */
     public function getEndPoint()
     {
-        return $this->ENDPOINT;
+        return self::ENDPOINT;
     }
 }

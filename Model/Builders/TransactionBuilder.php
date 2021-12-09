@@ -4,7 +4,7 @@ namespace GingerPay\Payment\Model\Builders;
 
 use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Model\Methods\Afterpay;
-use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\KlarnaPayLater;
 use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Service\Order\Cancel as CancelOrder;
 use GingerPay\Payment\Service\Order\SendInvoiceEmail;
@@ -443,16 +443,6 @@ class TransactionBuilder
      */
     public function processing(array $transaction, OrderInterface $order, string $type): array
     {
-//        $method = $this->getMethodFromOrder($order);
-////        if ($method != Banktransfer::METHOD_CODE) {
-////            return [
-////                'success' => false,
-////                'status' => $this->status,
-////                'order_id' => $order->getEntityId(),
-////                'type' => $type
-////            ];
-////        }
-
         if ($type == 'webhook') {
             $order = $this->updateOrderTransaction($order, $transaction, Transaction::TYPE_AUTH);
             $this->sendOrderEmail->execute($order);

@@ -4,7 +4,6 @@ namespace GingerPay\Payment\Model\Builders;
 
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
-use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModer;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
@@ -76,23 +75,22 @@ class ControllerCheckoutActionBuilder extends Action
         {
             $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
 
-            if (!empty($status['success']))
+            if (isset($status['success']))
             {
                 $this->checkoutSession->start();
                 return $this->_redirect('checkout/onepage/success?utm_nooverride=1');
             }
+
+            $this->checkoutSession->restoreQuote();
+            if ($status['cart_msg'])
+            {
+                $this->messageManager->addNoticeMessage($status['cart_msg']);
+            }
             else
             {
-                $this->checkoutSession->restoreQuote();
-                if (!empty($status['cart_msg']))
-                {
-                    $this->messageManager->addNoticeMessage($status['cart_msg']);
-                }
-                else
-                {
-                    $this->messageManager->addNoticeMessage(__('Something went wrong.'));
-                }
+                $this->messageManager->addNoticeMessage(__('Something went wrong.'));
             }
+
         }
         catch (\Exception $e)
         {
@@ -136,7 +134,7 @@ class ControllerCheckoutActionBuilder extends Action
                 return $this->_redirect('checkout/cart');
             }
 
-            if (!empty($result['error'])) {
+            if (isset($result['error'])) {
                 $this->messageManager->addErrorMessage($result['error']);
                 $this->configRepository->addTolog('error', $result['error']);
                 $this->checkoutSession->restoreQuote();

@@ -3,8 +3,8 @@
 namespace GingerPay\Payment\Model\Builders;
 
 use GingerPay\Payment\Model\Methods\Afterpay;
-use GingerPay\Payment\Model\Methods\Klarna;
-use GingerPay\Payment\Model\Methods\KlarnaDirect;
+use GingerPay\Payment\Model\Methods\KlarnaPayLater;
+use GingerPay\Payment\Model\Methods\KlarnaPayNow;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\ProductMetadata;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -126,11 +126,11 @@ class ServiceOrderBuilder
             $customerData['birthdate'] = date('Y-m-d', strtotime($additionalData['dob']));
         }
 
-        if ($method == Klarna::METHOD_CODE || $method == Afterpay::METHOD_CODE) {
+        if ($method == KlarnaPayLater::METHOD_CODE || $method == Afterpay::METHOD_CODE) {
             $customerData['address'] = implode(' ', [trim($street), $postCode, trim($customer->getCity())]);
         }
 
-        if ($method == KlarnaDirect::METHOD_CODE) {
+        if ($method == KlarnaPayNow::METHOD_CODE) {
             $customerData['address'] = implode(' ', [trim($customer->getCity()), trim($address)]);
         }
 

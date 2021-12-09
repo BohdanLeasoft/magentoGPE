@@ -9,7 +9,7 @@ namespace GingerPay\Payment\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
-use GingerPay\Payment\Model\Methods\Klarna;
+use GingerPay\Payment\Model\Methods\KlarnaPayLater;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use Magento\Sales\Api\Data\OrderInterface;
 
@@ -20,7 +20,7 @@ class SalesOrderShipmentAfter implements ObserverInterface
 {
 
     /**
-     * @var Klarna
+     * @var KlarnaPayLater
      */
     private $klarnaModel;
 
@@ -32,11 +32,11 @@ class SalesOrderShipmentAfter implements ObserverInterface
     /**
      * SalesOrderShipmentAfter constructor.
      *
-     * @param Klarna $klarnaModel
+     * @param KlarnaPayLater $klarnaModel
      * @param Afterpay $afterpayModel
      */
     public function __construct(
-        Klarna $klarnaModel,
+        KlarnaPayLater $klarnaModel,
         Afterpay $afterpayModel
     ) {
         $this->klarnaModel = $klarnaModel;
@@ -54,7 +54,7 @@ class SalesOrderShipmentAfter implements ObserverInterface
         $order = $observer->getEvent()->getShipment()->getOrder();
 
         switch ($order->getPayment()->getMethod()) {
-            case Klarna::METHOD_CODE:
+            case KlarnaPayLater::METHOD_CODE:
                 $this->klarnaModel->captureOrder($order);
                 break;
             case Afterpay::METHOD_CODE:
