@@ -10,7 +10,7 @@ class LanguageAndBlockAndApiFiles
         'Block/Adminhtml/System/Config/Form/Apikey/Result.php',
         'Block/Info/Afterpay.php',
         'Block/Info/Banktransfer.php',
-        'Block/Info/Klarna.php'
+        'Block/Info/KlarnaPayLater.php'
     ];
 
     private static $languageFiles = [
