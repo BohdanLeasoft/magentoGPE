@@ -24,7 +24,7 @@ class KlarnaPayLater extends Info
     /**
      * @var string
      */
-    protected $_template = 'GingerPay_Payment::info/klarna.phtml';
+    protected $_template = 'GingerPay_Payment::info/klarnapaylater.phtml';
 
     /**
      * @return mixed
