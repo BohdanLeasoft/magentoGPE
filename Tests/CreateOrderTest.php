@@ -3,11 +3,13 @@
 namespace GingerPay\Payment\Tests;
 
 require_once  __DIR__.'/ClassSeparators/ServiceOrderBuilderSeparator.php';
+require_once  __DIR__.'/ClassSeparators/ConfigRepositoryBuilderSeparator.php';
 require_once  __DIR__.'/Mocks/Order.php';
 require_once  __DIR__.'/Mocks/UrlProvider.php';
 require_once  __DIR__.'/Mocks/OrderLines.php';
 require_once  __DIR__.'/Mocks/Customer.php';
 
+use GingerPay\Payment\Tests\ClassSeparators\ConfigRepositoryBuilderSeparator;
 use GingerPay\Payment\Tests\Mocks\Order;
 use GingerPay\Payment\Tests\Mocks\OrderLines;
 use GingerPay\Payment\Tests\Mocks\UrlProvider;
@@ -23,6 +25,7 @@ class CreateOrderTest extends TestCase
     private $orderLines;
     private $customerData;
     private $expectedArray;
+    private $configRepository;
 
     public function setUp() : void
     {
@@ -31,7 +34,7 @@ class CreateOrderTest extends TestCase
         $this->urlProvider = new UrlProvider();
         $this->orderLines = new OrderLines();
         $this->customerData = Customer::getCustomerData();
-
+        $this->configRepository = new ConfigRepositoryBuilderSeparator();
 
         $this->expectedArray = array(
             "currency" => "EUR",
@@ -56,8 +59,8 @@ class CreateOrderTest extends TestCase
                 "user_agent" => 'USER_AGENT',
                 "platform_name" => "Magento2",
                 "platform_version" => '2.2.11',
-                "plugin_name" => "ems-online-magento-2",
-                "plugin_version" => '1.1.0'],
+                "plugin_name" => $this->configRepository->getPluginName(),
+                "plugin_version" => $this->configRepository->getPluginVersion()],
             "order_lines" => [[
                 '0' => [
                     'type' => 'physical',
@@ -98,8 +101,8 @@ class CreateOrderTest extends TestCase
             "user_agent" => 'USER_AGENT',
             "platform_name" => "Magento2",
             "platform_version" => '2.2.11',
-            "plugin_name" => "ems-online-magento-2",
-            "plugin_version" => '1.1.0'];
+            "plugin_name" => $this->configRepository->getPluginName(),
+            "plugin_version" => $this->configRepository->getPluginVersion()];
         $this->assertEquals($this->orderBuilder->getExtraLines(), $expectedExtraLines, 'Function getExtraLines returned not expected array');
     }
 
