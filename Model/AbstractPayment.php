@@ -54,14 +54,13 @@ class AbstractPayment extends PaymentLibrary
     {
         if (in_array($this->method_code, [Afterpay::METHOD_CODE, KlarnaPayLater::METHOD_CODE]))
         {
-            if ($quote == null)
-            {
-                $quote = $this->checkoutSession->getQuote();
-            }
-
             if (!$this->configRepository->isAfterpayOrKlarnaAllowed($this->method_code, (int)$quote->getStoreId()))
             {
                 return false;
+            }
+            if ($quote == null)
+            {
+                $quote = $this->checkoutSession->getQuote();
             }
         }
 
