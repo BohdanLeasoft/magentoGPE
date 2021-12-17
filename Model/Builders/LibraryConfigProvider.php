@@ -60,8 +60,7 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     {
         $config = [];
 
-        if (!$client = $this->paymentLibraryModel->loadGingerClient())
-        {
+        if (!$client = $this->paymentLibraryModel->loadGingerClient()) {
             $activeMethods = [];
         } else {
             $activeMethods = $this->getActiveMethods();

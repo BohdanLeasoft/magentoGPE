@@ -278,7 +278,6 @@ class PaymentLibrary extends AbstractMethod
         }
 
         if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment)) {
-            $this->inappropriateCurrencyReport($quote->getQuoteCurrencyCode());
             return false;
         }
 

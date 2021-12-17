@@ -82,14 +82,9 @@ class ControllerCheckoutActionBuilder extends Action
             }
 
             $this->checkoutSession->restoreQuote();
-            if ($status['cart_msg'])
-            {
-                $this->messageManager->addNoticeMessage($status['cart_msg']);
-            }
-            else
-            {
-                $this->messageManager->addNoticeMessage(__('Something went wrong.'));
-            }
+
+            $message = $status['cart_msg'] ?? __('Something went wrong.');
+            $this->messageManager->addNoticeMessage($message);
 
         }
         catch (\Exception $e)
