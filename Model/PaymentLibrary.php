@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -203,6 +203,18 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Set message about
+     *
+     * @param $quoteCurrency
+     *
+     */
+
+    public function inappropriateCurrencyReport($quoteCurrency)
+    {
+        $this->messageManager->addNotice('Payment '.$this->configRepository->getPaymentNameByMethodCode($this->method_code).' does not support '.$quoteCurrency);
+    }
+
+    /**
      * @return bool|array
      */
 
@@ -218,10 +230,7 @@ class PaymentLibrary extends AbstractMethod
             }
             catch (Exception $exception)
             {
-                if (strstr($exception->getMessage(),"Forbidden(403)"))
-                {
-                    $this->checkoutSession->setMultiCurrency(null);
-                }
+                $this->checkoutSession->setMultiCurrency(null);
             }
         }
 
@@ -254,13 +263,6 @@ class PaymentLibrary extends AbstractMethod
      */
     public function isAvailable(CartInterface $quote = null)
     {
-        $currencyForCurrentPayment = $this->getAvailableCurrency();
-
-        if (!$currencyForCurrentPayment)
-        {
-            return false;
-        }
-
         if ($quote == null) {
             $quote = $this->checkoutSession->getQuote();
         }
@@ -269,8 +271,14 @@ class PaymentLibrary extends AbstractMethod
             return false;
         }
 
-        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment))
-        {
+        $currencyForCurrentPayment = $this->getAvailableCurrency();
+
+        if (!$currencyForCurrentPayment) {
+            return false;
+        }
+
+        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment)) {
+            $this->inappropriateCurrencyReport($quote->getQuoteCurrencyCode());
             return false;
         }
 

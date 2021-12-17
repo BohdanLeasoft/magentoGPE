@@ -321,6 +321,15 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
         return $this->scopeConfig->getValue(self::XML_PATH_VERSION);
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPaymentNameByMethodCode($methodCode): string
+    {
+        return $this->scopeConfig->getValue('payment/'.$methodCode.'/title');
+    }
+
     /**
      * {@inheritDoc}
      */
