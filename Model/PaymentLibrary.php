@@ -320,6 +320,7 @@ class PaymentLibrary extends AbstractMethod
             $this->configRepository->addTolog('error', $msg);
             return $msg;
         }
+
         $order = $this->getOrderByTransaction->execute($transactionId);
 
         if (!$order) {
@@ -329,6 +330,7 @@ class PaymentLibrary extends AbstractMethod
             }
             return $msg;
         }
+
         $storeId = (int)$order->getStoreId();
         $method = $order->getPayment()->getMethodInstance()->getCode();
 
@@ -336,6 +338,7 @@ class PaymentLibrary extends AbstractMethod
         if (array_key_exists('test_modus', $testModus)) {
             $testModus = $testModus['test_modus'];
         }
+
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId, (string)$testModus);
 
         $client = $this->loadGingerClient($storeId, $testApiKey);
@@ -356,6 +359,7 @@ class PaymentLibrary extends AbstractMethod
             $this->configRepository->addTolog('error', $msg);
             return $msg;
         }
+
         return $this->processTransactionUpdate->execute($transaction, $order, $type);
     }
 

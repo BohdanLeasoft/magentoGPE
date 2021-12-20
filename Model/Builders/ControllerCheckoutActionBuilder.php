@@ -75,7 +75,7 @@ class ControllerCheckoutActionBuilder extends Action
         {
             $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
 
-            if (isset($status['success']))
+            if (!empty($status['success']))
             {
                 $this->checkoutSession->start();
                 return $this->_redirect('checkout/onepage/success?utm_nooverride=1');
