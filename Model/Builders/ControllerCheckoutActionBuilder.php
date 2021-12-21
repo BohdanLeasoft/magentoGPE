@@ -165,7 +165,6 @@ class ControllerCheckoutActionBuilder extends Action
             $result->setHttpResponseCode(503);
             return $result;
         }
-
         if (isset($input['order_id'])) {
             try {
                 $this->paymentLibraryModel->processTransaction($input['order_id'], 'webhook');

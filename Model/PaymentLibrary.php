@@ -351,7 +351,6 @@ class PaymentLibrary extends AbstractMethod
 
         $transaction = $client->getOrder($transactionId);
 
-
         $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
