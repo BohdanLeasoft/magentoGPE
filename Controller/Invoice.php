@@ -64,39 +64,4 @@ class Invoice
         // Save the invoice
         $this->invoiceRepository->save($invoice);
     }
-
-
-//    public function createInvoice($order, $transaction)
-//    {
-//        $order = $this->orderRepository->get($order->getIncrementId());
-//        if ($order->canInvoice()) {
-//            $invoice = $this->invoiceService->prepareInvoice($order);
-//            $invoice->setTransactionId($transaction['id']);
-//            $invoice->setIsUsedForRefund(false);
-//            $invoice->register();
-//            $payment = $order->getPayment();
-//            $payment->addTransaction(TransactionStatus::TYPE_AUTH);
-//            $payment->setTransactionId($transaction['id']);
-//            $payment->isSameCurrency();
-//            $payment->setIsTransactionClosed(false);
-//            $order->setState(Order::STATE_PROCESSING);
-//            $order->setStatus($order->getConfig()->getStateDefaultStatus(Order::STATE_PROCESSING));
-//
-//            $this->orderRepository->save($order);
-//            $invoice->save();
-//            $transactionSave = $this->transaction->addObject(
-//                $invoice
-//            )->addObject(
-//                $invoice->getOrder()
-//            );
-//            $transactionSave->save();
-//            $this->invoiceSender->send($invoice);
-//            //Send Invoice mail to customer
-//            $order->addStatusHistoryComment(
-//                __('Notified customer about invoice creation #%1.', $invoice->getId())
-//            )
-//                ->setIsCustomerNotified(true)
-//                ->save();
-//        }
-   // }
 }
