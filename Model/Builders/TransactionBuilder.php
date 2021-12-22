@@ -2,6 +2,7 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+use GingerPay\Payment\Controller\Invoice;
 use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\KlarnaPayLater;
@@ -96,6 +97,11 @@ class TransactionBuilder
      * @var Unknown
      */
     protected $unknown;
+
+    /**
+     * @var Invoice
+     */
+    protected $invoice;
 
     /**
      * @param OrderInterface $order
@@ -346,7 +352,12 @@ class TransactionBuilder
                 ->setLastSuccessQuoteId($order->getQuoteId())
                 ->setLastRealOrderId($order->getIncrementId())
                 ->setLastOrderId($order->getEntityId());
+            $this->invoice->createInvoice($order, $transaction);
         }
+
+
+
+
 
         $result = [
             'success' => true,

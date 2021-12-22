@@ -349,9 +349,9 @@ class PaymentLibrary extends AbstractMethod
             return $msg;
         }
 
-        $transaction = $client->getOrder($transactionId);
-
-        $this->configRepository->addTolog('process', $transaction);
+       $transaction = $client->getOrder($transactionId);
+      // var_dump($client->getOrder('49fff97d-3f27-4460-a45f-616c0d3b4657')); die();
+       $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
             $msg = ['error' => true, 'msg' => __('Transaction not found')];
@@ -408,6 +408,7 @@ class PaymentLibrary extends AbstractMethod
 
         try {
             $client = $this->loadGingerClient($storeId, $testApiKey);
+
             $gingerOrder = $client->refundOrder(
                 $transactionId,
                 [
@@ -420,7 +421,6 @@ class PaymentLibrary extends AbstractMethod
             $this->configRepository->addTolog('error', $errorMsg);
             throw new LocalizedException($errorMsg);
         }
-
         if (in_array($gingerOrder['status'], ['error', 'cancelled', 'expired'])) {
             $reason = current($gingerOrder['transactions'])['customer_message'] ?? 'Refund order is not completed';
             $errorMsg = __('Error: not possible to create an online refund: %1', $reason);

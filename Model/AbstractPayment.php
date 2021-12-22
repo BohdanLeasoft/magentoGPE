@@ -73,7 +73,7 @@ class AbstractPayment extends PaymentLibrary
      * @return $this->testApiKey
      */
 
-    private function getTestApiKey($method, $testModus)
+    private function getTestApiKey($method, $testModus, $storeId)
     {
         switch ($method)
         {
@@ -175,21 +175,25 @@ class AbstractPayment extends PaymentLibrary
         if (array_key_exists('test_modus', $testModus)) {
             $testModus = $testModus['test_modus'];
         }
-        $testApiKey = $this->getTestApiKey($method);
+
+        $testApiKey = $this->getTestApiKey($method, $testModus, $storeId);
         $transactionId = $order->getGingerpayTransactionId();
 
         try {
             $addShipping = $creditmemo->getShippingAmount() > 0 ? 1 : 0;
             $client = $this->loadGingerClient($storeId, $testApiKey);
-            $client->refundOrder(
+
+            $gingerOrder = $client->refundOrder(
                 $transactionId,
                 [
+                    'amount' => $this->configRepository->getAmountInCents((float)$amount),
+                    'currency' => $order->getOrderCurrencyCode(),
                     'order_lines' => $this->orderLines->getRefundLines($creditmemo, $addShipping)
-                ]
-            );
+                ]);
         } catch (\Exception $e) {
-            $this->configRepository->addTolog('error', $e->getMessage());
-            throw new LocalizedException(__('Error: not possible to create an online refund: %1', $e->getMessage()));
+            $errorMsg = __('Error: not possible to create an online refund: %1', $e->getMessage());
+            $this->configRepository->addTolog('error', $errorMsg);
+            throw new LocalizedException($errorMsg);
         }
 
         return $this;

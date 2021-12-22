@@ -13,6 +13,7 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Filesystem\Driver\File as FilesystemDriver;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Helper\Data as PaymentHelper;
+use Magento\Framework\Webapi\Rest\Request;
 
 class ControllerCheckoutActionBuilder extends Action
 {
@@ -106,9 +107,7 @@ class ControllerCheckoutActionBuilder extends Action
         $order = $this->checkoutSession->getLastRealOrder();
 
         try {
-
             $method = $order->getPayment()->getMethod();
-
             $methodInstance = $this->paymentHelper->getMethodInstance($method);
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage('Unknown Error');
@@ -152,8 +151,7 @@ class ControllerCheckoutActionBuilder extends Action
     public function webhook()
     {
         try {
-            $input = json_decode( file_get_contents( "php://input" ), true );
-
+            $input =  json_decode(file_get_contents("php://input"), true);
             $this->configRepository->addTolog('webhook', $input);
         } catch (\Exception $e) {
             $input = null;
