@@ -24,7 +24,7 @@ class Apikey extends Action
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'GingerPay_Payment::config';
+    public const ADMIN_RESOURCE = 'GingerPay_Payment::config';
 
     /**
      * @var RequestInterface
@@ -65,6 +65,8 @@ class Apikey extends Action
     }
 
     /**
+     * Execute function
+     *
      * @return ResultInterface
      */
     public function execute()

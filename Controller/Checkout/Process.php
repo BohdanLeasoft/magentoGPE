@@ -47,6 +47,8 @@ class Process extends ActionRedefiner
     }
 
     /**
+     * Execute function
+     *
      * @return ResponseInterface|ResultInterface
      */
     public function execute()

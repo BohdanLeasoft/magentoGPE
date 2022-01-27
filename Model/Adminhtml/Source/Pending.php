@@ -15,5 +15,8 @@ use Magento\Sales\Model\Order;
  */
 class Pending extends Status
 {
+    /**
+     * @var array
+     */
     protected $_stateStatuses = [Order::STATE_PENDING_PAYMENT];
 }

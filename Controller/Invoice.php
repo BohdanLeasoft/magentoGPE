@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * All rights reserved.
+ * See COPYING.txt for license details.
+ */
 namespace GingerPay\Payment\Controller;
 
 use Magento\Framework\App\Action\Context;
@@ -12,14 +15,42 @@ use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\Transaction as TransactionStatus;
 
+/**
+ * Invoice class
+ */
 class Invoice
 {
+    /**
+     * @var OrderRepositoryInterface
+     */
     protected $orderRepository;
+    /**
+     * @var InvoiceService
+     */
     protected $invoiceService;
+    /**
+     * @var Transaction
+     */
     protected $transaction;
+    /**
+     * @var InvoiceSender
+     */
     protected $invoiceSender;
+    /**
+     * @var InvoiceRepositoryInterface
+     */
     protected $invoiceRepository;
 
+    /**
+     * Invoice constructor
+     *
+     * @param Context $context
+     * @param OrderRepositoryInterface $orderRepository
+     * @param InvoiceService $invoiceService
+     * @param InvoiceSender $invoiceSender
+     * @param InvoiceRepositoryInterface $invoiceRepository
+     * @param Transaction $transaction
+     */
     public function __construct(
         Context $context,
         OrderRepositoryInterface $orderRepository,
@@ -27,8 +58,7 @@ class Invoice
         InvoiceSender $invoiceSender,
         InvoiceRepositoryInterface $invoiceRepository,
         Transaction $transaction
-    )
-    {
+    ) {
         $this->orderRepository = $orderRepository;
         $this->invoiceService = $invoiceService;
         $this->transaction = $transaction;
@@ -36,7 +66,12 @@ class Invoice
         $this->invoiceRepository  = $invoiceRepository;
     }
 
-
+    /**
+     * Create invoice function
+     *
+     * @param Order $order
+     * @param Transaction $transaction
+     */
     public function createInvoice($order, $transaction)
     {
         $order = $this->orderRepository->get($order->getIncrementId());
@@ -49,19 +84,15 @@ class Invoice
         $invoice->getOrder()->setIsInProcess(true);
         $invoice->pay();
 
-
-        // Create the transaction
         $transactionSave = $this->transaction
             ->addObject($invoice)
             ->addObject($order);
         $transactionSave->save();
 
-        // Update the order
         $order->setTotalPaid($order->getTotalPaid());
         $order->setBaseTotalPaid($order->getBaseTotalPaid());
         $order->save();
 
-        // Save the invoice
         $this->invoiceRepository->save($invoice);
     }
 }

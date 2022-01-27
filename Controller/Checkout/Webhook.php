@@ -63,6 +63,6 @@ class Webhook extends ActionRedefiner
      */
     public function execute()
     {
-       return $this->webhook();
+        return $this->webhook();
     }
 }

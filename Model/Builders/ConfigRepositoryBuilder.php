@@ -52,7 +52,11 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     protected $debugLogger;
 
     /**
-     * {@inheritDoc}
+     * Checke is payment available
+     *
+     * @param int $storeId
+     *
+     * @return bool
      */
     public function isAvailable(int $storeId): bool
     {
