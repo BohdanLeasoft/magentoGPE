@@ -32,6 +32,8 @@ class SendOrderEmail extends ServiceOrderRedefiner
     }
 
     /**
+     * Execute function
+     *
      * @param OrderInterface $order
      * @throws CouldNotSaveException
      */

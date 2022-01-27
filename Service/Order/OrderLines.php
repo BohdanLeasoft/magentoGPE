@@ -27,8 +27,7 @@ class OrderLines extends ServiceOrderLinesRedefiner
      */
     public function __construct(
         ConfigRepository $configRepository
-    )
-    {
+    ) {
         $this->configRepository = $configRepository;
     }
 }

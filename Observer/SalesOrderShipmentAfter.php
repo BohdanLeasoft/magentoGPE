@@ -44,6 +44,8 @@ class SalesOrderShipmentAfter implements ObserverInterface
     }
 
     /**
+     * Execute function
+     *
      * @param Observer $observer
      *
      * @throws \Exception

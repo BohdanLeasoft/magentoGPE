@@ -20,6 +20,8 @@ use Magento\Sales\Model\Order\Payment;
 class ProcessRequest extends AbstractTransaction
 {
     /**
+     * Execute function
+     *
      * @param OrderInterface $order
      * @param null|array $transaction
      * @param null|string $testModus

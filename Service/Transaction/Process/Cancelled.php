@@ -26,6 +26,7 @@ class Cancelled extends AbstractTransaction
      *
      * @param OrderInterface $order
      * @param string $type
+     * @param string|null $customerMessage
      *
      * @return array
      */

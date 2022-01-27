@@ -49,6 +49,8 @@ class ProcessUpdate extends TransactionRedefiner
     }
 
     /**
+     * Execute function
+     *
      * @param array $transaction
      * @param OrderInterface $order
      * @param string $type

@@ -8,4 +8,3 @@ class TransactionRedefiner extends TransactionBuilder
 {
 
 }
-

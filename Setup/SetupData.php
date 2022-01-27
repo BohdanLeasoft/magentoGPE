@@ -18,7 +18,7 @@ use Magento\Sales\Setup\SalesSetupFactory;
  */
 class SetupData extends SetupRedefiner
 {
-    const TRANSACTION_ID = 'gingerpay_transaction_id';
+    public const TRANSACTION_ID = 'gingerpay_transaction_id';
 
     /**
      * SetupData constructor.

@@ -75,6 +75,8 @@ class KlarnaPayLater extends PaymentLibraryRedefiner
     }
 
     /**
+     * Capture order function
+     *
      * @param OrderInterface $order
      *
      * @return $this
@@ -85,6 +87,8 @@ class KlarnaPayLater extends PaymentLibraryRedefiner
     }
 
     /**
+     * Refund function
+     *
      * @param InfoInterface $payment
      * @param float $amount
      *
