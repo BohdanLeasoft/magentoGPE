@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -23,15 +23,23 @@ use Magento\Sales\Model\Order\Creditmemo;
 class KlarnaPayLater extends PaymentLibraryRedefiner
 {
 
-    /** Payment Code */
-    const METHOD_CODE = 'ginger_methods_klarnapaylater';
+    /**
+     * Payment Code
+     *
+     * @var string
+     */
+    public const METHOD_CODE = 'ginger_methods_klarnapaylater';
 
     /**
      * @var string
      */
     public $method_code = self::METHOD_CODE;
 
-    /** Platform Method Code */
+    /**
+     * Platform Method Code
+     *
+     * @var string
+     */
     public $platform_code = 'klarna-pay-later';
 
     /**

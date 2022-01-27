@@ -9,6 +9,7 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\App\ProductMetadata;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
+use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 
 class ServiceOrderBuilder
 {
@@ -39,7 +40,7 @@ class ServiceOrderBuilder
     /**
      * @var HistoryFactory
      */
-    protected $historyFactory;
+    public $historyFactory;
 
     /**
      * @var OrderStatusHistoryRepositoryInterface
@@ -283,16 +284,15 @@ class ServiceOrderBuilder
 
     /**
      * @param OrderInterface $order
-     * @param Phrase $message
+     * @param $message
      * @param bool $isCustomerNotified
      * @throws CouldNotSaveException
      */
-    public function add(OrderInterface $order, Phrase $message, bool $isCustomerNotified = false)
+    public function add(OrderInterface $order, $message, bool $isCustomerNotified = false)
     {
         if (!$message->getText()) {
             return;
         }
-
         /** @var OrderStatusHistoryInterface $history */
         $history = $this->historyFactory->create();
         $history->setParentId($order->getEntityId())

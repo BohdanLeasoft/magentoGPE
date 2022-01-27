@@ -15,6 +15,7 @@ use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Framework\DataObject;
 
 
+
 class AbstractPayment extends PaymentLibrary
 {
     /**
@@ -27,7 +28,7 @@ class AbstractPayment extends PaymentLibrary
      */
     private $testApiKey;
 
-    /**
+     /**
      * @param OrderInterface $order
      *
      * @return array
@@ -58,7 +59,6 @@ class AbstractPayment extends PaymentLibrary
             {
                 $quote = $this->checkoutSession->getQuote();
             }
-
             if (!$this->configRepository->isAfterpayOrKlarnaAllowed($this->method_code, (int)$quote->getStoreId()))
             {
                 return false;
@@ -74,7 +74,7 @@ class AbstractPayment extends PaymentLibrary
      * @return $this->testApiKey
      */
 
-    private function getTestApiKey($method, $testModus)
+    private function getTestApiKey($method, $testModus, $storeId)
     {
         switch ($method)
         {
@@ -166,8 +166,7 @@ class AbstractPayment extends PaymentLibrary
             throw new LocalizedException(__('Api does not accept adjustment fees for refunds using order lines'));
         }
 
-        if ($creditmemo->getShippingAmount() > 0
-            && ($creditmemo->getShippingAmount() != $creditmemo->getBaseShippingInclTax())) {
+        if ($creditmemo->getShippingAmount() > 0 && ($creditmemo->getShippingAmount() != $creditmemo->getBaseShippingInclTax())) {
             throw new LocalizedException(__('Api does not accept adjustment fees for shipments using order lines'));
         }
 
@@ -176,21 +175,25 @@ class AbstractPayment extends PaymentLibrary
         if (array_key_exists('test_modus', $testModus)) {
             $testModus = $testModus['test_modus'];
         }
-        $testApiKey = $this->getTestApiKey($method);
+
+        $testApiKey = $this->getTestApiKey($method, $testModus, $storeId);
         $transactionId = $order->getGingerpayTransactionId();
 
         try {
             $addShipping = $creditmemo->getShippingAmount() > 0 ? 1 : 0;
             $client = $this->loadGingerClient($storeId, $testApiKey);
-            $client->refundOrder(
+
+            $gingerOrder = $client->refundOrder(
                 $transactionId,
                 [
+                    'amount' => $this->configRepository->getAmountInCents((float)$amount),
+                    'currency' => $order->getOrderCurrencyCode(),
                     'order_lines' => $this->orderLines->getRefundLines($creditmemo, $addShipping)
-                ]
-            );
+                ]);
         } catch (\Exception $e) {
-            $this->configRepository->addTolog('error', $e->getMessage());
-            throw new LocalizedException(__('Error: not possible to create an online refund: %1', $e->getMessage()));
+            $errorMsg = __('Error: not possible to create an online refund: %1', $e->getMessage());
+            $this->configRepository->addTolog('error', $errorMsg);
+            throw new LocalizedException($errorMsg);
         }
 
         return $this;

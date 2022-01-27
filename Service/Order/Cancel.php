@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -11,7 +11,6 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Redefiners\Service\ServiceOrderRedefiner;
-
 
 /**
  * Cancel order service class
@@ -25,18 +24,19 @@ class Cancel extends ServiceOrderRedefiner
      */
     public function __construct(
         ConfigRepository $configRepository
-    )
-    {
+    ) {
         $this->configRepository = $configRepository;
     }
 
     /**
+     * Execute function
+     *
      * @param OrderInterface $order
      *
      * @return bool
      */
     public function execute(OrderInterface $order): bool
     {
-       return $this->cancel($order);
+        return $this->cancel($order);
     }
 }

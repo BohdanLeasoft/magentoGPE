@@ -60,8 +60,7 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     {
         $config = [];
 
-        if (!$client = $this->paymentLibraryModel->loadGingerClient())
-        {
+        if (!$client = $this->paymentLibraryModel->loadGingerClient()) {
             $activeMethods = [];
         } else {
             $activeMethods = $this->getActiveMethods();
@@ -151,8 +150,8 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     public function getCustomerPrefixes(): array
     {
         return [
-            ['id' => 'male', 'name' => 'Mr.'],
-            ['id' => 'female', 'name' => 'Ms.']
+            ['id' => 'male', 'name' => __("Male")],
+            ['id' => 'female', 'name' => __("Female")]
         ];
     }
 

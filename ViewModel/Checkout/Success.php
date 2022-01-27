@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -26,7 +26,7 @@ class Success implements ArgumentInterface
 The payment with iDeal is still processing.
 You will receive the order email once the payment is successful.";
     const SOFORT_PENDING_MESSAGE = "Your order has been received. Thank you for your purchase!
-The payment with iDeal is still processing.
+The payment with Klarna is still processing.
 You will receive the order email once the payment is successful.";
 
     /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 
@@ -17,7 +17,7 @@ $viewModel = $block->getViewModel();
         <br/>
         <b><?= $block->escapeHtml(__('Payment instructions:')) ?></b>
         <br/>
-        <?= $block->escapeHtml(__('Please use the following data to make the banktransfer')) ?>
+        <?= $block->escapeHtml(__('Please use the following payment information:')) ?>
         <br/>
         <?= /* @noEscape */ nl2br(($block->escapeHtml($mailingAddress))) ?>
         <br/>

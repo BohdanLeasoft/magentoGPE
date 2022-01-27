@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -15,24 +15,24 @@ use Magento\Store\Api\Data\StoreInterface;
  */
 interface RepositoryInterface
 {
-    const XML_PATH_MODULE_ACTIVE = 'payment/ginger_general/enabled';
-    const XML_PATH_APIKEY = 'payment/ginger_general/apikey';
-    const XML_PATH_VERSION = 'payment/ginger_general/version';
-    const XML_PATH_DEBUG = 'payment/ginger_general/debug';
-    const XML_PATH_OBSERVER = 'payment/ginger_general/observer';
-    const XML_PATH_ACCOUNT_DETAILS = 'payment/ginger_methods_banktransfer/account_details';
-    const XML_PATH_KLARNA_TEST_MODUS = 'payment/ginger_methods_klarnapaylater/test_modus';
-    const XML_PATH_KLARNA_TEST_API_KEY = 'payment/ginger_methods_klarnapaylater/test_apikey';
-    const XML_PATH_KLARNA_IP_FILTER = 'payment/ginger_methods_klarnapaylater/ip_filter';
-    const XML_PATH_AFTERPAY_TEST_MODUS = 'payment/ginger_methods_afterpay/test_modus';
-    const XML_PATH_AFTERPAY_TEST_API_KEY = 'payment/ginger_methods_afterpay/test_apikey';
-    const XML_PATH_AFTERPAY_IP_FILTER = 'payment/ginger_methods_afterpay/ip_filter';
-    const XML_PATH_STORE_NAME = 'general/store_information/name';
-    const XML_PATH_IMAGES = 'payment/ginger_general/payment_images';
-    const XML_PATH_COMPANY_NAME = 'general/store_information/name';
-    const MODULE_CODE = 'GingerPay_Payment';
-    const METHOD_PREFIX = 'ginger_methods_';
-    const PLUGIN_NAME = 'ems-online-magento-2';
+    public const XML_PATH_MODULE_ACTIVE = 'payment/ginger_general/enabled';
+    public const XML_PATH_APIKEY = 'payment/ginger_general/apikey';
+    public const XML_PATH_VERSION = 'payment/ginger_general/version';
+    public const XML_PATH_DEBUG = 'payment/ginger_general/debug';
+    public const XML_PATH_OBSERVER = 'payment/ginger_general/observer';
+    public const XML_PATH_ACCOUNT_DETAILS = 'payment/ginger_methods_banktransfer/account_details';
+    public const XML_PATH_KLARNA_TEST_MODUS = 'payment/ginger_methods_klarnapaylater/test_modus';
+    public const XML_PATH_KLARNA_TEST_API_KEY = 'payment/ginger_methods_klarnapaylater/test_apikey';
+    public const XML_PATH_KLARNA_IP_FILTER = 'payment/ginger_methods_klarnapaylater/ip_filter';
+    public const XML_PATH_AFTERPAY_TEST_MODUS = 'payment/ginger_methods_afterpay/test_modus';
+    public const XML_PATH_AFTERPAY_TEST_API_KEY = 'payment/ginger_methods_afterpay/test_apikey';
+    public const XML_PATH_AFTERPAY_IP_FILTER = 'payment/ginger_methods_afterpay/ip_filter';
+    public const XML_PATH_STORE_NAME = 'general/store_information/name';
+    public const XML_PATH_IMAGES = 'payment/ginger_general/payment_images';
+    public const XML_PATH_COMPANY_NAME = 'general/store_information/name';
+    public const MODULE_CODE = 'GingerPay_Payment';
+    public const METHOD_PREFIX = 'ginger_methods_';
+    public const PLUGIN_NAME = 'ems-online-magento-2';
 
     /**
      * Availability check, on Active, API Client & API Key
@@ -53,11 +53,15 @@ interface RepositoryInterface
     public function getApiKey(int $storeId);
 
     /**
+     * Use method check and returns bool
+     *
      * @return bool
      */
     public function useMethodCheck(): bool;
 
     /**
+     * Get method code from order
+     *
      * @param OrderInterface $order
      *
      * @return string
@@ -65,6 +69,8 @@ interface RepositoryInterface
     public function getMethodCodeFromOrder(OrderInterface $order): string;
 
     /**
+     * Get status processing
+     *
      * @param string $method
      * @param int $storeId
      *
@@ -73,6 +79,8 @@ interface RepositoryInterface
     public function getStatusProcessing(string $method, int $storeId = 0): string;
 
     /**
+     * Get status pending
+     *
      * @param string $method
      * @param int $storeId
      *
@@ -81,6 +89,8 @@ interface RepositoryInterface
     public function getStatusPending(string $method, int $storeId = 0): string;
 
     /**
+     * Send the invoice
+     *
      * @param string $method
      * @param int $storeId
      *
@@ -106,6 +116,8 @@ interface RepositoryInterface
     public function getAccountDetails(): array;
 
     /**
+     * Get company name
+     *
      * @param int $storeId
      *
      * @return string
@@ -113,15 +125,18 @@ interface RepositoryInterface
     public function getCompanyName(int $storeId): string;
 
     /**
-     * @param string $payment
+     * Check is Afterpay or Klarna allowed
+     *
+     * @param string $method
      * @param int $storeId
      *
      * @return bool
      */
     public function isAfterpayOrKlarnaAllowed(string $method, int $storeId = 0): bool;
 
-
     /**
+     * Get test API key
+     *
      * @param string $method
      * @param int $storeId
      * @param string $testFlag
@@ -131,6 +146,8 @@ interface RepositoryInterface
     public function getTestKey(string $method, int $storeId, string $testFlag = ''): string;
 
     /**
+     * Get Klarna API key
+     *
      * @param int $storeId
      * @param bool $force
      *
@@ -139,6 +156,8 @@ interface RepositoryInterface
     public function getKlarnaTestApiKey(int $storeId, bool $force = false);
 
     /**
+     * Get Afterpay API key
+     *
      * @param int $storeId
      * @param bool $force
      *
@@ -147,11 +166,15 @@ interface RepositoryInterface
     public function getAfterpayTestApiKey(int $storeId, bool $force = false);
 
     /**
+     * Check is debug enabled
+     *
      * @return bool
      */
     public function isDebugEnabled(): bool;
 
     /**
+     * Is images displaying allowed
+     *
      * @return bool
      */
     public function displayPaymentImages(): bool;
@@ -190,6 +213,8 @@ interface RepositoryInterface
     public function getError(array $transaction);
 
     /**
+     * Get amount in cents
+     *
      * @param float $amount
      *
      * @return int
@@ -197,6 +222,8 @@ interface RepositoryInterface
     public function getAmountInCents(float $amount): int;
 
     /**
+     * Check price format
+     *
      * @param float $price
      *
      * @return float|string
@@ -204,11 +231,15 @@ interface RepositoryInterface
     public function formatPrice(float $price);
 
     /**
+     * Get currency store id
+     *
      * @return int
      */
     public function getCurrentStoreId(): int;
 
     /**
+     * Get base url
+     *
      * @param string $type
      *
      * @return string
@@ -216,6 +247,8 @@ interface RepositoryInterface
     public function getBaseUrl(string $type): string;
 
     /**
+     * Get payment logo
+     *
      * @param string $code
      *
      * @return bool|string

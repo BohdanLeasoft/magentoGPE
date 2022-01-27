@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -203,45 +203,46 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Set message about
+     *
+     * @param $quoteCurrency
+     */
+    public function inappropriateCurrencyReport($quoteCurrency)
+    {
+        $this->messageManager->addNotice(
+            'Payment '.$this->configRepository->getPaymentNameByMethodCode($this->method_code).' does not support '.$quoteCurrency
+        );
+    }
+
+    /**
+     * Get available currency
+     *
      * @return bool|array
      */
-
     public function getAvailableCurrency()
     {
         $client = $this->loadGingerClient();
 
-        if(!$this->checkoutSession->getMultiCurrency())
-        {
-            try
-            {
+        if(!$this->checkoutSession->getMultiCurrency()) {
+            try {
                 $this->checkoutSession->setMultiCurrency($client->getCurrencyList());
-            }
-            catch (Exception $exception)
-            {
-                if (strstr($exception->getMessage(),"Forbidden(403)"))
-                {
-                    $this->checkoutSession->setMultiCurrency(null);
-                }
+            } catch (Exception $exception) {
+                $this->checkoutSession->setMultiCurrency(null);
             }
         }
 
-        if($this->checkoutSession->getMultiCurrency())
-        {
-            if (array_key_exists($this->platform_code, $this->checkoutSession->getMultiCurrency()['payment_methods']))
-            {
-                return $this->checkoutSession->getMultiCurrency()['payment_methods'][$this->platform_code]['currencies'];
-            }
-            else
-            {
+        if($this->checkoutSession->getMultiCurrency()) {
+            if (array_key_exists($this->platform_code, $this->checkoutSession->getMultiCurrency()['payment_methods'])) {
+                return (
+                    $this->checkoutSession->getMultiCurrency()['payment_methods'][$this->platform_code]['currencies']
+                    );
+            } else {
                 return false;
             }
-        }
-        else
-        {
+        } else {
             return ['EUR'];
         }
     }
-
 
     /**
      * Extra checks for method availability
@@ -254,13 +255,6 @@ class PaymentLibrary extends AbstractMethod
      */
     public function isAvailable(CartInterface $quote = null)
     {
-        $currencyForCurrentPayment = $this->getAvailableCurrency();
-
-        if (!$currencyForCurrentPayment)
-        {
-            return false;
-        }
-
         if ($quote == null) {
             $quote = $this->checkoutSession->getQuote();
         }
@@ -269,8 +263,13 @@ class PaymentLibrary extends AbstractMethod
             return false;
         }
 
-        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment))
-        {
+        $currencyForCurrentPayment = $this->getAvailableCurrency();
+
+        if (!$currencyForCurrentPayment) {
+            return false;
+        }
+
+        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment)) {
             return false;
         }
 
@@ -278,6 +277,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Initialize function
+     *
      * @param string $paymentAction
      * @param object $stateObject
      *
@@ -300,6 +301,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Process transaction
+     *
      * @param string $transactionId
      * @param string $type
      *
@@ -313,6 +316,7 @@ class PaymentLibrary extends AbstractMethod
             $this->configRepository->addTolog('error', $msg);
             return $msg;
         }
+
         $order = $this->getOrderByTransaction->execute($transactionId);
 
         if (!$order) {
@@ -322,6 +326,7 @@ class PaymentLibrary extends AbstractMethod
             }
             return $msg;
         }
+
         $storeId = (int)$order->getStoreId();
         $method = $order->getPayment()->getMethodInstance()->getCode();
 
@@ -329,6 +334,7 @@ class PaymentLibrary extends AbstractMethod
         if (array_key_exists('test_modus', $testModus)) {
             $testModus = $testModus['test_modus'];
         }
+
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId, (string)$testModus);
 
         $client = $this->loadGingerClient($storeId, $testApiKey);
@@ -339,16 +345,15 @@ class PaymentLibrary extends AbstractMethod
             return $msg;
         }
 
-        $transaction = $client->getOrder($transactionId);
-
-
-        $this->configRepository->addTolog('process', $transaction);
+       $transaction = $client->getOrder($transactionId);
+       $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
             $msg = ['error' => true, 'msg' => __('Transaction not found')];
             $this->configRepository->addTolog('error', $msg);
             return $msg;
         }
+
         return $this->processTransactionUpdate->execute($transaction, $order, $type);
     }
 
@@ -398,6 +403,7 @@ class PaymentLibrary extends AbstractMethod
 
         try {
             $client = $this->loadGingerClient($storeId, $testApiKey);
+
             $gingerOrder = $client->refundOrder(
                 $transactionId,
                 [
@@ -410,9 +416,8 @@ class PaymentLibrary extends AbstractMethod
             $this->configRepository->addTolog('error', $errorMsg);
             throw new LocalizedException($errorMsg);
         }
-
         if (in_array($gingerOrder['status'], ['error', 'cancelled', 'expired'])) {
-            $reason = current($gingerOrder['transactions'])['customer_message'] ?? 'Refund order is not completed';
+            $reason = current($gingerOrder['transactions'])['customer_message'] ?? __('Refund is not completed.');
             $errorMsg = __('Error: not possible to create an online refund: %1', $reason);
             $this->configRepository->addTolog('error', $errorMsg);
             throw new LocalizedException($errorMsg);
@@ -457,6 +462,7 @@ class PaymentLibrary extends AbstractMethod
         $orderData = $this->orderDataCollector->collectDataForOrder($order, $platformCode, $methodCode, $this->urlProvider, $this->orderLines, $custumerData, $issuer);
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
+
         $transaction = $client->createOrder($orderData);
 
         return $this->processRequest($order, $transaction, $testModus);

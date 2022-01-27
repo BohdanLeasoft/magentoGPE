@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -44,16 +44,16 @@ class PaymentConfigProvider extends ModelBuilderRedefiner
     /**
      * PaymentConfigProvider constructor.
      *
-     * @param PaymentLibrary              $paymentLibraryModel
+     * @param PaymentLibrary   $paymentLibraryModel
      * @param ConfigRepository $configRepository
      * @param PaymentHelper    $paymentHelper
      * @param Escaper          $escaper
      */
     public function __construct(
-        PaymentLibraryModel         $paymentLibraryModel,
-        ConfigRepository $configRepository,
-        PaymentHelper    $paymentHelper,
-        Escaper          $escaper
+        PaymentLibraryModel    $paymentLibraryModel,
+        ConfigRepository       $configRepository,
+        PaymentHelper          $paymentHelper,
+        Escaper                $escaper
     ) {
         $this->paymentLibraryModel = $paymentLibraryModel;
         $this->configRepository = $configRepository;
@@ -63,6 +63,4 @@ class PaymentConfigProvider extends ModelBuilderRedefiner
             $this->methods[$code] = $this->getMethodInstance($code);
         }
     }
-
-
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -22,14 +22,26 @@ use Magento\Sales\Model\Order\Creditmemo;
  */
 class Afterpay extends PaymentLibraryRedefiner
 {
-    /** Afterpay terms for NL*/
-    const TERMS_NL_URL = 'https://www.afterpay.nl/nl/algemeen/betalen-met-afterpay/betalingsvoorwaarden';
+    /**
+     * Afterpay terms for NL
+     *
+     * @var string
+     */
+    public const TERMS_NL_URL = 'https://www.afterpay.nl/nl/algemeen/betalen-met-afterpay/betalingsvoorwaarden';
 
-    /** Afterpay terms for BE*/
-    const TERMS_BE_URL = 'https://www.afterpay.be/be/footer/betalen-met-afterpay/betalingsvoorwaarden';
+    /**
+     * Afterpay terms for BE
+     *
+     * @var string
+     */
+    public const TERMS_BE_URL = 'https://www.afterpay.be/be/footer/betalen-met-afterpay/betalingsvoorwaarden';
 
-    /** Payment Code */
-    const METHOD_CODE = 'ginger_methods_afterpay';
+    /**
+     * Payment Code
+     *
+     * @var string
+     */
+    public const METHOD_CODE = 'ginger_methods_afterpay';
 
     /**
      * @var string
@@ -37,7 +49,11 @@ class Afterpay extends PaymentLibraryRedefiner
 
     public $method_code = self::METHOD_CODE;
 
-    /** Platform Method Code */
+    /**
+     * Platform Method Code
+     *
+     * @var string
+     */
 
     public $platform_code = 'afterpay';
 
