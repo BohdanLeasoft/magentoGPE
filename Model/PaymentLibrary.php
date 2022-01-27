@@ -358,6 +358,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Load Ginger client
+     *
      * @param int $storeId
      * @param string $testApiKey
      *
@@ -374,6 +376,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Get issuers
+     *
      * @param \Ginger\ApiClient $client
      *
      * @return array
@@ -384,6 +388,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Refund function
+     *
      * @param InfoInterface $payment
      * @param float $amount
      *
@@ -396,8 +402,6 @@ class PaymentLibrary extends AbstractMethod
         $order = $payment->getOrder();
         $storeId = (int)$order->getStoreId();
         $transactionId = $order->getGingerpayTransactionId();
-
-
         $method = $order->getPayment()->getMethodInstance()->getCode();
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId);
 
@@ -427,6 +431,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Prepare transaction
+     *
      * @param OrderInterface $order
      * @param string $platformCode
      * @param string $methodCode
@@ -453,13 +459,20 @@ class PaymentLibrary extends AbstractMethod
                 break;
             case 'ideal':
                 $additionalData = $order->getPayment()->getAdditionalInformation();
-                if (isset($additionalData['issuer']))
-                {
+                if (isset($additionalData['issuer'])) {
                     $issuer = $additionalData['issuer'];
                 }
                 break;
         }
-        $orderData = $this->orderDataCollector->collectDataForOrder($order, $platformCode, $methodCode, $this->urlProvider, $this->orderLines, $custumerData, $issuer);
+        $orderData = $this->orderDataCollector->collectDataForOrder(
+            $order,
+            $platformCode,
+            $methodCode,
+            $this->urlProvider,
+            $this->orderLines,
+            $custumerData,
+            $issuer
+        );
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
 
@@ -469,6 +482,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Get return url
+     *
      * @return string
      */
     public function getReturnUrl()
@@ -481,6 +496,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Get webhook url
+     *
      * @return string
      */
     public function getWebhookUrl()
@@ -493,8 +510,10 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
+     * Process request function
+     *
      * @param OrderInterface $order
-     * @param null $transaction
+     * @param array $transaction
      * @param string $testModus
      *
      * @return array
