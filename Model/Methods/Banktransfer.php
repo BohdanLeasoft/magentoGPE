@@ -36,7 +36,6 @@ class Banktransfer extends PaymentLibraryRedefiner
      */
     public $platform_code = 'bank-transfer';
 
-
     /**
      * @var string
      */
@@ -48,6 +47,8 @@ class Banktransfer extends PaymentLibraryRedefiner
     protected $_infoBlockType = \GingerPay\Payment\Block\Info\Banktransfer::class;
 
     /**
+     * Get mailing address
+     *
      * @return string
      */
     public function getMailingAddress(): string

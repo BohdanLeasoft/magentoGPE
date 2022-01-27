@@ -11,8 +11,12 @@ use Magento\Framework\Setup\UpgradeDataInterface;
 
 class SetupBuilder
 {
-    /** Transaction id */
-    const TRANSACTION_ID = 'ginger0000pay_transaction_id';
+    /**
+     * Transaction id
+     *
+     * @var string
+     */
+    public const TRANSACTION_ID = 'gingerpay_transaction_id';
 
     /**
      * @var SalesSetupFactory
@@ -25,6 +29,8 @@ class SetupBuilder
     public $resourceConnection;
 
     /**
+     * Add transaction id
+     *
      * @param ModuleDataSetupInterface $setup
      */
     public function addTansactionId(ModuleDataSetupInterface $setup)
@@ -36,6 +42,8 @@ class SetupBuilder
     }
 
     /**
+     * Add index
+     *
      * @param ModuleDataSetupInterface $setup
      */
     public function addIndex(ModuleDataSetupInterface $setup)
@@ -47,4 +55,3 @@ class SetupBuilder
         );
     }
 }
-

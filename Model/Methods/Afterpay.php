@@ -93,6 +93,8 @@ class Afterpay extends PaymentLibraryRedefiner
     }
 
     /**
+     * Capture order function
+     *
      * @param OrderInterface $order
      *
      * @return $this
@@ -103,6 +105,8 @@ class Afterpay extends PaymentLibraryRedefiner
     }
 
     /**
+     * Refund function
+     *
      * @param InfoInterface $payment
      * @param float $amount
      *
