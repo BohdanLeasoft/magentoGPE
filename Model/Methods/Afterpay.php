@@ -44,17 +44,10 @@ class Afterpay extends PaymentLibraryRedefiner
     public const METHOD_CODE = 'ginger_methods_afterpay';
 
     /**
-     * @var string
-     */
-
-    public $method_code = self::METHOD_CODE;
-
-    /**
      * Platform Method Code
      *
      * @var string
      */
-
     public $platform_code = 'afterpay';
 
     /**

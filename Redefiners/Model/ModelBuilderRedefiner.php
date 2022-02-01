@@ -7,7 +7,7 @@ use GingerPay\Payment\Model\Builders\LibraryConfigProvider;
 class ModelBuilderRedefiner extends LibraryConfigProvider
 {
     /**
-     * Endpoint
+     * Endpoint variable
      *
      * @var string
      */

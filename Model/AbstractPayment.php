@@ -80,8 +80,7 @@ class AbstractPayment extends PaymentLibrary
 
     private function getTestApiKey($method, $testModus, $storeId)
     {
-        switch ($method)
-        {
+        switch ($method) {
             case Afterpay::METHOD_CODE:
                 return $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
             case KlarnaPayLater::METHOD_CODE:
@@ -102,8 +101,7 @@ class AbstractPayment extends PaymentLibrary
      */
     protected function capturing($method, $order)
     {
-        switch ($method)
-        {
+        switch ($method) {
             case Afterpay::METHOD_CODE:
                 $this->paymentName = 'Afterpay';
                 break;
@@ -119,8 +117,7 @@ class AbstractPayment extends PaymentLibrary
             $testModus = $testModus['test_modus'];
         }
 
-        switch ($method)
-        {
+        switch ($method) {
             case Afterpay::METHOD_CODE:
                 $testApiKey = $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
                 break;
@@ -191,12 +188,12 @@ class AbstractPayment extends PaymentLibrary
             $client = $this->loadGingerClient($storeId, $testApiKey);
 
             $gingerOrder = $client->refundOrder(
-                    $transactionId,
-                    [
-                        'amount' => $this->configRepository->getAmountInCents((float)$amount),
-                        'currency' => $order->getOrderCurrencyCode(),
-                        'order_lines' => $this->orderLines->getRefundLines($creditmemo, $addShipping)
-                    ]
+                $transactionId,
+                [
+                    'amount' => $this->configRepository->getAmountInCents((float)$amount),
+                    'currency' => $order->getOrderCurrencyCode(),
+                    'order_lines' => $this->orderLines->getRefundLines($creditmemo, $addShipping)
+                ]
             );
         } catch (\Exception $e) {
             $errorMsg = __('Error: not possible to create an online refund: %1', $e->getMessage());

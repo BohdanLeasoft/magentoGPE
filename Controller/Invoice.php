@@ -16,7 +16,7 @@ use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment\Transaction as TransactionStatus;
 
 /**
- * Invoice class
+ * Class for handling invoice creating
  */
 class Invoice
 {

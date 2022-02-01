@@ -52,7 +52,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     protected $debugLogger;
 
     /**
-     * Checke is payment available
+     * Check is payment available
      *
      * @param int $storeId
      *
@@ -99,7 +99,9 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * {@inheritDoc}
+     * Check is method could be used
+     *
+     * @return bool
      */
     public function useMethodCheck(): bool
     {
@@ -177,8 +179,8 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     /**
      * Get description
      *
+     * @param object $order
      * @param string $method
-     * @param int $storeId
      *
      * @return string
      */
@@ -226,8 +228,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function isAfterpayOrKlarnaAllowed(string $method, int $storeId = 0): bool
     {
-        switch ($method)
-        {
+        switch ($method) {
             case Afterpay::METHOD_CODE:
                 $paymentTestModus = self::XML_PATH_AFTERPAY_TEST_MODUS;
                 $paymentIpFilterList = self::XML_PATH_AFTERPAY_IP_FILTER;
@@ -267,12 +268,9 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function getTestKey(string $method, int $storeId, string $testFlag = ''): string
     {
-        if ($method == KlarnaPayLater::METHOD_CODE && $testFlag == 'klarna')
-        {
+        if ($method == KlarnaPayLater::METHOD_CODE && $testFlag == 'klarna') {
             return $this->getKlarnaTestApiKey($storeId, true);
-        }
-        elseif ($method == Afterpay::METHOD_CODE && $testFlag == 'afterpay')
-        {
+        } elseif ($method == Afterpay::METHOD_CODE && $testFlag == 'afterpay') {
             return $this->getAfterpayTestApiKey($storeId, true);
         }
 
@@ -321,7 +319,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      * Add to log
      *
      * @param string $type
-     * @param string $force
+     * @param string $data
      */
     public function addTolog(string $type, $data)
     {
@@ -374,7 +372,6 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
         return $this->scopeConfig->getValue(self::XML_PATH_VERSION);
     }
 
-
     /**
      * Get payment name by method code
      *
@@ -403,11 +400,10 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
         if ($transaction['status'] == 'cancelled') {
             $method = current($transaction['transactions'])['payment_method'];
             if ($method == $this->getShortMethodCode(
-                Afterpay::METHOD_CODE) || $method == $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE)
+            Afterpay::METHOD_CODE) || $method == $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE)
             ) {
                 $methodName = 'payment';
-                switch ($method)
-                {
+                switch ($method) {
                     case $this->getShortMethodCode(Afterpay::METHOD_CODE):
                         $methodName = 'Afterpay';
                         break;
@@ -450,7 +446,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     /**
      * Return format price
      *
-     * @param float $amount
+     * @param float $price
      *
      * @return float
      */

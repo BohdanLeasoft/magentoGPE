@@ -86,7 +86,8 @@ class Apikey extends Action
         try {
             $client = $this->client->get((int)$storeId, $apiKey);
             if (!$client) {
-                $results[] = '<span class="ginger-error">' . __('API Key is not valid: EMS Online payment methods deactivated') . '</span>';
+                $results[] = '<span class="ginger-error">' . __('API Key is not valid:
+                 EMS Online payment methods deactivated') . '</span>';
                 $success = false;
             } else {
                 $client->getIdealIssuers();

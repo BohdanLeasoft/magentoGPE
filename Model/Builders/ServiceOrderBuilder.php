@@ -308,7 +308,7 @@ class ServiceOrderBuilder
      * Add function
      *
      * @param OrderInterface $order
-     * @param $message
+     * @param object $message
      * @param bool $isCustomerNotified
      * @throws CouldNotSaveException
      */

@@ -27,6 +27,8 @@ class Banktransfer extends Info
     protected $_template = 'GingerPay_Payment::info/banktransfer.phtml';
 
     /**
+     * Get test mod
+     *
      * @return mixed
      * @throws LocalizedException
      */

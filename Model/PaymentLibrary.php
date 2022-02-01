@@ -205,12 +205,13 @@ class PaymentLibrary extends AbstractMethod
     /**
      * Set message about
      *
-     * @param $quoteCurrency
+     * @param string $quoteCurrency
      */
     public function inappropriateCurrencyReport($quoteCurrency)
     {
         $this->messageManager->addNotice(
-            'Payment '.$this->configRepository->getPaymentNameByMethodCode($this->method_code).' does not support '.$quoteCurrency
+            'Payment '.$this->configRepository->getPaymentNameByMethodCode($this->method_code).'
+             does not support '.$quoteCurrency
         );
     }
 
@@ -223,7 +224,7 @@ class PaymentLibrary extends AbstractMethod
     {
         $client = $this->loadGingerClient();
 
-        if(!$this->checkoutSession->getMultiCurrency()) {
+        if (!$this->checkoutSession->getMultiCurrency()) {
             try {
                 $this->checkoutSession->setMultiCurrency($client->getCurrencyList());
             } catch (Exception $exception) {
@@ -231,7 +232,7 @@ class PaymentLibrary extends AbstractMethod
             }
         }
 
-        if($this->checkoutSession->getMultiCurrency()) {
+        if ($this->checkoutSession->getMultiCurrency()) {
             if (array_key_exists($this->platform_code, $this->checkoutSession->getMultiCurrency()['payment_methods'])) {
                 return (
                     $this->checkoutSession->getMultiCurrency()['payment_methods'][$this->platform_code]['currencies']
@@ -345,8 +346,8 @@ class PaymentLibrary extends AbstractMethod
             return $msg;
         }
 
-       $transaction = $client->getOrder($transactionId);
-       $this->configRepository->addTolog('process', $transaction);
+        $transaction = $client->getOrder($transactionId);
+        $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
             $msg = ['error' => true, 'msg' => __('Transaction not found')];

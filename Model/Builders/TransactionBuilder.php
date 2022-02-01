@@ -406,7 +406,8 @@ class TransactionBuilder
         if ($customerMessage) {
             $result += [ 'cart_msg' => __($customerMessage), ];
         } else {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it failed. Please try again.'), ];
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it failed.
+            Please try again.'), ];
         }
         $this->configRepository->addTolog('success', $result);
 
@@ -437,7 +438,8 @@ class TransactionBuilder
         if ($customerMessage) {
             $result += [ 'cart_msg' => __($customerMessage), ];
         } else {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it expired. Please try again.'), ];
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it expired.
+            Please try again.'), ];
         }
 
         $this->configRepository->addTolog('success', $result);
