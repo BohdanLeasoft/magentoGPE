@@ -49,6 +49,11 @@ class ApiBuilder
     protected $urlBuilder;
 
     /**
+     * @var ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * Get function
      *
      * @param int $storeId
@@ -85,16 +90,18 @@ class ApiBuilder
             return false;
         }
 
-        $gingerClient = new \Ginger\Ginger;
-
         try {
-            $this->client = $gingerClient->createClient($this->endpoint, $this->apiKey);
-        } catch(Exception $e) {
-            if ($e instanceof HttpException && $e->getStatusCode()== 401) {
-                dd('you are not authorized');
+            $gingerClient = new \Ginger\Ginger;
+            try {
+                $this->client = $gingerClient->createClient($this->endpoint, $this->apiKey);
+            } catch(Exception $e) {
+                if ($e instanceof HttpException && $e->getStatusCode()== 401) {
+                    dd('you are not authorized');
+                }
             }
+        } catch(\Error $e) {
+            // Ginger library was not found. Check composer installation or try install plugin manually
         }
-
         return $this->client;
     }
 
