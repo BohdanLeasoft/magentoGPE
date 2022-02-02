@@ -227,7 +227,7 @@ class PaymentLibrary extends AbstractMethod
         if (!$this->checkoutSession->getMultiCurrency()) {
             try {
                 $this->checkoutSession->setMultiCurrency($client->getCurrencyList());
-            } catch (Exception $exception) {
+            } catch (\Error $exception) {
                 $this->checkoutSession->setMultiCurrency(null);
             }
         }
