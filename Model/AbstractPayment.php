@@ -55,7 +55,7 @@ class AbstractPayment extends PaymentLibrary
      */
     public function isAvailable(CartInterface $quote = null): bool
     {
-        if (in_array($this->method_code, [Afterpay::METHOD_CODE, KlarnaPayLater::METHOD_CODE])) {
+        if (in_array($this->method_code, [KlarnaPayLater::METHOD_CODE, Afterpay::METHOD_CODE])) {
             if ($quote == null) {
                 $quote = $this->checkoutSession->getQuote();
             }

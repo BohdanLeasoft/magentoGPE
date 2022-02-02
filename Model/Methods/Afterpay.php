@@ -23,6 +23,18 @@ use Magento\Sales\Model\Order\Creditmemo;
 class Afterpay extends PaymentLibraryRedefiner
 {
     /**
+     * Payment Code
+     *
+     * @var string
+     */
+    public const METHOD_CODE = 'ginger_methods_afterpay';
+
+    /**
+     * @var string
+     */
+    public $method_code = self::METHOD_CODE;
+
+    /**
      * Afterpay terms for NL
      *
      * @var string
@@ -35,13 +47,6 @@ class Afterpay extends PaymentLibraryRedefiner
      * @var string
      */
     public const TERMS_BE_URL = 'https://www.afterpay.be/be/footer/betalen-met-afterpay/betalingsvoorwaarden';
-
-    /**
-     * Payment Code
-     *
-     * @var string
-     */
-    public const METHOD_CODE = 'ginger_methods_afterpay';
 
     /**
      * Platform Method Code
