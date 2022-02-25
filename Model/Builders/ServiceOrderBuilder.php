@@ -212,12 +212,20 @@ class ServiceOrderBuilder
      * @return array
      */
 
-    public function getTransactions($platformCode, $issuer_id = null)
-    {
+    public function getTransactions(
+        $platformCode,
+        $issuer_id = null,
+        $recurring_type = null,
+        $vaultToken = null
+    ) {
         return [
             array_filter([
                 "payment_method"         => $platformCode,
-                "payment_method_details" => array_filter(["issuer_id" => $issuer_id])
+                "payment_method_details" => array_filter([
+                    "issuer_id" => $issuer_id,
+                    "recurring_type" => $recurring_type,
+                    "vault_token" => $vaultToken
+                    ])
             ])
         ];
     }
@@ -242,7 +250,9 @@ class ServiceOrderBuilder
         $urlProvider,
         $orderLines,
         $customerData = null,
-        $issuer = null
+        $issuer = null,
+        $recurringType = null,
+        $vaultToken = null
     ) {
         $orderData = array_filter([
             'amount' => $this->configRepository->getAmountInCents((float)$order->getBaseGrandTotal()),
@@ -251,7 +261,12 @@ class ServiceOrderBuilder
             'merchant_order_id' => $order->getIncrementId(),
             'return_url' => $urlProvider->getReturnUrl(),
             'webhook_url' => $urlProvider->getWebhookUrl(),
-            'transactions' => $this->getTransactions($platformCode, $issuer),
+            'transactions' => $this->getTransactions(
+                $platformCode,
+                $issuer,
+                $recurringType,
+                $vaultToken
+            ),
             'extra' => $this->getExtraLines(),
             'order_lines' => $orderLines->get($order),
             'customer' => $customerData
@@ -282,7 +297,7 @@ class ServiceOrderBuilder
      */
     public function getUserAgent()
     {
-        return $_SERVER['HTTP_USER_AGENT'];
+        return $_SERVER['HTTP_USER_AGENT'] ?? null;
     }
 
     /**

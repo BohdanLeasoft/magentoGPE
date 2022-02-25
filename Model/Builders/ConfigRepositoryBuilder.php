@@ -5,6 +5,7 @@ namespace GingerPay\Payment\Model\Builders;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepositoryInterface;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\KlarnaPayLater;
+use GingerPay\Payment\Logger\ErrorLogger;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
@@ -323,6 +324,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      */
     public function addTolog(string $type, $data)
     {
+
         if ($this->isDebugEnabled()) {
             if ($type == 'error') {
                 $this->errorLogger->addLog($type, $data);
@@ -521,5 +523,15 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     public function displayPaymentImages(): bool
     {
         return (bool)$this->getFlag(self::XML_PATH_IMAGES);
+    }
+
+    /**
+     * Check is recurring enable
+     *
+     * @return bool
+     */
+    public function isRecurringEnable(): bool
+    {
+        return (bool)$this->getFlag(self::XML_PATH_RECURRING_ENABLE);
     }
 }

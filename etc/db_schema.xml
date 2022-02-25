@@ -6,5 +6,17 @@
         <index referenceId="SALES_ORDER_GINGERPAY_TRANSACTION_ID" indexType="btree">
             <column name="gingerpay_transaction_id"/>
         </index>
+        <column xsi:type="varchar" name="gingerpay_vault_token" nullable="true" length="255" comment="Gingerpay Vault Token"/>
+        <index referenceId="SALES_ORDER_GINGERPAY_VAULT_TOKEN" indexType="btree">
+            <column name="gingerpay_vault_token"/>
+        </index>
+        <column xsi:type="int" name="gingerpay_next_payment_date" nullable="true" comment="Gingerpay Next Payment Date"/>
+        <index referenceId="SALES_ORDER_GINGERPAY_NEXT_PAYMENT_DATE" indexType="btree">
+            <column name="gingerpay_next_payment_date"/>
+        </index>
+        <column xsi:type="varchar" name="gingerpay_recurring_periodicity" nullable="true" length="255" comment="Gingerpay Recurring Periodicity"/>
+        <index referenceId="SALES_ORDER_GINGERPAY_RECURRING_PERIODICITY" indexType="btree">
+            <column name="gingerpay_recurring_periodicity"/>
+        </index>
     </table>
 </schema>

@@ -114,6 +114,8 @@ class ControllerCheckoutActionBuilder extends Action
             try {
                 $result = $methodInstance->startTransaction($order);
             } catch (\Exception $e) {
+                // TODO: Remove "die($e);" before release
+                die($e);
                 $this->messageManager->addErrorMessage(
                     __('Could not start transaction, please select other payment method.')
                 );

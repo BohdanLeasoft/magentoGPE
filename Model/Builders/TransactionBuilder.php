@@ -254,7 +254,6 @@ class TransactionBuilder
 
             $this->orderRepository->save($order);
         }
-
         if ($error = $this->configRepository->getError($transaction)) {
             return ['error' => $error];
         }

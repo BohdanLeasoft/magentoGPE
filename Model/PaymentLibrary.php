@@ -17,6 +17,7 @@ use GingerPay\Payment\Service\Order\OrderLines;
 use GingerPay\Payment\Service\Order\OrderDataCollector;
 use GingerPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
+use GingerPay\Payment\Model\Builders\RecurringBuilder;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
@@ -73,6 +74,10 @@ class PaymentLibrary extends AbstractMethod
      * @var ManagerInterface
      */
     public $messageManager;
+    /**
+     * @var RecurringBuilder
+     */
+    public $recurringBuilder;
     /**
      * @var bool
      */
@@ -140,6 +145,7 @@ class PaymentLibrary extends AbstractMethod
      * @param GingerClient $gingerClient
      * @param ProcessTransactionRequest $processTransactionRequest
      * @param ProcessTransactionUpdate $processTransactionUpdate
+     * @param RecurringBuilder $recurringBuilder
      * @param OrderLines $orderLines
      * @param OrderDataCollector $orderDataCollector
      * @param CustomerData $customerData
@@ -164,6 +170,7 @@ class PaymentLibrary extends AbstractMethod
         GingerClient $gingerClient,
         ProcessTransactionRequest $processTransactionRequest,
         ProcessTransactionUpdate $processTransactionUpdate,
+        RecurringBuilder $recurringBuilder,
         OrderLines $orderLines,
         OrderDataCollector $orderDataCollector,
         CustomerData $customerData,
@@ -192,6 +199,7 @@ class PaymentLibrary extends AbstractMethod
         $this->gingerClient = $gingerClient;
         $this->processTransactionRequest = $processTransactionRequest;
         $this->processTransactionUpdate = $processTransactionUpdate;
+        $this->recurringBuilder = $recurringBuilder;
         $this->customerData = $customerData;
         $this->orderLines = $orderLines;
         $this->orderDataCollector = $orderDataCollector;
@@ -223,9 +231,10 @@ class PaymentLibrary extends AbstractMethod
     public function getAvailableCurrency()
     {
         $client = $this->loadGingerClient();
-
+        var_dump($client->getCurrencyList()); die();
         if (!$this->checkoutSession->getMultiCurrency()) {
             try {
+
                 $this->checkoutSession->setMultiCurrency($client->getCurrencyList());
             } catch (\Error $exception) {
                 $this->checkoutSession->setMultiCurrency(null);
@@ -264,15 +273,15 @@ class PaymentLibrary extends AbstractMethod
             return false;
         }
 
-        $currencyForCurrentPayment = $this->getAvailableCurrency();
-
-        if (!$currencyForCurrentPayment) {
-            return false;
-        }
-
-        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment)) {
-            return false;
-        }
+       $currencyForCurrentPayment = $this->getAvailableCurrency();
+//
+//        if (!$currencyForCurrentPayment) {
+//            return false;
+//        }
+//
+//        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment)) {
+//            return false;
+//        }
 
         return parent::isAvailable($quote);
     }
@@ -347,6 +356,9 @@ class PaymentLibrary extends AbstractMethod
         }
 
         $transaction = $client->getOrder($transactionId);
+
+        $this->recurringBuilder->saveVaultToken($order, $transaction);
+
         $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
@@ -448,6 +460,8 @@ class PaymentLibrary extends AbstractMethod
         $testApiKey = null;
         $custumerData = $this->customerData->get($order, $methodCode);
         $issuer = null;
+        $recurringType = null;
+        $vaultToken = null;
 
         switch ($platformCode) {
             case 'afterpay':
@@ -457,6 +471,18 @@ class PaymentLibrary extends AbstractMethod
             case 'klarna-pay-later':
                 $testApiKey = $this->configRepository->getKlarnaTestApiKey((int)$order->getStoreId());
                 $testModus = $testApiKey ? 'klarna' : false;
+                break;
+            case 'credit-card':
+                $additionalData = $order->getPayment()->getAdditionalInformation();
+
+                if (!empty($additionalData['periodicity']) && $additionalData['periodicity'] != 'once' && $this->configRepository->isRecurringEnable())
+                {
+                    $recurringType = 'first';
+                    $time = strtotime(date('Y-m-d H:i'));
+                    $recurringPeriodicity = $additionalData['periodicity'];
+                    $order->setGingerpayNextPaymentDate($this->recurringBuilder->getNextPaymentDate($time, $recurringPeriodicity));
+                    $order->setGingerpayRecurringPeriodicity($recurringPeriodicity);
+                }
                 break;
             case 'ideal':
                 $additionalData = $order->getPayment()->getAdditionalInformation();
@@ -472,7 +498,9 @@ class PaymentLibrary extends AbstractMethod
             $this->urlProvider,
             $this->orderLines,
             $custumerData,
-            $issuer
+            $issuer,
+            $recurringType,
+            $vaultToken
         );
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
