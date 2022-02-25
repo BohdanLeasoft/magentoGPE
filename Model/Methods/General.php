@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -15,8 +15,12 @@ use GingerPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
 class General extends PaymentLibraryRedefiner
 {
 
-    /** Payment Code */
-    const METHOD_CODE = 'ginger_methods_general';
+    /**
+     * Payment Code
+     *
+     * @var string
+     */
+    public const METHOD_CODE = 'ginger_methods_general';
 
     /**
      * @var string

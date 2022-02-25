@@ -1,4 +1,4 @@
-Magento 2 VERSION_HERE
+Magento 2 2.0.0
 ------------------------------   
 
 # Changelog #
@@ -30,12 +30,13 @@ Magento 2 VERSION_HERE
 
 * iDEAL issuer default value translation
 
-## Changes in version 1.1.0
+## Changes in version 2.0.0
 
 * Refactored code to handle GPE solution.
 * Unified bank labels to handle GPE solution.
-* Added the Google-pay, Sofort, Klarna DD payment methods
-* Added Multi-Currency solution
+* Added the Google-pay, Sofort, Klarna DD payment methods.
+* Added Multi-Currency solution.
+* Added ApplePay detection.
 * Added function which adaptively returns a message using 'customer_message'.
 * Added test which check is project structure correct using PHPUnit extension to check GPE solution on step GitHub actions.
 * Added test which check order creating using PHPUnit extension to check that latest changes doesn't crash the main functionality.

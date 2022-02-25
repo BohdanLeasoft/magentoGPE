@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -32,8 +32,7 @@ class CustomerData extends ServiceOrderRedefiner
         Resolver $resolver,
         Header $httpHeader,
         ConfigRepository $configRepository
-    )
-    {
+    ) {
         $this->resolver = $resolver;
         $this->httpHeader = $httpHeader;
         $this->configRepository = $configRepository;

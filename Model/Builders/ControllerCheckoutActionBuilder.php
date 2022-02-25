@@ -13,6 +13,7 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Filesystem\Driver\File as FilesystemDriver;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Payment\Helper\Data as PaymentHelper;
+use Magento\Framework\Webapi\Rest\Request;
 
 class ControllerCheckoutActionBuilder extends Action
 {
@@ -21,46 +22,44 @@ class ControllerCheckoutActionBuilder extends Action
      * @var Session
      */
     public $checkoutSession;
-
     /**
      * @var PaymentHelper
      */
     public $paymentHelper;
-
     /**
      * @var PaymentLibraryModel
      */
     public $paymentLibraryModel;
-
     /**
      * @var ConfigRepository
      */
     public $configRepository;
     /**
-     * @return ResponseInterface|ResultInterface
-     */
-
-    /**
      * @var ResultFactory
      */
     protected $resultFactory;
-
     /**
      * @var Json
      */
     private $json;
-
     /**
      * @var FilesystemDriver
      */
     private $filesystemDriver;
 
-
+    /**
+     * Execute function
+     */
     public function execute()
     {
         // Overriding by classes in Checkout due to their functionality
     }
 
+    /**
+     * Process function
+     *
+     * @return string
+     */
     public function process()
     {
         $orderId = $this->getRequest()->getParam('order_id', null);
@@ -71,29 +70,20 @@ class ControllerCheckoutActionBuilder extends Action
             return $this->_redirect('checkout/cart');
         }
 
-        try
-        {
+        try {
             $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
 
-            if (isset($status['success']))
-            {
+            if (!empty($status['success'])) {
                 $this->checkoutSession->start();
                 return $this->_redirect('checkout/onepage/success?utm_nooverride=1');
             }
 
             $this->checkoutSession->restoreQuote();
-            if ($status['cart_msg'])
-            {
-                $this->messageManager->addNoticeMessage($status['cart_msg']);
-            }
-            else
-            {
-                $this->messageManager->addNoticeMessage(__('Something went wrong.'));
-            }
 
-        }
-        catch (\Exception $e)
-        {
+            $message = $status['cart_msg'] ?? __('Something went wrong.');
+            $this->messageManager->addNoticeMessage($message);
+
+        } catch (\Exception $e) {
             $this->configRepository->addTolog('error', $e->getMessage());
             $this->messageManager->addExceptionMessage($e, __('There was an error checking the transaction status.'));
         }
@@ -111,9 +101,7 @@ class ControllerCheckoutActionBuilder extends Action
         $order = $this->checkoutSession->getLastRealOrder();
 
         try {
-
             $method = $order->getPayment()->getMethod();
-
             $methodInstance = $this->paymentHelper->getMethodInstance($method);
         } catch (\Exception $e) {
             $this->messageManager->addErrorMessage('Unknown Error');
@@ -149,6 +137,7 @@ class ControllerCheckoutActionBuilder extends Action
         $this->checkoutSession->restoreQuote();
         return $this->_redirect('checkout/cart');
     }
+
     /**
      * Webhook Controller
      *
@@ -157,7 +146,7 @@ class ControllerCheckoutActionBuilder extends Action
     public function webhook()
     {
         try {
-            $input = json_decode( file_get_contents( "php://input" ), true );
+            $input =  json_decode(file_get_contents("php://input"), true);
             $this->configRepository->addTolog('webhook', $input);
         } catch (\Exception $e) {
             $input = null;
@@ -169,7 +158,6 @@ class ControllerCheckoutActionBuilder extends Action
             $result->setHttpResponseCode(503);
             return $result;
         }
-
         if (isset($input['order_id'])) {
             try {
                 $this->paymentLibraryModel->processTransaction($input['order_id'], 'webhook');
@@ -181,5 +169,4 @@ class ControllerCheckoutActionBuilder extends Action
             }
         }
     }
-
 }

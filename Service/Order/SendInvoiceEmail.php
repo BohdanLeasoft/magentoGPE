@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -37,12 +37,14 @@ class SendInvoiceEmail extends ServiceOrderRedefiner
     }
 
     /**
+     * Execute function
+     *
      * @param OrderInterface $order
      *
      * @throws LocalizedException
      */
     public function execute(OrderInterface $order)
     {
-       $this->sendInvoiceEmail($order);
+        $this->sendInvoiceEmail($order);
     }
 }

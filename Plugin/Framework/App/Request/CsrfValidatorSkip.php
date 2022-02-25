@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -18,6 +18,8 @@ class CsrfValidatorSkip
 {
 
     /**
+     * Around validate function
+     *
      * @param CsrfValidator    $subject
      * @param \Closure         $proceed
      * @param RequestInterface $request

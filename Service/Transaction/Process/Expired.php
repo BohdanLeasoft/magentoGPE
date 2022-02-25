@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -25,6 +25,7 @@ class Expired extends AbstractTransaction
      *
      * @param OrderInterface $order
      * @param string $type
+     * @param string|null $customerMessage
      *
      * @return array
      */

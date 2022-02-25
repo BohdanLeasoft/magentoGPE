@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright © Magmodules.eu. All rights reserved.
+  ~ All rights reserved.
   ~ See COPYING.txt for license details.
   -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config:etc/system_file.xsd">
 	<system>
 		<section id="payment">
 			<group id="ginger" translate="label" type="text" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="1">
-				<label>EMSPay</label>
+				<label>EMS Online Plugin</label>
 				<group id="branding" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Branding</label>
 					<frontend_model>GingerPay\Payment\Block\Adminhtml\Render\Header</frontend_model>

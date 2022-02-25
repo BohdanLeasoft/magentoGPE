@@ -2,6 +2,7 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+use GingerPay\Payment\Controller\Invoice;
 use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\KlarnaPayLater;
@@ -24,7 +25,6 @@ use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order\Payment\Transaction;
-
 
 class TransactionBuilder
 {
@@ -98,6 +98,13 @@ class TransactionBuilder
     protected $unknown;
 
     /**
+     * @var Invoice
+     */
+    protected $invoice;
+
+    /**
+     * Update order transaction
+     *
      * @param OrderInterface $order
      * @param array $transaction
      * @param string $type
@@ -127,6 +134,8 @@ class TransactionBuilder
     }
 
     /**
+     * Get method from order
+     *
      * @param OrderInterface $order
      *
      * @return mixed
@@ -141,6 +150,8 @@ class TransactionBuilder
     }
 
     /**
+     * Update mailing address
+     *
      * @param OrderInterface $order
      * @param string $method
      * @param array $transaction
@@ -169,6 +180,8 @@ class TransactionBuilder
     }
 
     /**
+     * Capture order transaction
+     *
      * @param OrderInterface $order
      * @param array $transaction
      *
@@ -210,6 +223,8 @@ class TransactionBuilder
     }
 
     /**
+     * Process request
+     *
      * @param OrderInterface $order
      * @param null|array $transaction
      * @param null|string $testModus
@@ -255,8 +270,9 @@ class TransactionBuilder
         return ['error' => __('Error, could not fetch redirect url')];
     }
 
-
     /**
+     * Process update
+     *
      * @param array $transaction
      * @param OrderInterface $order
      * @param string $type
@@ -267,7 +283,9 @@ class TransactionBuilder
     public function processUpdate(array $transaction, OrderInterface $order, string $type): array
     {
         $status = !empty($transaction['status']) ? $transaction['status'] : '';
-        $customerMessage = !empty(current($transaction['transactions'])['customer_message']) ? current($transaction['transactions'])['customer_message'] : '';
+        $customerMessage = !empty(
+            current($transaction['transactions'])['customer_message']
+        ) ? current($transaction['transactions'])['customer_message'] : null;
 
         switch ($status) {
             case 'error':
@@ -290,6 +308,7 @@ class TransactionBuilder
      *
      * @param OrderInterface $order
      * @param string $type
+     * @param string|null $customerMessage
      *
      * @return array
      */
@@ -306,15 +325,12 @@ class TransactionBuilder
             'type' => $type,
         ];
 
-        if ($customerMessage)
-        {
+        if ($customerMessage) {
             $result += [ 'cart_msg' => __($customerMessage), ];
+        } else {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it has been cancelled.
+             Please try again.'), ];
         }
-        else
-        {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it has been cancelled. Please try again.'), ];
-        }
-
 
         $this->configRepository->addTolog('success', $result);
         return $result;
@@ -350,6 +366,7 @@ class TransactionBuilder
                 ->setLastSuccessQuoteId($order->getQuoteId())
                 ->setLastRealOrderId($order->getIncrementId())
                 ->setLastOrderId($order->getEntityId());
+            $this->invoice->createInvoice($order, $transaction);
         }
 
         $result = [
@@ -368,7 +385,7 @@ class TransactionBuilder
      *
      * @param OrderInterface $order
      * @param string $type
-     * @param string $customerMessage
+     * @param string|null $customerMessage
      *
      * @return array
      */
@@ -386,15 +403,14 @@ class TransactionBuilder
 
         ];
 
-        if ($customerMessage)
-        {
+        if ($customerMessage) {
             $result += [ 'cart_msg' => __($customerMessage), ];
-        }
-        else
-        {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it failed. Please try again.'), ];
+        } else {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it failed.
+            Please try again.'), ];
         }
         $this->configRepository->addTolog('success', $result);
+
         return $result;
     }
 
@@ -403,6 +419,7 @@ class TransactionBuilder
      *
      * @param OrderInterface $order
      * @param string $type
+     * @param string|null $customerMessage
      *
      * @return array
      */
@@ -418,13 +435,11 @@ class TransactionBuilder
             'order_id' => $order->getEntityId(),
             'type' => $type,
         ];
-        if ($customerMessage)
-        {
+        if ($customerMessage) {
             $result += [ 'cart_msg' => __($customerMessage), ];
-        }
-        else
-        {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it expired. Please try again.'), ];
+        } else {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it expired.
+            Please try again.'), ];
         }
 
         $this->configRepository->addTolog('success', $result);
@@ -479,7 +494,4 @@ class TransactionBuilder
         $this->configRepository->addTolog('success', $result);
         return $result;
     }
-
-
 }
-

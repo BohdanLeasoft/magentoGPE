@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -22,8 +22,7 @@ class UrlProvider extends ModelBuilderRedefiner
      */
     public function __construct(
         UrlInterface $urlBuilder
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
     }
 }

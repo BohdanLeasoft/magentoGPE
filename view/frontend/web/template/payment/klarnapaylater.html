@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright © Magmodules.eu. All rights reserved.
+  ~ All rights reserved.
   ~ See COPYING.txt for license details.
   -->
 <div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
@@ -30,7 +30,7 @@
         <form class="form" data-bind="attr: {'id': getCode() + '-form'}">
             <div class="field type required">
                 <label class="label">
-                    <span><!-- ko i18n: 'Title'--><!-- /ko --></span>
+                    <span><!-- ko i18n: 'Please select your gender'--><!-- /ko --></span>
                 </label>
                 <div class="control">
                     <select data-bind="options: getCustomerPrefixes(), optionsText: 'name', optionsValue: 'id', value: selectedPrefix" data-validate="{required:true}" style="width: 250px"></select>
@@ -38,7 +38,7 @@
             </div>
             <div class="field date required">
                 <label data-bind="attr: {for: getCode() + '_dob'}" class="label">
-                    <span><!-- ko i18n: 'Date of Birth'--><!-- /ko --></span>
+                    <span><!-- ko i18n: 'Enter your date of birth'--><!-- /ko --></span>
                 </label>
                 <div class="control">
                     <input type="text" name="payment[dob]" class="input-text" style="width: 250px" placeholder="YYYY-MM-DD" data-validate="{required:true}" data-bind="attr: {'id': getCode() + '_dob'}, datepicker: { storage: getDob(), options: { changeMonth: true, changeYear: true, showButtonPanel: true, dateFormat: 'yy-MM-dd', yearRange: '-120y:c+nn', buttonText: 'Select Date'} }">

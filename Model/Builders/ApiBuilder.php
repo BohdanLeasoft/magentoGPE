@@ -2,7 +2,7 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
-require_once __DIR__ ."/../../Library/vendor/autoload.php";
+use Braintree\Exception;
 
 class ApiBuilder
 {
@@ -34,10 +34,12 @@ class ApiBuilder
     /**
      * Endpoint
      */
-    const ENDPOINT = 'https://api.online.emspay.eu/';
+    public const ENDPOINT = 'https://api.online.emspay.eu/';
 
     /**
      * Ginger
+     *
+     * @var object
      */
     protected $ginger_lib;
 
@@ -47,6 +49,8 @@ class ApiBuilder
     protected $urlBuilder;
 
     /**
+     * Get function
+     *
      * @param int $storeId
      * @param string $testApiKey
      *
@@ -56,41 +60,43 @@ class ApiBuilder
     public function get(int $storeId = null, string $testApiKey = null)
     {
 
-        if ($this->client !== null && $testApiKey === null)
-        {
+        if ($this->client !== null && $testApiKey === null) {
             return $this->client;
         }
 
-        if (empty($storeId))
-        {
+        if (empty($storeId)) {
             $storeId = $this->configRepository->getCurrentStoreId();
         }
 
-        if ($testApiKey !== null)
-        {
+        if ($testApiKey !== null) {
             $this->apiKey = $testApiKey;
         }
 
-        if ($this->apiKey === null)
-        {
+        if ($this->apiKey === null) {
             $this->apiKey = $this->configRepository->getApiKey((int)$storeId);
         }
 
-        if ($this->endpoint === null)
-        {
+        if ($this->endpoint === null) {
             $this->endpoint = $this->urlProvider->getEndPoint();
         }
 
-        if (!$this->apiKey || !$this->endpoint)
-        {
+        if (!$this->apiKey || !$this->endpoint) {
             $this->configRepository->addTolog('error', 'Missing Api Key / Api Endpoint');
             return false;
         }
 
-        $gingerClient = new \Ginger\Ginger;
-
-        $this->client = $gingerClient->createClient($this->endpoint, $this->apiKey);
-
+        try {
+            $gingerClient = new \Ginger\Ginger;
+            try {
+                $this->client = $gingerClient->createClient($this->endpoint, $this->apiKey);
+            } catch (Exception $e) {
+                if ($e instanceof HttpException && $e->getStatusCode()== 401) {
+                    dd('you are not authorized');
+                }
+            }
+        } catch(\Error $e) {
+            // Ginger library was not found. Check composer installation or try install plugin manually
+        }
         return $this->client;
     }
 
@@ -137,6 +143,8 @@ class ApiBuilder
     }
 
     /**
+     * Get end point
+     *
      * @return string
      */
     public function getEndPoint()

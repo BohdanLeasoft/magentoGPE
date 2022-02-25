@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -24,7 +24,7 @@ class Apikey extends Action
     /**
      * @see _isAllowed()
      */
-    const ADMIN_RESOURCE = 'GingerPay_Payment::config';
+    public const ADMIN_RESOURCE = 'GingerPay_Payment::config';
 
     /**
      * @var RequestInterface
@@ -65,6 +65,8 @@ class Apikey extends Action
     }
 
     /**
+     * Execute function
+     *
      * @return ResultInterface
      */
     public function execute()
@@ -84,7 +86,8 @@ class Apikey extends Action
         try {
             $client = $this->client->get((int)$storeId, $apiKey);
             if (!$client) {
-                $results[] = '<span class="ginger-error">' . __('Error! '.$apiKey.'Invalid API Key.') . '</span>';
+                $results[] = '<span class="ginger-error">' . __('API Key is not valid:
+                 EMS Online payment methods deactivated') . '</span>';
                 $success = false;
             } else {
                 $client->getIdealIssuers();

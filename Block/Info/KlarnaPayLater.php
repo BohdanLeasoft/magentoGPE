@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -27,6 +27,8 @@ class KlarnaPayLater extends Info
     protected $_template = 'GingerPay_Payment::info/klarnapaylater.phtml';
 
     /**
+     * Get test mod
+     *
      * @return mixed
      * @throws LocalizedException
      */

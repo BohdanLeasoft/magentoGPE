@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -22,6 +22,8 @@ class Header extends Field
     protected $_template = 'GingerPay_Payment::system/config/fieldset/header.phtml';
 
     /**
+     * Render function
+     *
      * @param AbstractElement $element
      *
      * @return string

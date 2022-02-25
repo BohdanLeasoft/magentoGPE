@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -10,6 +10,7 @@ namespace GingerPay\Payment\Service\Transaction;
 use GingerPay\Payment\Redefiners\Service\TransactionRedefiner;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Model\Api\UrlProvider;
+use GingerPay\Payment\Controller\Invoice;
 use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Service\Order\Cancel as CancelOrder;
 use GingerPay\Payment\Service\Order\SendInvoiceEmail;
@@ -40,6 +41,7 @@ class AbstractTransaction extends TransactionRedefiner
      * @param UpdateStatus $updateStatus
      * @param UrlProvider $urlProvider
      * @param CheckoutSession $checkoutSession
+     * @param Invoice $invoice
      */
     public function __construct(
         ConfigRepository $configRepository,
@@ -49,7 +51,8 @@ class AbstractTransaction extends TransactionRedefiner
         SendInvoiceEmail $sendInvoiceEmail,
         UpdateStatus $updateStatus,
         UrlProvider $urlProvider,
-        CheckoutSession $checkoutSession
+        CheckoutSession $checkoutSession,
+        Invoice $invoice
     ) {
         $this->configRepository = $configRepository;
         $this->orderRepository = $orderRepository;
@@ -59,5 +62,6 @@ class AbstractTransaction extends TransactionRedefiner
         $this->updateStatus = $updateStatus;
         $this->urlProvider = $urlProvider;
         $this->checkoutSession = $checkoutSession;
+        $this->invoice = $invoice;
     }
 }

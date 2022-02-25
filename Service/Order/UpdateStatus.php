@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -26,12 +26,13 @@ class UpdateStatus extends ServiceOrderRedefiner
      */
     public function __construct(
         OrderRepository $orderRepository
-    )
-    {
+    ) {
         $this->orderRepository = $orderRepository;
     }
 
     /**
+     * Execute function
+     *
      * @param OrderInterface $order
      * @param string $status
      * @return OrderInterface
@@ -41,6 +42,6 @@ class UpdateStatus extends ServiceOrderRedefiner
      */
     public function execute(OrderInterface $order, string $status) : OrderInterface
     {
-       return $this->updateStatus($order, $status);
+        return $this->updateStatus($order, $status);
     }
 }

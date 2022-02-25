@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright © Magmodules.eu. All rights reserved.
+ * All rights reserved.
  * See COPYING.txt for license details.
  */
 declare(strict_types=1);
@@ -17,17 +17,24 @@ use Magento\Framework\Exception\LocalizedException;
 class Banktransfer extends PaymentLibraryRedefiner
 {
 
-    /** Payment Code */
-    const METHOD_CODE = 'ginger_methods_banktransfer';
+    /**
+     * Payment Code
+     *
+     * @var string
+     */
+    public const METHOD_CODE = 'ginger_methods_banktransfer';
 
     /**
      * @var string
      */
     public $method_code = self::METHOD_CODE;
 
-    /** Platform Method Code */
+    /**
+     * Platform Method Code
+     *
+     * @var string
+     */
     public $platform_code = 'bank-transfer';
-
 
     /**
      * @var string
@@ -40,6 +47,8 @@ class Banktransfer extends PaymentLibraryRedefiner
     protected $_infoBlockType = \GingerPay\Payment\Block\Info\Banktransfer::class;
 
     /**
+     * Get mailing address
+     *
      * @return string
      */
     public function getMailingAddress(): string
