@@ -84,6 +84,7 @@ class ControllerCheckoutActionBuilder extends Action
             $this->messageManager->addNoticeMessage($message);
 
         } catch (\Exception $e) {
+            die($e);
             $this->configRepository->addTolog('error', $e->getMessage());
             $this->messageManager->addExceptionMessage($e, __('There was an error checking the transaction status.'));
         }

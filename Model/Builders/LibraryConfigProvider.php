@@ -7,6 +7,7 @@ use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Model\Methods\KlarnaPayLater;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\Creditcard;
+use GingerPay\Payment\Model\Builders\CartBuilder;
 
 class LibraryConfigProvider extends ConfigRepositoryBuilder
 {
@@ -33,6 +34,10 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
      * @var PaymentHelper
      */
     protected $paymentHelper;
+    /**
+     * @var CartBuilder
+     */
+    protected $cartBuilder;
 
     /**
      * Get method instance
@@ -190,7 +195,7 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
      */
     public function getDisplay()
     {
-        if ($this->configRepository->isRecurringEnable())
+        if ($this->configRepository->isRecurringEnable() && $this->cartBuilder->isRecurringEnabledForItemsInCart())
         {
             return 'block';
         }

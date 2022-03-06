@@ -96,6 +96,23 @@ class RecurringBuilder
         $this->processUpdate = $processUpdate;
     }
 
+    public function isItRecurringTransaction($transaction)
+    {
+        if (empty(current($transaction['transactions'])["payment_method_details"]["recurring_type"]))
+        {
+            return false;
+        }
+        else
+        {
+            if (current($transaction['transactions'])["payment_method_details"]["recurring_type"] == 'first' ||
+                current($transaction['transactions'])["payment_method_details"]["recurring_type"] == 'recurring'
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function saveVaultToken($order, $transaction)
     {
         $this->orders->saveOrderVaultToken($order, current($transaction['transactions'])['payment_method_details']['vault_token']);

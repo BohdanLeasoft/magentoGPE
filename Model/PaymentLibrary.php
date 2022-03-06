@@ -231,7 +231,7 @@ class PaymentLibrary extends AbstractMethod
     public function getAvailableCurrency()
     {
         $client = $this->loadGingerClient();
-        var_dump($client->getCurrencyList()); die();
+//          var_dump($client->getCurrencyList()); die();
         if (!$this->checkoutSession->getMultiCurrency()) {
             try {
 
@@ -273,7 +273,7 @@ class PaymentLibrary extends AbstractMethod
             return false;
         }
 
-       $currencyForCurrentPayment = $this->getAvailableCurrency();
+//       $currencyForCurrentPayment = $this->getAvailableCurrency();
 //
 //        if (!$currencyForCurrentPayment) {
 //            return false;
@@ -357,7 +357,10 @@ class PaymentLibrary extends AbstractMethod
 
         $transaction = $client->getOrder($transactionId);
 
-        $this->recurringBuilder->saveVaultToken($order, $transaction);
+        if ($this->recurringBuilder->isItRecurringTransaction($transaction))
+        {
+            $this->recurringBuilder->saveVaultToken($order, $transaction);
+        }
 
         $this->configRepository->addTolog('process', $transaction);
 
