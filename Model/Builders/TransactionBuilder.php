@@ -281,6 +281,7 @@ class TransactionBuilder
      */
     public function processUpdate(array $transaction, OrderInterface $order, string $type): array
     {
+        //var_dump($transaction); die();
         $status = !empty($transaction['status']) ? $transaction['status'] : '';
         $customerMessage = !empty(
             current($transaction['transactions'])['customer_message']

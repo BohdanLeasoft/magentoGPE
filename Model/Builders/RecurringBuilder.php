@@ -12,6 +12,7 @@ use GingerPay\Payment\Service\Order\OrderDataCollector;
 use GingerPay\Payment\Service\Order\OrderLines;
 use GingerPay\Payment\Service\Order\CustomerData;
 use GingerPay\Payment\Model\OrderCollection\Orders;
+use GingerPay\Payment\Model\Builders\MailTransportBuilder;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
 
 use Magento\Sales\Api\Data\OrderInterface;
@@ -58,6 +59,10 @@ class RecurringBuilder
      * @var ProcessTransactionUpdate
      */
     public $processUpdate;
+    /**
+     * @var MailTransportBuilder
+     */
+    protected $mailTransport;
 
     /**
      * RecurringBuilder constructor.
@@ -70,7 +75,8 @@ class RecurringBuilder
      * @param UrlProvider                   $urlProvider
      * @param CustomerData                  $customerData
      * @param Orders                        $orders
-     * @param ProcessTransactionUpdate     $processUpdate
+     * @param MailTransportBuilder          $mailTransport
+     * @param ProcessTransactionUpdate      $processUpdate
      */
     public function __construct(
         GetOrderByTransaction       $getOrderByTransaction,
@@ -82,7 +88,8 @@ class RecurringBuilder
         UrlProvider                 $urlProvider,
         CustomerData                $customerData,
         Orders                      $orders,
-        ProcessTransactionUpdate   $processUpdate
+        MailTransportBuilder        $mailTransport,
+        ProcessTransactionUpdate    $processUpdate
     ) {
         $this->getOrderByTransaction = $getOrderByTransaction;
         $this->gingerClient = $gingerClient;
@@ -93,6 +100,7 @@ class RecurringBuilder
         $this->urlProvider = $urlProvider;
         $this->customerData = $customerData;
         $this->orders = $orders;
+        $this->mailTransport = $mailTransport;
         $this->processUpdate = $processUpdate;
     }
 
@@ -203,6 +211,14 @@ class RecurringBuilder
         return strtotime($recurringPeriodicity, $currentDate);
     }
 
+    public function sendMail($order)
+    {
+        $customer = $order->getBillingAddress();
+
+        $cancelRecurringOrderUrl = 'https://magento.test/';
+        $this->mailTransport->SendEmail($order->getIncrementId(), $cancelRecurringOrderUrl, $customer->getFirstname(), $customer->getEmail());
+    }
+
     public function mainRecurring()
     {
         $recurringOrders = $this->orders->getOrderRecurringCollection();
@@ -224,6 +240,8 @@ class RecurringBuilder
                     ];
 
                     $this->orders->saveOrderRecurringData($order, $recurringData);
+
+                    $this->sendMail($order);
                 }
                 else
                 {

@@ -357,17 +357,18 @@ class PaymentLibrary extends AbstractMethod
 
         $transaction = $client->getOrder($transactionId);
 
-        if ($this->recurringBuilder->isItRecurringTransaction($transaction))
-        {
-            $this->recurringBuilder->saveVaultToken($order, $transaction);
-        }
-
         $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
             $msg = ['error' => true, 'msg' => __('Transaction not found')];
             $this->configRepository->addTolog('error', $msg);
             return $msg;
+        }
+
+        if ($this->recurringBuilder->isItRecurringTransaction($transaction))
+        {
+            $this->recurringBuilder->saveVaultToken($order, $transaction);
+            $this->recurringBuilder->sendMail($order);
         }
 
         return $this->processTransactionUpdate->execute($transaction, $order, $type);
