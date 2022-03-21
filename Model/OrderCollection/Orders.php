@@ -55,4 +55,19 @@ class Orders
         $order->setGingerpayNextPaymentDate($recurringData['next_payment_date']);
         $this->orderResourceModel->save($order);
     }
+
+    public function saveInitializeData($order, array $recurringData)
+    {
+        $order->setGingerpayNextPaymentDate($recurringData['next_payment_date']);
+        $order->setGingerpayRecurringPeriodicity($recurringData['recurring_periodicity']);
+        $this->orderResourceModel->save($order);
+    }
+
+    public function deleteRecurringOrderData($order)
+    {
+        $order->setGingerpayVaultToken(null);
+        $order->setGingerpayNextPaymentDate(null);
+        $order->setGingerpayRecurringPeriodicity(null);
+        $this->orderResourceModel->save($order);
+    }
 }

@@ -121,6 +121,16 @@ class ApiBuilder
     }
 
     /**
+     * RecurringPage Url Builder
+     *
+     * @return string
+     */
+    public function getRecurringPageUrl()
+    {
+        return $this->urlBuilder->getUrl('ginger/checkout/recurringpage');
+    }
+
+    /**
      * Process Url Builder
      *
      * @param string $transactionId

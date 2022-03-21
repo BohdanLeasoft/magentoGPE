@@ -365,12 +365,6 @@ class PaymentLibrary extends AbstractMethod
             return $msg;
         }
 
-        if ($this->recurringBuilder->isItRecurringTransaction($transaction))
-        {
-            $this->recurringBuilder->saveVaultToken($order, $transaction);
-            $this->recurringBuilder->sendMail($order);
-        }
-
         return $this->processTransactionUpdate->execute($transaction, $order, $type);
     }
 
@@ -477,15 +471,9 @@ class PaymentLibrary extends AbstractMethod
                 $testModus = $testApiKey ? 'klarna' : false;
                 break;
             case 'credit-card':
-                $additionalData = $order->getPayment()->getAdditionalInformation();
-
-                if (!empty($additionalData['periodicity']) && $additionalData['periodicity'] != 'once' && $this->configRepository->isRecurringEnable())
+                if ($this->configRepository->isRecurringEnable())
                 {
                     $recurringType = 'first';
-                    $time = strtotime(date('Y-m-d H:i'));
-                    $recurringPeriodicity = $additionalData['periodicity'];
-                    $order->setGingerpayNextPaymentDate($this->recurringBuilder->getNextPaymentDate($time, $recurringPeriodicity));
-                    $order->setGingerpayRecurringPeriodicity($recurringPeriodicity);
                 }
                 break;
             case 'ideal':

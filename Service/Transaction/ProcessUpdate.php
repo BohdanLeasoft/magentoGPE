@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace GingerPay\Payment\Service\Transaction;
 
 use GingerPay\Payment\Redefiners\Service\TransactionRedefiner;
+use GingerPay\Payment\Model\Builders\RecurringHelper;
 use GingerPay\Payment\Service\Transaction\Process\Cancelled;
 use GingerPay\Payment\Service\Transaction\Process\Complete;
 use GingerPay\Payment\Service\Transaction\Process\Error;
@@ -31,6 +32,7 @@ class ProcessUpdate extends TransactionRedefiner
      * @param Expired $expired
      * @param Complete $complete
      * @param Unknown $unknown
+     * @param RecurringHelper $recurringHelper
      */
     public function __construct(
         Processing $processing,
@@ -38,7 +40,8 @@ class ProcessUpdate extends TransactionRedefiner
         Error $error,
         Expired $expired,
         Complete $complete,
-        Unknown $unknown
+        Unknown $unknown,
+        RecurringHelper $recurringHelper
     ) {
         $this->processing = $processing;
         $this->cancelled = $cancelled;
@@ -46,6 +49,7 @@ class ProcessUpdate extends TransactionRedefiner
         $this->expired = $expired;
         $this->complete = $complete;
         $this->unknown = $unknown;
+        $this->recurringHelper = $recurringHelper;
     }
 
     /**

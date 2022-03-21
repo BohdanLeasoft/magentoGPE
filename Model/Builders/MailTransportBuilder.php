@@ -55,9 +55,10 @@ class MailTransportBuilder extends AbstractHelper
 
     public function SendEmail(
         $orderId,
-        $cancelRecurringUrl,
+        $customerEmail,
         $customer_name,
-        $customerEmail
+        $templateIdentifier,
+        $templateVars
     ) {
         try {
             $this->inlineTranslation->suspend();
@@ -67,19 +68,23 @@ class MailTransportBuilder extends AbstractHelper
                 'name' => $this->escaper->escapeHtml($sender_name),
                 'email' => $this->escaper->escapeHtml($sender_email),
             ];
+
+            $templateVars = array_merge(
+                $templateVars,
+                [
+                    'order_id' =>       $orderId,
+                    'customer_name'  => $customer_name
+                ]);
+
             $transport = $this->transportBuilder
-                ->setTemplateIdentifier('gingermail_template')
+                ->setTemplateIdentifier($templateIdentifier)
                 ->setTemplateOptions(
                     [
                         'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
                         'store' => $this->storeManager->getStore()->getId(),
                     ]
                 )
-                ->setTemplateVars([
-                    'order_id' => $orderId,
-                    'cancel_recurring_url' => $cancelRecurringUrl,
-                    'customer_name'  => $customer_name
-                ])
+                ->setTemplateVars($templateVars)
                 ->setFrom($sender)
                 ->addTo($customerEmail)
                 ->getTransport();

@@ -2,6 +2,7 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+use GingerPay\Payment\Model\Builders\RecurringBuilder;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModel;
 use Magento\Checkout\Model\Session;
@@ -46,6 +47,10 @@ class ControllerCheckoutActionBuilder extends Action
      * @var FilesystemDriver
      */
     private $filesystemDriver;
+    /**
+     * @var RecurringBuilder
+     */
+    protected $recurringBuilder;
 
     /**
      * Execute function
@@ -148,27 +153,43 @@ class ControllerCheckoutActionBuilder extends Action
      */
     public function webhook()
     {
-        try {
-            $input =  json_decode(file_get_contents("php://input"), true);
-            $this->configRepository->addTolog('webhook', $input);
-        } catch (\Exception $e) {
-            $input = null;
-            $this->configRepository->addTolog('error', 'Webhook exception: ' . $e->getMessage());
+        if (isset($_GET['order_id']))
+        {
+            $order_id = filter_var($_GET['order_id']);
+            $result = $this->recurringBuilder->cancelRecurringOrder($order_id);
+            if ($result)
+            {
+                return $this->_redirect('ginger/checkout/recurringpage', ['result' => $result]);
+            }
+            else
+            {
+                return $this->_redirect('ginger/checkout/recurringpage', ['result' => 'error']);
+            }
         }
-
-        if (!$input) {
-            $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
-            $result->setHttpResponseCode(503);
-            return $result;
-        }
-        if (isset($input['order_id'])) {
+        else
+        {
             try {
-                $this->paymentLibraryModel->processTransaction($input['order_id'], 'webhook');
+                $input =  json_decode(file_get_contents("php://input"), true);
+                $this->configRepository->addTolog('webhook', $input);
             } catch (\Exception $e) {
-                $this->configRepository->addTolog('error', $e->getMessage());
+                $input = null;
+                $this->configRepository->addTolog('error', 'Webhook exception: ' . $e->getMessage());
+            }
+
+            if (!$input) {
                 $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
                 $result->setHttpResponseCode(503);
                 return $result;
+            }
+            if (isset($input['order_id'])) {
+                try {
+                    $this->paymentLibraryModel->processTransaction($input['order_id'], 'webhook');
+                } catch (\Exception $e) {
+                    $this->configRepository->addTolog('error', $e->getMessage());
+                    $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
+                    $result->setHttpResponseCode(503);
+                    return $result;
+                }
             }
         }
     }

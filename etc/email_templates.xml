@@ -8,4 +8,11 @@
               module="GingerPay_Payment"
               area="frontend"
     />
+    <template id="gingermail_subscription_canceled"
+              label="Recurring payment message"
+              file="gingermail_subscription_canceled.html"
+              type="html"
+              module="GingerPay_Payment"
+              area="frontend"
+    />
 </config>

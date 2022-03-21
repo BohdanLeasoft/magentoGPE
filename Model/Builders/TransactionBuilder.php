@@ -103,6 +103,11 @@ class TransactionBuilder
     protected $invoice;
 
     /**
+     * @var RecurringHelper
+     */
+    protected $recurringHelper;
+
+    /**
      * Update order transaction
      *
      * @param OrderInterface $order
@@ -281,7 +286,6 @@ class TransactionBuilder
      */
     public function processUpdate(array $transaction, OrderInterface $order, string $type): array
     {
-        //var_dump($transaction); die();
         $status = !empty($transaction['status']) ? $transaction['status'] : '';
         $customerMessage = !empty(
             current($transaction['transactions'])['customer_message']
@@ -367,6 +371,15 @@ class TransactionBuilder
                 ->setLastRealOrderId($order->getIncrementId())
                 ->setLastOrderId($order->getEntityId());
             $this->invoice->createInvoice($order, $transaction);
+        }
+
+        if ($this->recurringHelper->isItFirstRecurringTransaction($transaction))
+        {
+            $this->recurringHelper->initializeRecurringOrder($order, $this->configRepository->isRecurringEnable());
+            $this->recurringHelper->saveVaultToken($order, $transaction);
+            $this->recurringHelper->sendMail($order, 'recurring');
+            $order->addStatusToHistory($this->status, '<a href="'.$this->recurringHelper->getRecurringCancelUrl($order).'" >Cancel subscription</a>', false);
+            $this->orderRepository->save($order);
         }
 
         $result = [

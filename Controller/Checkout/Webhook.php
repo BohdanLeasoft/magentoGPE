@@ -7,6 +7,7 @@ declare(strict_types=1);
 
 namespace GingerPay\Payment\Controller\Checkout;
 
+use GingerPay\Payment\Model\Builders\RecurringBuilder;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Model\PaymentLibrary as PaymentLibraryModer;
 use Magento\Checkout\Model\Session;
@@ -43,7 +44,8 @@ class Webhook extends ActionRedefiner
         PaymentLibraryModer $paymentLibraryModel,
         ConfigRepository    $configRepository,
         Json                $json,
-        FilesystemDriver    $filesystemDriver
+        FilesystemDriver    $filesystemDriver,
+        RecurringBuilder    $recurringBuilder
     ) {
         $this->checkoutSession = $checkoutSession;
         $this->paymentHelper = $paymentHelper;
@@ -53,6 +55,7 @@ class Webhook extends ActionRedefiner
         $this->resultFactory = $context->getResultFactory();
         $this->json = $json;
         $this->filesystemDriver = $filesystemDriver;
+        $this->recurringBuilder = $recurringBuilder;
         parent::__construct($context);
     }
 
