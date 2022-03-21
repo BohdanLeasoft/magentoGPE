@@ -378,7 +378,7 @@ class TransactionBuilder
             $this->recurringHelper->initializeRecurringOrder($order, $this->configRepository->isRecurringEnable());
             $this->recurringHelper->saveVaultToken($order, $transaction);
             $this->recurringHelper->sendMail($order, 'recurring');
-            $order->addStatusToHistory($this->status, '<a href="'.$this->recurringHelper->getRecurringCancelUrl($order).'" >Cancel subscription</a>', false);
+            $order->addStatusToHistory($this->status, $this->recurringHelper->getRecurringCancelLinkMessage($order), false);
             $this->orderRepository->save($order);
         }
 

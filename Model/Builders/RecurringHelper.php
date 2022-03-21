@@ -89,6 +89,11 @@ class RecurringHelper
         return $this->urlProvider->getWebhookUrl().'?order_id='.$order->getGingerpayTransactionId();
     }
 
+    public function getRecurringCancelLinkMessage($order) : string
+    {
+        return 'This is subscription payment. It could be canceled by: <a href="'.$this->getRecurringCancelUrl($order).'">Cancel subscription</a>';
+    }
+
     public function sendMail(OrderInterface $order, string $type)
     {
         $customer = $order->getBillingAddress();
