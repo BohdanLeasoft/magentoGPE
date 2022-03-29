@@ -179,7 +179,7 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     public function getRecurringPeriodicity(): array
     {
         return [
-            ['id' => 'once', 'name' => __("By once")],
+            ['id' => 'once', 'name' => __("Buy once")],
             ['id' => '+2 minutes', 'name' => __("+2 minutes")],
             ['id' => '+10 minutes', 'name' => __("+10 minutes")],
             ['id' => '+1 day', 'name' => __("Every day")],
@@ -199,9 +199,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
         {
             return 'block';
         }
-        else
-        {
-            return 'none';
-        }
+        return 'none';
     }
 }

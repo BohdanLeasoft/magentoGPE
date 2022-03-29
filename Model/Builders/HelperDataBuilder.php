@@ -2,7 +2,6 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
-
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Sales\Api\Data\OrderAddressInterface;
@@ -119,12 +118,12 @@ class HelperDataBuilder extends AbstractHelper
         $this->emulation->stopEnvironmentEmulation();
         if ($orderId)
         {
-            $this->configRepository->addTolog('success', 'Subscription order #'.$orderId.' created sucessfuly');
+            $this->configRepository->addTolog('success', __('Subscription order created sucessfully').' №'.$orderId);
             $result['success'] = $orderId;
             return $order;
         }
-        $this->configRepository->addTolog('error', 'Error occurs for subscription Order placing');
-        $result = ['error' => true, 'msg' => 'Error occurs for Order placed'];
+        $this->configRepository->addTolog('error', __('Error occurs for subscription Order placing'));
+        $result = ['error' => true, 'msg' => __('Error occurs for Order placed')];
 
         return $result;
     }

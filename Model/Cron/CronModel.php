@@ -33,7 +33,7 @@ class CronModel
 
     public function execute()
     {
-      //  $this->recurringBuilder->mainRecurring();
+        $this->recurringBuilder->mainRecurring();
         $file = fopen(__DIR__."/cronfile2.json", "w+");
         fwrite( $file,  $this->recurringBuilder->saySomething()." The time is ". date("h:i:sa"));
 

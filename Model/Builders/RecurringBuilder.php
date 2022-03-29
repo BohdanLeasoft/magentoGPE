@@ -134,7 +134,7 @@ class RecurringBuilder
             {
                 $this->orders->deleteRecurringOrderData($order);
                 $this->recurringHelper->sendMail($order, 'cancel');
-                $this->orders->addComment($order, 'Subscription canceled');
+                $this->orders->addComment($order, __('Subscription canceled'));
                 return 'success';
             }
             else return 'deleted';
@@ -156,7 +156,7 @@ class RecurringBuilder
         $vaultToken = $order->getGingerpayVaultToken();
         if (!$vaultToken)
         {
-            $this->configRepository->addTolog('error', 'Vault token is missing while preparing recurring order');
+            $this->configRepository->addTolog('error', __('Vault token is missing while preparing recurring order'));
             return false;
         }
         $issuer = null;

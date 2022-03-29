@@ -107,5 +107,20 @@
 "Please select your gender","Selecteer alstublieft uw geslacht"
 "Enter your date of birth","Vul je geboortedatum in"
 
-
+"Subscription canceled","Abonnement opgezegd"
+"Vault token is missing while preparing recurring order","Vault token ontbreekt tijdens het voorbereiden van een terugkerende bestelling"
+"Subscription order created sucessfully","Abonnementsbestelling succesvol aangemaakt"
+"Error occurs for subscription Order placing","Er treedt een fout op bij het plaatsen van een bestelling Bestelling"
+"Error occurs for Order placed","Er treedt een fout op voor geplaatste bestelling"
+"Buy once","Koop een keer"
+"Every day","Elke dag"
+"Every week","Elke week"
+"Every month","Elke maand"
+"Subscription successfully canceled!","Abonnement succesvol opgezegd!"
+"Subscription already canceled!","Abonnement al opgezegd!"
+"Not found such subscription!","Zo'n abonnement niet gevonden!"
+"Your subscription payment has been successfully made!","Uw abonnementsbetaling is succesvol uitgevoerd!"
+"Total price:","Totale prijs:"
+"Here you can cancel your next subscription payments","Hier kunt u uw volgende abonnementsbetalingen annuleren"
+"Your subscription payment has been successfully canceled!","Uw abonnementsbetaling is succesvol geannuleerd!"
 

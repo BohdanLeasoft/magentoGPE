@@ -107,5 +107,20 @@
 "Please select your gender","Bitte wähle dein Geschlecht aus"
 "Enter your date of birth","Gib dein Geburtsdatum ein"
 
-
+"Subscription canceled","Abonnement gekündigt"
+"Vault token is missing while preparing recurring order","Vault token fehlt beim Vorbereiten einer wiederkehrenden Bestellung"
+"Subscription order created sucessfully","Abonnementbestellung erfolgreich erstellt"
+"Error occurs for subscription Order placing","Beim Aufgeben der Abonnementbestellung tritt ein Fehler auf"
+"Error occurs for Order placed","Bei der aufgegebenen Bestellung tritt ein Fehler auf"
+"Buy once","Einmal kaufen"
+"Every day","Jeden Tag"
+"Every week","Jede Woche"
+"Every month","Jeden Monat"
+"Subscription successfully canceled!","Abonnement erfolgreich gekündigt!"
+"Subscription already canceled!","Abonnement bereits gekündigt!"
+"Not found such subscription!","Dieses Abonnement wurde nicht gefunden!"
+"Your subscription payment has been successfully made!","Ihre Abonnementzahlung wurde erfolgreich durchgeführt!"
+"Total price:","Gesamtpreis:"
+"Here you can cancel your next subscription payments","Hier können Sie Ihre nächsten Abonnementzahlungen stornieren"
+"Your subscription payment has been successfully canceled!","Ihre Abonnementzahlung wurde erfolgreich storniert!"
 
