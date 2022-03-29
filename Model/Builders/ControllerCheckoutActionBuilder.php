@@ -153,6 +153,14 @@ class ControllerCheckoutActionBuilder extends Action
      */
     public function webhook()
     {
+        if(isset($_GET['recurring']))
+        {
+            // TODO: Remove this function
+            $this->recurringBuilder->mainRecurring();
+            die('recurring');
+        }
+
+
         if (isset($_GET['order_id']))
         {
             $order_id = filter_var($_GET['order_id']);

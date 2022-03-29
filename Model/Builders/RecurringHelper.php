@@ -64,19 +64,13 @@ class RecurringHelper
         return strtotime($recurringPeriodicity, $currentDate);
     }
 
-    public function isItFirstRecurringTransaction($transaction) : bool
+    public function isItRecurringTransaction($transaction) : bool
     {
         if (empty(current($transaction['transactions'])["payment_method_details"]["recurring_type"]))
         {
             return false;
         }
-        else
-        {
-            if (current($transaction['transactions'])["payment_method_details"]["recurring_type"] == 'first') {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     public function saveVaultToken($order, $transaction)

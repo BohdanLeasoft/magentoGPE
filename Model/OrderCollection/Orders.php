@@ -50,9 +50,15 @@ class Orders
 
     public function saveOrderRecurringData($order, array $recurringData)
     {
-        // TODO: This feature will be deprecated when the issue with Magento orders creating is resolved. Then remove it
         $order->setGingerpayVaultToken($recurringData['vault_token']);
         $order->setGingerpayNextPaymentDate($recurringData['next_payment_date']);
+        $order->setGingerpayRecurringPeriodicity($recurringData['recurring_periodicity']);
+        $this->orderResourceModel->save($order);
+    }
+
+    public function saveGingerTransactionId($order, $transactionId)
+    {
+        $order->setGingerpayTransactionId($transactionId);
         $this->orderResourceModel->save($order);
     }
 
@@ -68,6 +74,12 @@ class Orders
         $order->setGingerpayVaultToken(null);
         $order->setGingerpayNextPaymentDate(null);
         $order->setGingerpayRecurringPeriodicity(null);
+        $this->orderResourceModel->save($order);
+    }
+
+    public function addComment($order, $comment)
+    {
+        $order->addStatusToHistory($order->getStatus(), $comment, true);
         $this->orderResourceModel->save($order);
     }
 }

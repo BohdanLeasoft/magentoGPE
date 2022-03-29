@@ -1,1 +1,0 @@
-error: Notice: Undefined index: vault_token in /var/www/html/app/code/GingerPay/Payment/Model/Builders/RecurringBuilder.php on line 101

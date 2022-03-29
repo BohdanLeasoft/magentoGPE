@@ -14,6 +14,7 @@ use GingerPay\Payment\Model\OrderCollection\Orders;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
 use GingerPay\Payment\Model\Builders\RecurringHelper;
 use GingerPay\Payment\Model\Api\UrlProvider;
+use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 
 use Magento\Sales\Api\Data\OrderInterface;
 
@@ -63,6 +64,10 @@ class RecurringBuilder
      * @var UrlProvider
      */
     protected $urlProvider;
+    /**
+     * @var UrlProvider
+     */
+    private $configRepository;
 
     /**
      * RecurringBuilder constructor.
@@ -78,6 +83,7 @@ class RecurringBuilder
      * @param ProcessTransactionUpdate      $processUpdate
      * @param RecurringHelper               $recurringHelper
      * @param UrlProvider                   $urlProvider
+     * @param ConfigRepository              $configRepository
      */
     public function __construct(
         GetOrderByTransaction       $getOrderByTransaction,
@@ -91,7 +97,8 @@ class RecurringBuilder
         MailTransportBuilder        $mailTransport,
         ProcessTransactionUpdate    $processUpdate,
         RecurringHelper             $recurringHelper,
-        UrlProvider                 $urlProvider
+        UrlProvider                 $urlProvider,
+        ConfigRepository            $configRepository
     ) {
         $this->getOrderByTransaction = $getOrderByTransaction;
         $this->gingerClient = $gingerClient;
@@ -105,6 +112,7 @@ class RecurringBuilder
         $this->processUpdate = $processUpdate;
         $this->recurringHelper = $recurringHelper;
         $this->urlProvider = $urlProvider;
+        $this->configRepository = $configRepository;
     }
 
     public function isOrderForRecurring($order)
@@ -126,6 +134,7 @@ class RecurringBuilder
             {
                 $this->orders->deleteRecurringOrderData($order);
                 $this->recurringHelper->sendMail($order, 'cancel');
+                $this->orders->addComment($order, 'Subscription canceled');
                 return 'success';
             }
             else return 'deleted';
@@ -133,36 +142,13 @@ class RecurringBuilder
         return false;
     }
 
-    public function getVaultToken()
-    {
-        $jsonContent = file_get_contents(__DIR__."/../Cron/vault_token.json");
-        return (json_decode($jsonContent, true));
-    }
+
 
     public function prepareRecurringPayment()
     {
-       // die();// This function is not properly work for now
-        $recuringData = $this->getVaultToken();
-        $oldOrder = $this->getOrderByTransaction->execute($recuringData["transactionId"]);        //  get order with all customer information by transaction id
+        $oldOrder = $this->getOrderByTransaction->execute('29ae45c8-65af-4023-b0f3-7c9d10b4e18e');        //  get order with all customer information by transaction id
 
-        $order = [
-            'shipping_method' =>  $oldOrder->getShippingMethod(),
-            'currency_id' => 'USD',
-            'email' => 'hello@example.com',
-            'shipping_address' => ['firstname' => 'John',
-                'lastname' => 'Green',
-                'street' => 'xxxxxx',
-                'city' => 'xxxxxxx',
-                'country_id' => 'US',
-                'region' => '1',
-                'postcode' => '85001',
-                'telephone' => '52556542',
-                'fax' => '3242322556',
-                'save_in_address_book' => 1],
-            'items' => [['product_id' => current($oldOrder->getItems())->getProductId(), 'qty' => current($oldOrder->getItems())->getQtyOrdered(), 'price' => current($oldOrder->getItems())->getPrice()]]
-        ];
-        $this->writeToFile('beforeReturn', 'd');
-        return $this->helperDataBuilder->createOrder($order);
+        return $this->helperDataBuilder->createOrder($oldOrder);
     }
 
     public function prepareGingerOrder(OrderInterface $order)
@@ -170,8 +156,8 @@ class RecurringBuilder
         $vaultToken = $order->getGingerpayVaultToken();
         if (!$vaultToken)
         {
+            $this->configRepository->addTolog('error', 'Vault token is missing while preparing recurring order');
             return false;
-            $this->writeToFile('Bed news', 's');
         }
         $issuer = null;
         $recurringType = 'recurring';
@@ -189,12 +175,9 @@ class RecurringBuilder
             $recurringType,
             $vaultToken
         );
-
         $storeId = (int)$order->getStoreId();
         $client = $this->gingerClient->get($storeId);
         $transaction = $client->createOrder($orderData);
-
-        $this->writeToFile('transaction', $vaultToken.json_encode($transaction));
 
         return $transaction ?? false;
     }
@@ -206,34 +189,29 @@ class RecurringBuilder
         foreach ($recurringOrders as $order)
         {
             $transaction = $this->prepareGingerOrder($order);
+
             if ($transaction)
             {
-                $result = $this->processUpdate->execute($transaction, $order, 'recurring');
-                $this->writeToFile('result', json_encode($result)); //TODO: Remove it before any release
+                $newOrder = $this->helperDataBuilder->createOrder($order);
+                $this->orders->saveGingerTransactionId($newOrder, $transaction['id']);
+
+                $result = $this->processUpdate->execute($transaction, $newOrder, 'success');
+
                 if ($result['success'])
                 {
-                    // TODO: Create magento order with next payment date and new vault_token (But for now: Change next payment date and vault_token in original(first) order)
-                    $this->writeToFile('payment_method_details', json_encode( current($transaction['transactions'])['payment_method_details']));
                     $recurringData = [
                         'vault_token' => current($transaction['transactions'])['payment_method_details']['vault_token'],
-                        'next_payment_date' => $this->recurringHelper->getNextPaymentDate(strtotime(date('Y-m-d H:i')), $order->getGingerpayRecurringPeriodicity())
+                        'next_payment_date' => $this->recurringHelper->getNextPaymentDate(strtotime(date('Y-m-d H:i')), $order->getGingerpayRecurringPeriodicity()),
+                        'recurring_periodicity' => $order->getGingerpayRecurringPeriodicity()
                     ];
 
-                    $this->orders->saveOrderRecurringData($order, $recurringData);
+                    $this->orders->saveOrderRecurringData($newOrder, $recurringData);
+                    $this->orders->deleteRecurringOrderData($order);
 
-                    $this->recurringHelper->sendMail($order, 'recurring');
                 }
-                else
-                {
-                    // TODO: Log the result and leave the order. It might get success next time
-                    $this->writeToFile('NotSuccess'.$order->getGingerpayTransactionId(), json_encode($transaction));
-                }
+                $this->configRepository->addTolog('recurring', $result);
             }
-            else
-            {
-                // TODO: Add normal logging
-                $this->writeToFile('RecurringOrderReturnedFalse'.$order->getGingerpayTransactionId(), json_encode($transaction));
-            }
+            $this->configRepository->addTolog('recurring_transaction', $transaction);
         }
     }
 

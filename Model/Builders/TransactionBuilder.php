@@ -373,7 +373,7 @@ class TransactionBuilder
             $this->invoice->createInvoice($order, $transaction);
         }
 
-        if ($this->recurringHelper->isItFirstRecurringTransaction($transaction))
+        if ($this->recurringHelper->isItRecurringTransaction($transaction))
         {
             $this->recurringHelper->initializeRecurringOrder($order, $this->configRepository->isRecurringEnable());
             $this->recurringHelper->saveVaultToken($order, $transaction);
