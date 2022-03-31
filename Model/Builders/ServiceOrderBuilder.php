@@ -207,25 +207,19 @@ class ServiceOrderBuilder
      * Get transactions
      *
      * @param string $platformCode
-     * @param string|null $issuer_id
+     * @param string|null $paymentMethodDetails
      *
      * @return array
      */
 
     public function getTransactions(
         $platformCode,
-        $issuer_id = null,
-        $recurring_type = null,
-        $vaultToken = null
+        $paymentMethodDetails
     ) {
         return [
             array_filter([
                 "payment_method"         => $platformCode,
-                "payment_method_details" => array_filter([
-                    "issuer_id" => $issuer_id,
-                    "recurring_type" => $recurring_type,
-                    "vault_token" => $vaultToken
-                    ])
+                "payment_method_details" => $paymentMethodDetails
             ])
         ];
     }
@@ -239,7 +233,7 @@ class ServiceOrderBuilder
      * @param string            $urlProvider
      * @param array             $orderLines
      * @param array|null        $customerData
-     * @param string|null       $issuer
+     * @param string|null       $paymentMethodDetails
      *
      * @return array
      */
@@ -250,9 +244,7 @@ class ServiceOrderBuilder
         $urlProvider,
         $orderLines,
         $customerData = null,
-        $issuer = null,
-        $recurringType = null,
-        $vaultToken = null
+        $paymentMethodDetails = null
     ) {
         $orderData = array_filter([
             'amount' => $this->configRepository->getAmountInCents((float)$order->getBaseGrandTotal()),
@@ -263,9 +255,7 @@ class ServiceOrderBuilder
             'webhook_url' => $urlProvider->getWebhookUrl(),
             'transactions' => $this->getTransactions(
                 $platformCode,
-                $issuer,
-                $recurringType,
-                $vaultToken
+                $paymentMethodDetails
             ),
             'extra' => $this->getExtraLines(),
             'order_lines' => $orderLines->get($order),

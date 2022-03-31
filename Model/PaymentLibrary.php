@@ -231,10 +231,8 @@ class PaymentLibrary extends AbstractMethod
     public function getAvailableCurrency()
     {
         $client = $this->loadGingerClient();
-//          var_dump($client->getCurrencyList()); die();
         if (!$this->checkoutSession->getMultiCurrency()) {
             try {
-
                 $this->checkoutSession->setMultiCurrency($client->getCurrencyList());
             } catch (\Error $exception) {
                 $this->checkoutSession->setMultiCurrency(null);
@@ -273,15 +271,15 @@ class PaymentLibrary extends AbstractMethod
             return false;
         }
 
-//       $currencyForCurrentPayment = $this->getAvailableCurrency();
-//
-//        if (!$currencyForCurrentPayment) {
-//            return false;
-//        }
-//
-//        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment)) {
-//            return false;
-//        }
+       $currencyForCurrentPayment = $this->getAvailableCurrency();
+
+        if (!$currencyForCurrentPayment) {
+            return false;
+        }
+
+        if (!in_array($quote->getQuoteCurrencyCode(), $currencyForCurrentPayment)) {
+            return false;
+        }
 
         return parent::isAvailable($quote);
     }
@@ -457,9 +455,7 @@ class PaymentLibrary extends AbstractMethod
         $testModus = false;
         $testApiKey = null;
         $custumerData = $this->customerData->get($order, $methodCode);
-        $issuer = null;
-        $recurringType = null;
-        $vaultToken = null;
+        $paymentMethodDetails = null;
 
         switch ($platformCode) {
             case 'afterpay':
@@ -473,13 +469,13 @@ class PaymentLibrary extends AbstractMethod
             case 'credit-card':
                 if ($this->configRepository->isRecurringEnable())
                 {
-                    $recurringType = 'first';
+                    $paymentMethodDetails["recurring_type"] = 'first';
                 }
                 break;
             case 'ideal':
                 $additionalData = $order->getPayment()->getAdditionalInformation();
                 if (isset($additionalData['issuer'])) {
-                    $issuer = $additionalData['issuer'];
+                    $paymentMethodDetails["issuer_id"] = $additionalData['issuer'];
                 }
                 break;
         }
@@ -490,9 +486,7 @@ class PaymentLibrary extends AbstractMethod
             $this->urlProvider,
             $this->orderLines,
             $custumerData,
-            $issuer,
-            $recurringType,
-            $vaultToken
+            $paymentMethodDetails
         );
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);

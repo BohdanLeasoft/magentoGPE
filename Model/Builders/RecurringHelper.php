@@ -66,7 +66,7 @@ class RecurringHelper
 
     public function isItRecurringTransaction($transaction) : bool
     {
-        if (empty(current($transaction['transactions'])["payment_method_details"]["recurring_type"]))
+        if (empty(current($transaction['transactions'])['payment_method_details']['recurring_type']))
         {
             return false;
         }
@@ -85,7 +85,7 @@ class RecurringHelper
 
     public function getRecurringCancelLinkMessage($order) : string
     {
-        return 'This is subscription payment. It could be canceled by: <a href="'.$this->getRecurringCancelUrl($order).'">Cancel subscription</a>';
+        return __('This subscription payment completed. It could be canceled by:').' <a href="'.$this->getRecurringCancelUrl($order).'">'.__('Cancel subscription').'</a>';
     }
 
     public function sendMail(OrderInterface $order, string $type)

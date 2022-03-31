@@ -89,7 +89,6 @@ class ControllerCheckoutActionBuilder extends Action
             $this->messageManager->addNoticeMessage($message);
 
         } catch (\Exception $e) {
-            die($e);
             $this->configRepository->addTolog('error', $e->getMessage());
             $this->messageManager->addExceptionMessage($e, __('There was an error checking the transaction status.'));
         }
@@ -120,8 +119,6 @@ class ControllerCheckoutActionBuilder extends Action
             try {
                 $result = $methodInstance->startTransaction($order);
             } catch (\Exception $e) {
-                // TODO: Remove "die($e);" before release
-                die($e);
                 $this->messageManager->addErrorMessage(
                     __('Could not start transaction, please select other payment method.')
                 );
@@ -153,26 +150,18 @@ class ControllerCheckoutActionBuilder extends Action
      */
     public function webhook()
     {
-        if(isset($_GET['recurring']))
-        {
-            // TODO: Remove this function
-            $this->recurringBuilder->mainRecurring();
-            die('recurring');
-        }
-
-
         if (isset($_GET['order_id']))
         {
             $order_id = filter_var($_GET['order_id']);
             $result = $this->recurringBuilder->cancelRecurringOrder($order_id);
+
+            return $this->_redirect('ginger/checkout/recurringpage', ['result' => $result ?: 'error']);
+
             if ($result)
             {
                 return $this->_redirect('ginger/checkout/recurringpage', ['result' => $result]);
             }
-            else
-            {
-                return $this->_redirect('ginger/checkout/recurringpage', ['result' => 'error']);
-            }
+            return $this->_redirect('ginger/checkout/recurringpage', ['result' => 'error']);
         }
         else
         {
