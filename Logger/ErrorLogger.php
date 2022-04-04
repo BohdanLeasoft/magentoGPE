@@ -53,10 +53,6 @@ class ErrorLogger extends Logger
         } else {
             $this->addEmergency($type . ': ' . $data);
         }
-
-        $file = fopen(__DIR__."/log.json", "w+");
-        fwrite( $file,$type . ': ' . $data);
-
-        fclose($file);
+       
     }
 }
