@@ -138,7 +138,7 @@ class RecurringBuilder
         return 'success';
     }
 
-    public function prepareGingerOrder(OrderInterface $order)
+    public function prepareGingerOrder($order)
     {
         $paymentMethodDetails["vault_token"] = $order->getGingerpayVaultToken();
         if (!$paymentMethodDetails["vault_token"])
@@ -186,6 +186,7 @@ class RecurringBuilder
 
     public function mainRecurring()
     {
+        $this->configRepository->addTolog('running', 'Cron job started');
         $recurringOrders = $this->orders->getOrderRecurringCollection();
 
         foreach ($recurringOrders as $order)

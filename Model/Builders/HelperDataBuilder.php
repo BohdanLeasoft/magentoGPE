@@ -2,6 +2,7 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+use Magento\Framework\App\Area;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Sales\Api\Data\OrderAddressInterface;
@@ -12,7 +13,7 @@ use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 
 class HelperDataBuilder extends AbstractHelper
 {
-    private $configRepository;
+    public $configRepository;
     /**
      * @var Emulation
      */
@@ -110,7 +111,7 @@ class HelperDataBuilder extends AbstractHelper
 
         /* for send order email to customer email id */
 
-        $this->orderSender->send($order);
+        //$this->orderSender->send($order);
 
         /* get order real id from order */
         $orderId = $order->getIncrementId();
@@ -128,7 +129,7 @@ class HelperDataBuilder extends AbstractHelper
         return $result;
     }
 
-    private function getAddressArray(OrderAddressInterface $orderAddress)
+    public function getAddressArray($orderAddress)
     {
         $addressArray = array_filter([
             'firstname'    => $orderAddress->getFirstname(),

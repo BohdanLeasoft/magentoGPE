@@ -55,7 +55,10 @@ class RecurringHelper
                     'recurring_periodicity' => $recurringPeriodicity
                 ]
             );
+
+            return true;
         }
+        return false;
     }
 
 
@@ -88,7 +91,7 @@ class RecurringHelper
         return __('This subscription payment completed. It could be canceled by:').' <a href="'.$this->getRecurringCancelUrl($order).'">'.__('Cancel subscription').'</a>';
     }
 
-    public function sendMail(OrderInterface $order, string $type)
+    public function sendMail($order, string $type)
     {
         $customer = $order->getBillingAddress();
 
