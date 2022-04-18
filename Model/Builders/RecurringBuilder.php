@@ -12,6 +12,7 @@ use GingerPay\Payment\Service\Order\OrderLines;
 use GingerPay\Payment\Service\Order\CustomerData;
 use GingerPay\Payment\Model\OrderCollection\Orders;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
+use GingerPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
 use GingerPay\Payment\Model\Builders\RecurringHelper;
 use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
@@ -57,6 +58,10 @@ class RecurringBuilder
      */
     public $processUpdate;
     /**
+     * @var ProcessTransactionRequest
+     */
+    public $processRequest;
+    /**
      * @var RecurringHelper
      */
     protected $recurringHelper;
@@ -81,6 +86,7 @@ class RecurringBuilder
      * @param Orders                        $orders
      * @param MailTransportBuilder          $mailTransport
      * @param ProcessTransactionUpdate      $processUpdate
+     * @param ProcessTransactionRequest     $processRequest
      * @param RecurringHelper               $recurringHelper
      * @param UrlProvider                   $urlProvider
      * @param ConfigRepository              $configRepository
@@ -96,23 +102,25 @@ class RecurringBuilder
         Orders                      $orders,
         MailTransportBuilder        $mailTransport,
         ProcessTransactionUpdate    $processUpdate,
+        ProcessTransactionRequest   $processRequest,
         RecurringHelper             $recurringHelper,
         UrlProvider                 $urlProvider,
         ConfigRepository            $configRepository
     ) {
-        $this->getOrderByTransaction = $getOrderByTransaction;
-        $this->gingerClient = $gingerClient;
-        $this->serviceOrderBuilder = $serviceOrderBuilder;
-        $this->helperDataBuilder = $helperDataBuilder;
-        $this->orderDataCollector = $orderDataCollector;
-        $this->orderLines = $orderLines;
-        $this->customerData = $customerData;
-        $this->orders = $orders;
-        $this->mailTransport = $mailTransport;
-        $this->processUpdate = $processUpdate;
-        $this->recurringHelper = $recurringHelper;
-        $this->urlProvider = $urlProvider;
-        $this->configRepository = $configRepository;
+        $this->getOrderByTransaction =      $getOrderByTransaction;
+        $this->gingerClient =               $gingerClient;
+        $this->serviceOrderBuilder =        $serviceOrderBuilder;
+        $this->helperDataBuilder =          $helperDataBuilder;
+        $this->orderDataCollector =         $orderDataCollector;
+        $this->orderLines =                 $orderLines;
+        $this->customerData =               $customerData;
+        $this->orders =                     $orders;
+        $this->mailTransport =              $mailTransport;
+        $this->processUpdate =              $processUpdate;
+        $this->processRequest =             $processRequest;
+        $this->recurringHelper =            $recurringHelper;
+        $this->urlProvider =                $urlProvider;
+        $this->configRepository =           $configRepository;
     }
 
     public function isOrderForRecurring($order)
@@ -138,9 +146,9 @@ class RecurringBuilder
         return 'success';
     }
 
-    public function prepareGingerOrder($order)
+    public function prepareGingerOrder($order, $vaultToken)
     {
-        $paymentMethodDetails["vault_token"] = $order->getGingerpayVaultToken();
+        $paymentMethodDetails["vault_token"] = $vaultToken;
         if (!$paymentMethodDetails["vault_token"])
         {
             $this->configRepository->addTolog('error', __('Vault token is missing while preparing recurring order'));
@@ -176,11 +184,11 @@ class RecurringBuilder
         }
         catch (\Exception $e)
         {
+            print $e;
             $this->configRepository->addTolog('error', $e);
             $this->configRepository->addTolog('message', 'The new order could not be created. The old one will be used.');
             $newOrder = $oldOrder;
         }
-
         return $newOrder;
     }
 
@@ -191,7 +199,9 @@ class RecurringBuilder
 
         foreach ($recurringOrders as $order)
         {
-            $transaction = $this->prepareGingerOrder($order);
+            $newOrder = $this->createOrder($order);
+
+            $transaction = $this->prepareGingerOrder($newOrder, $order->getGingerpayVaultToken());
 
             if (!$transaction)
             {
@@ -199,10 +209,8 @@ class RecurringBuilder
                 continue;
             }
 
-            $newOrder = $this->createOrder($order);
-
             $this->orders->saveGingerTransactionId($newOrder, $transaction['id']);
-
+            $this->processRequest->execute($newOrder, $transaction);
             $result = $this->processUpdate->execute($transaction, $newOrder, 'success');
 
             if ($result['success'])

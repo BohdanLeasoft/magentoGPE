@@ -10,6 +10,7 @@ use Magento\Framework\DataObject;
 use Magento\Sales\Api\Data\OrderItemInterface;
 use Magento\Store\Model\App\Emulation;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
+use Magento\Checkout\Model\Session;
 
 class HelperDataBuilder extends AbstractHelper
 {
@@ -18,6 +19,10 @@ class HelperDataBuilder extends AbstractHelper
      * @var Emulation
      */
     protected $emulation;
+    /**
+     * @var Session
+     */
+    protected $checkoutSession;    
 
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -29,7 +34,8 @@ class HelperDataBuilder extends AbstractHelper
         \Magento\Quote\Model\QuoteManagement $quoteManagement,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
         ConfigRepository $configRepository,
-        Emulation $emulation
+        Emulation $emulation,
+        Session $checkoutSession
     ) {
         $this->storeManager = $storeManager;
         $this->customerFactory = $customerFactory;
@@ -40,6 +46,7 @@ class HelperDataBuilder extends AbstractHelper
         $this->orderSender = $orderSender;
         $this->configRepository = $configRepository;
         $this->emulation = $emulation;
+        $this->checkoutSession = $checkoutSession;
         parent::__construct($context);
     }
     /*
@@ -50,7 +57,8 @@ class HelperDataBuilder extends AbstractHelper
         $store = $this->storeManager->getStore();
         $storeId = $store->getStoreId();
 
-        $this->emulation->startEnvironmentEmulation($storeId, \Magento\Framework\App\Area::AREA_FRONTEND, true); // You can set store id and area
+        $quote = $this->checkoutSession->getQuote();
+
         $websiteId = $this->storeManager->getStore()->getWebsiteId();
         $customer = $this->customerFactory->create();
         $customer->setWebsiteId($websiteId);
@@ -77,9 +85,7 @@ class HelperDataBuilder extends AbstractHelper
 
         //add items in quote
         foreach ($items as $item) {
-
             $product = $this->productRepository->getById($item->getProductId());
-
             $quote->addProduct($product, intval($item->getQtyOrdered()));
         }
 
@@ -116,7 +122,6 @@ class HelperDataBuilder extends AbstractHelper
         /* get order real id from order */
         $orderId = $order->getIncrementId();
 
-        $this->emulation->stopEnvironmentEmulation();
         if ($orderId)
         {
             $this->configRepository->addTolog('success', __('Subscription order created sucessfully').' №'.$orderId);

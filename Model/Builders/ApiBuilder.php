@@ -95,7 +95,7 @@ class ApiBuilder
                 }
             }
         } catch(\Error $e) {
-            // Ginger library was not found. Check composer installation or try install plugin manually
+            //TODO: Ginger library was not found. Check composer installation or try install plugin manually
         }
         return $this->client;
     }
