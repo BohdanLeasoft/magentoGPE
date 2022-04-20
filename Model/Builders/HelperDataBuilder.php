@@ -83,11 +83,19 @@ class HelperDataBuilder extends AbstractHelper
         $quote->assignCustomer($customer); //Assign quote to customer
         $items = $orderInfo->getItems();
 
-        //add items in quote
-        foreach ($items as $item) {
-            $product = $this->productRepository->getById($item->getProductId());
-            $quote->addProduct($product, intval($item->getQtyOrdered()));
+        try {
+            //add items in quote
+            foreach ($items as $item) {
+                $product = $this->productRepository->getById($item->getProductId());
+                $quote->addProduct($product, intval($item->getQtyOrdered()));
+            }
+        } catch (\Exception $e) {
+            $result = ['error' => true, 'msg' => __('Some of the products are not in the store. '). __('Subscription canceled').' Order №'.$orderInfo->getIncrementId()];
+            $this->configRepository->addTolog('error', $result['msg']);
+
+            return $result;
         }
+
 
         $billingAddress = $this->getAddressArray($orderInfo->getBillingAddress());
 
@@ -125,8 +133,9 @@ class HelperDataBuilder extends AbstractHelper
         if ($orderId)
         {
             $this->configRepository->addTolog('success', __('Subscription order created sucessfully').' №'.$orderId);
-            $result['success'] = $orderId;
-            return $order;
+            $result = ['success' => $orderId, 'order' => $order];
+
+            return $result;
         }
         $this->configRepository->addTolog('error', __('Error occurs for subscription Order placing'));
         $result = ['error' => true, 'msg' => __('Error occurs for Order placed')];

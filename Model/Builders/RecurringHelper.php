@@ -91,7 +91,7 @@ class RecurringHelper
         return __('This subscription payment completed. It could be canceled by:').' <a href="'.$this->getRecurringCancelUrl($order).'">'.__('Cancel subscription').'</a>';
     }
 
-    public function sendMail($order, string $type)
+    public function sendMail($order, string $type, $additionalComment = null)
     {
         $customer = $order->getBillingAddress();
 
@@ -108,6 +108,9 @@ class RecurringHelper
                 $templateMail = 'gingermail_template';
                 break;
             case 'cancel':
+                $templateVars = array_filter([
+                    'additional_comment' => $additionalComment
+                ]);
                 $templateMail = 'gingermail_subscription_canceled';
                 break;
         }

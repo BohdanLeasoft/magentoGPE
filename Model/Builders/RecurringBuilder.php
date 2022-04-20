@@ -128,7 +128,7 @@ class RecurringBuilder
         return $order->getGingerpayNextPaymentDate() ? true : false;
     }
 
-    public function cancelRecurringOrder($transactionId)
+    public function cancelRecurringOrder($transactionId, $additionalComment = null)
     {
         $order = $this->getOrderByTransaction->execute($transactionId);
 
@@ -141,8 +141,8 @@ class RecurringBuilder
             return 'deleted';
         }
         $this->orders->deleteRecurringOrderData($order);
-        $this->recurringHelper->sendMail($order, 'cancel');
-        $this->orders->addComment($order, __('Subscription canceled'));
+        $this->recurringHelper->sendMail($order, 'cancel', $additionalComment);
+        $this->orders->addComment($order, $additionalComment.__('Subscription canceled'));
         return 'success';
     }
 
@@ -180,7 +180,12 @@ class RecurringBuilder
         $newOrder = null;
 
         try {
-            $newOrder = $this->helperDataBuilder->createOrder($oldOrder);
+            $result = $this->helperDataBuilder->createOrder($oldOrder);
+
+            if (isset($result['success']))
+            {
+                $newOrder = $result['order'];
+            }
         }
         catch (\Exception $e)
         {
@@ -200,6 +205,12 @@ class RecurringBuilder
         foreach ($recurringOrders as $order)
         {
             $newOrder = $this->createOrder($order);
+
+            if (!$newOrder)
+            {
+                $this->cancelRecurringOrder($order->getGingerpayTransactionId(),  __('Some of the products are not in the store. '));
+                continue;
+            }
 
             $transaction = $this->prepareGingerOrder($newOrder, $order->getGingerpayVaultToken());
 
