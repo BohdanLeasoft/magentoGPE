@@ -150,7 +150,8 @@ class ControllerCheckoutActionBuilder extends Action
      */
     public function webhook()
     {
-        $this->recurringBuilder->mainRecurring(); die('webhook');
+        //TODO: Remove this
+       // $this->recurringBuilder->mainRecurring(); die('webhook');
 
         if (isset($_GET['order_id']))
         {
@@ -180,6 +181,7 @@ class ControllerCheckoutActionBuilder extends Action
                 $result->setHttpResponseCode(503);
                 return $result;
             }
+
             if (isset($input['order_id'])) {
                 try {
                     $this->paymentLibraryModel->processTransaction($input['order_id'], 'webhook');

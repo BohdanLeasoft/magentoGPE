@@ -338,9 +338,13 @@ class PaymentLibrary extends AbstractMethod
         $storeId = (int)$order->getStoreId();
         $method = $order->getPayment()->getMethodInstance()->getCode();
 
+
         $testModus = $order->getPayment()->getAdditionalInformation();
+
         if (array_key_exists('test_modus', $testModus)) {
             $testModus = $testModus['test_modus'];
+        } else {
+            $testModus = '';
         }
 
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId, (string)$testModus);

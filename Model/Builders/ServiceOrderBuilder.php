@@ -10,6 +10,7 @@ use Magento\Framework\App\ProductMetadata;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
+use Magento\Sales\Model\Order;
 
 class ServiceOrderBuilder
 {

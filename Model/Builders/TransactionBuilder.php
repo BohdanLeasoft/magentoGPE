@@ -363,6 +363,7 @@ class TransactionBuilder
             $status = $this->configRepository->getStatusProcessing($method, (int)$order->getStoreId());
 
             $this->updateStatus->execute($order, $status);
+           // $this->updateStatus->execute($order, $this->status);
         }
 
         if ($type == 'success') {
