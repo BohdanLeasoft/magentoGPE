@@ -234,6 +234,7 @@ class RecurringBuilder
 
                 $this->orders->deleteRecurringOrderData($order);
                 $this->orders->saveOrderRecurringData($newOrder, $recurringData);
+                // If transaction was not successful then while next cron job running such order will make another attempt
             }
             $this->configRepository->addTolog('recurring', $result);
             $this->configRepository->addTolog('recurring_transaction', $transaction);

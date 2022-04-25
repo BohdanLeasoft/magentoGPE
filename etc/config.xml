@@ -39,8 +39,8 @@
             </ginger_methods_banktransfer>
             <ginger_methods_creditcard>
                 <active>1</active>
-                <recurring>1</recurring>
                 <model>GingerPay\Payment\Model\Methods\Creditcard</model>
+                <recurring>0</recurring>
                 <title>EMS Online Credit Cards</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>

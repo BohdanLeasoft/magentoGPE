@@ -338,7 +338,6 @@ class PaymentLibrary extends AbstractMethod
         $storeId = (int)$order->getStoreId();
         $method = $order->getPayment()->getMethodInstance()->getCode();
 
-
         $testModus = $order->getPayment()->getAdditionalInformation();
 
         if (array_key_exists('test_modus', $testModus)) {
@@ -471,8 +470,7 @@ class PaymentLibrary extends AbstractMethod
                 $testModus = $testApiKey ? 'klarna' : false;
                 break;
             case 'credit-card':
-                if ($this->configRepository->isRecurringEnable())
-                {
+                if ($this->configRepository->isRecurringEnable()) {
                     $paymentMethodDetails["recurring_type"] = 'first';
                 }
                 break;
