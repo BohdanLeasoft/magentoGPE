@@ -398,7 +398,9 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
         if ($transaction['status'] == 'error' && (current($transaction['transactions'])['customer_message'])) {
             return current($transaction['transactions'])['customer_message'];
         }
-
+        if (!empty($transaction['customer_messages'])) {
+            return current($transaction['customer_messages'])["message"];
+        }
         if ($transaction['status'] == 'cancelled') {
             $method = current($transaction['transactions'])['payment_method'];
             if ($method == $this->getShortMethodCode(

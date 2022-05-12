@@ -45,7 +45,7 @@
                 </div>
             </div>
             <div class="field terms required">
-                <input type="checkbox" value="terms_and_conditions" data-bind="attr: {'id': getCode() + '_termsAndConditions'}" name="payment[terms_and_conditions]" data-validate="{required:true}"/>
+                <input type="checkbox" data-bind="attr: {'id': getCode() + '_termsAndConditions'}" name="payment[terms_and_conditions]" data-validate="{required:true}"/>
                 <label data-bind="for: getCode() +  '_termsAndConditions'" class="label">
                     <!-- ko i18n: 'I agree to the' --><!-- /ko -->&nbsp;<a data-bind="attr: {'href': getConditionsLink(), 'target': '_blank'}"><!-- ko i18n: 'terms and conditions' --><!-- /ko -->&nbsp;</a><!-- ko i18n: 'of AfterPay' --><!-- /ko -->
                 </label>

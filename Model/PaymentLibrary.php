@@ -18,6 +18,7 @@ use GingerPay\Payment\Service\Order\OrderDataCollector;
 use GingerPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
 use GingerPay\Payment\Model\Builders\RecurringBuilder;
+use GingerPay\Payment\Model\Cache\MulticurrencyCacheRepository;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
@@ -50,6 +51,10 @@ class PaymentLibrary extends AbstractMethod
      * @var Session
      */
     public $checkoutSession;
+    /**
+     * @var MulticurrencyCacheRepository
+     */
+    public $multicurrencyCacheRepository;
     /**
      * @var string
      */
@@ -150,6 +155,7 @@ class PaymentLibrary extends AbstractMethod
      * @param OrderDataCollector $orderDataCollector
      * @param CustomerData $customerData
      * @param Session $checkoutSession
+     * @param MulticurrencyCacheRepository $multicurrencyCacheRepository
      * @param Order $order
      * @param GetOrderByTransaction $getOrderByTransaction
      * @param UrlProvider $urlProvider
@@ -175,6 +181,7 @@ class PaymentLibrary extends AbstractMethod
         OrderDataCollector $orderDataCollector,
         CustomerData $customerData,
         Session $checkoutSession,
+        MulticurrencyCacheRepository $multicurrencyCacheRepository,
         Order $order,
         GetOrderByTransaction $getOrderByTransaction,
         UrlProvider $urlProvider,
@@ -204,6 +211,7 @@ class PaymentLibrary extends AbstractMethod
         $this->orderLines = $orderLines;
         $this->orderDataCollector = $orderDataCollector;
         $this->checkoutSession = $checkoutSession;
+        $this->multicurrencyCacheRepository = $multicurrencyCacheRepository;
         $this->order = $order;
         $this->getOrderByTransaction = $getOrderByTransaction;
         $this->urlProvider = $urlProvider;
@@ -231,23 +239,14 @@ class PaymentLibrary extends AbstractMethod
     public function getAvailableCurrency()
     {
         $client = $this->loadGingerClient();
-        if (!$this->checkoutSession->getMultiCurrency()) {
-            try {
-                $this->checkoutSession->setMultiCurrency($client->getCurrencyList());
-            } catch (\Error $exception) {
-                $this->checkoutSession->setMultiCurrency(null);
-            }
-        }
 
-        if ($this->checkoutSession->getMultiCurrency()) {
-            if (array_key_exists($this->platform_code, $this->checkoutSession->getMultiCurrency()['payment_methods'])) {
-                return (
-                    $this->checkoutSession->getMultiCurrency()['payment_methods'][$this->platform_code]['currencies']
-                    );
-            } else {
-                return false;
+        try {
+            $multicurrencyArray = $this->multicurrencyCacheRepository->getAvailablePayments($client);
+            if (array_key_exists($this->platform_code, $multicurrencyArray['payment_methods'])) {
+                return $multicurrencyArray['payment_methods'][$this->platform_code]['currencies'];
             }
-        } else {
+            return false;
+        } catch (Exception $exception) {
             return ['EUR'];
         }
     }
@@ -460,10 +459,15 @@ class PaymentLibrary extends AbstractMethod
         $custumerData = $this->customerData->get($order, $methodCode);
         $paymentMethodDetails = null;
 
+
         switch ($platformCode) {
             case 'afterpay':
                 $testApiKey = $this->configRepository->getAfterpayTestApiKey((int)$order->getStoreId());
                 $testModus = $testApiKey ? 'afterpay' : false;
+                $additionalData = $order->getPayment()->getAdditionalInformation();
+                if (isset($additionalData['terms'])) {
+                    ($additionalData['terms'] == 1) ?  $paymentMethodDetails["verified_terms_of_service"] = true : $paymentMethodDetails["verified_terms_of_service"] = false;
+                }
                 break;
             case 'klarna-pay-later':
                 $testApiKey = $this->configRepository->getKlarnaTestApiKey((int)$order->getStoreId());
