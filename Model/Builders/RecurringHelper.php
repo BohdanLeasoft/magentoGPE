@@ -76,6 +76,14 @@ class RecurringHelper
         return true;
     }
 
+    public function getRecurringType($transaction)
+    {
+        if (empty(current($transaction['transactions'])['payment_method_details']['recurring_type'])) {
+            return null;
+        }
+        return current($transaction['transactions'])['payment_method_details']['recurring_type'];
+    }
+
     public function saveVaultToken($order, $transaction)
     {
         $this->orders->saveOrderVaultToken($order, current($transaction['transactions'])['payment_method_details']['vault_token']);

@@ -152,6 +152,7 @@ class ControllerCheckoutActionBuilder extends Action
     {
         if (isset($_GET['order_id']))
         {
+            //$this->recurringBuilder->mainRecurring(); die('aaa');
             $order_id = filter_var($_GET['order_id']);
             $result = $this->recurringBuilder->cancelRecurringOrder($order_id);
 

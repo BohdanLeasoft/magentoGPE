@@ -57,6 +57,8 @@ class Webhook extends ActionRedefiner
         $this->filesystemDriver = $filesystemDriver;
         $this->recurringBuilder = $recurringBuilder;
         parent::__construct($context);
+
+        $this->webhook();
     }
 
     /**
@@ -66,6 +68,5 @@ class Webhook extends ActionRedefiner
      */
     public function execute()
     {
-        return $this->webhook();
     }
 }

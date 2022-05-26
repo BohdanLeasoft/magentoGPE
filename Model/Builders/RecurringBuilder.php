@@ -220,6 +220,7 @@ class RecurringBuilder
                 continue;
             }
 
+
             $this->orders->saveGingerTransactionId($newOrder, $transaction['id']);
             $this->processRequest->execute($newOrder, $transaction);
             $result = $this->processUpdate->execute($transaction, $newOrder, 'success');

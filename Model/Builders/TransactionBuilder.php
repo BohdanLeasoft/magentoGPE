@@ -374,10 +374,12 @@ class TransactionBuilder
             $this->invoice->createInvoice($order, $transaction);
         }
 
-        if ($this->recurringHelper->isItRecurringTransaction($transaction))
+        if ($this->recurringHelper->isItRecurringTransaction($transaction) && $type != 'webhook')
         {
-            $this->recurringHelper->initializeRecurringOrder($order, $this->configRepository->isRecurringEnable());
-            $this->recurringHelper->saveVaultToken($order, $transaction);
+            if ($this->recurringHelper->getRecurringType($transaction) == 'first') {
+                $this->recurringHelper->initializeRecurringOrder($order, $this->configRepository->isRecurringEnable());
+                $this->recurringHelper->saveVaultToken($order, $transaction);
+            }
             $this->recurringHelper->sendMail($order, 'recurring');
             $order->addStatusToHistory($order->getStatus(), $this->recurringHelper->getRecurringCancelLinkMessage($order), false);
             $this->orderRepository->save($order);
