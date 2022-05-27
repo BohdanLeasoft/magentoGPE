@@ -2,7 +2,7 @@
     "name": "emspay/ems-online-magento-2",
     "description": "EMS Pay for Magento 2",
     "type": "magento2-module",
-    "version": "2.0.3",
+    "version": "2.0.4",
      "require": {
         "gingerpayments/ginger-php": ">=2.1.0"
     },

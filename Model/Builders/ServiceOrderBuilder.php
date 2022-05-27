@@ -364,7 +364,9 @@ class ServiceOrderBuilder
      */
     public function sendOrderEmail(OrderInterface $order)
     {
-        if (!$order->getEmailSent()) {
+        if (!$order->getEmailSent() && !$order->getSendEmail()) {
+            $order->setEmailSent(true);
+            $this->orderRepository->save($order);
             $this->orderSender->send($order);
             $msg = __('Order email sent to %1', $order->getCustomerEmail());
             $this->orderCommentHistory->add($order, $msg, true);
