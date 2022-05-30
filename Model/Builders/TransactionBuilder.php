@@ -6,6 +6,7 @@ use GingerPay\Payment\Controller\Invoice;
 use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\KlarnaPayLater;
+use GingerPay\Payment\Model\Methods\Creditcard;
 use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Service\Order\Cancel as CancelOrder;
 use GingerPay\Payment\Service\Order\SendInvoiceEmail;
@@ -166,22 +167,30 @@ class TransactionBuilder
      */
     public function updateMailingAddress(OrderInterface $order, $method, $transaction)
     {
-        if ($method !== Banktransfer::METHOD_CODE) {
-            return;
-        }
-
         /** @var Payment $payment */
         $payment = $order->getPayment();
 
         /** @var Banktransfer $methodInstance */
         $methodInstance = $payment->getMethodInstance();
-        $mailingAddress = $methodInstance->getMailingAddress();
-        $grandTotal = $this->configRepository->formatPrice($transaction['amount'] / 100);
-        $reference = current($transaction['transactions'])['payment_method_details']['reference'];
-        $mailingAddress = str_replace('%AMOUNT%', $grandTotal, $mailingAddress);
-        $mailingAddress = str_replace('%REFERENCE%', $reference, $mailingAddress);
-        $mailingAddress = str_replace('\n', PHP_EOL, $mailingAddress);
-        $payment->setAdditionalInformation('mailing_address', $mailingAddress);
+
+        switch ($method)
+        {
+            case Banktransfer::METHOD_CODE:
+                $mailingAddress = $methodInstance->getMailingAddress();
+                $grandTotal = $this->configRepository->formatPrice($transaction['amount'] / 100);
+                $reference = current($transaction['transactions'])['payment_method_details']['reference'];
+                $mailingAddress = str_replace('%AMOUNT%', $grandTotal, $mailingAddress);
+                $mailingAddress = str_replace('%REFERENCE%', $reference, $mailingAddress);
+                $mailingAddress = str_replace('\n', PHP_EOL, $mailingAddress);
+                $payment->setAdditionalInformation('mailing_address', $mailingAddress);
+                break;
+            case Creditcard::METHOD_CODE:
+                if ($this->recurringHelper->isItRecurringTransaction($transaction)) {
+                    $payment->setAdditionalInformation('recurring_data', $this->recurringHelper->getRecurringCancelLinkMessage($order));
+                }
+                break;
+            default: return;
+        }
     }
 
     /**
@@ -240,7 +249,6 @@ class TransactionBuilder
     public function processRequest(OrderInterface $order, $transaction = null, $testModus = null): array
     {
         $method = $order->getPayment()->getMethod();
-        $this->updateMailingAddress($order, $method, $transaction);
         $this->configRepository->addTolog('transaction', $transaction);
         $transactionId = !empty($transaction['id']) ? $transaction['id'] : null;
 
@@ -250,7 +258,7 @@ class TransactionBuilder
             $status = $this->configRepository->getStatusPending($method, (int)$order->getStoreId());
             $order->addStatusToHistory($status, $message, false);
             $order->setGingerpayTransactionId($transactionId);
-
+            $this->updateMailingAddress($order, $method, $transaction);
             if ($testModus !== null) {
                 /** @var Payment $payment */
                 $payment = $order->getPayment();
@@ -259,6 +267,8 @@ class TransactionBuilder
 
             $this->orderRepository->save($order);
         }
+
+
         if ($error = $this->configRepository->getError($transaction)) {
             return ['error' => $error];
         }
@@ -385,7 +395,7 @@ class TransactionBuilder
                 $this->recurringHelper->initializeRecurringOrder($order, $this->configRepository->isRecurringEnable());
                 $this->recurringHelper->saveVaultToken($order, $transaction);
             }
-            $this->recurringHelper->sendMail($order, 'recurring');
+            //$this->recurringHelper->sendMail($order, 'recurring');
             $order->addStatusToHistory($order->getStatus(), $this->recurringHelper->getRecurringCancelLinkMessage($order), false);
             $this->orderRepository->save($order);
         }

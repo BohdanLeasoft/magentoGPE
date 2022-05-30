@@ -20,7 +20,7 @@ class Recurringpage extends Action
         switch ($result)
         {
             case 'success': return __("Subscription successfully canceled!"); break;
-            case 'deleted': return __("Subscription already canceled!"); break;
+            case 'deleted': return __("Subscription already canceled or the link to cancel has changed!"); break;
             case 'error': return __("Not found such subscription!"); break;
         }
     }

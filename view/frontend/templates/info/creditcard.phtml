@@ -1,0 +1,20 @@
+<?php
+/**
+ * All rights reserved.
+ * See COPYING.txt for license details.
+ */
+declare(strict_types=1);
+/**
+ * @var $block \GingerPay\Payment\Block\Info\Creditcard
+ */
+?>
+<dl class="payment-method creditcard">
+    <dt class="title"><?= $block->escapeHtml($block->getMethod()->getTitle()) ?></dt>
+    <?php if ($block->getRecurringData()): ?>
+        <dd class="content">
+            <address class="banktransfer mailing address">
+                <?= /* @noEscape */ ($block->getRecurringData()) ?>
+            </address>
+        </dd>
+    <?php endif; ?>
+</dl>

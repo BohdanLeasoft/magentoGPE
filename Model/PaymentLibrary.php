@@ -357,6 +357,8 @@ class PaymentLibrary extends AbstractMethod
 
         $transaction = $client->getOrder($transactionId);
 
+     //   var_dump($transaction);die();
+
         $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
@@ -474,7 +476,8 @@ class PaymentLibrary extends AbstractMethod
                 $testModus = $testApiKey ? 'klarna' : false;
                 break;
             case 'credit-card':
-                if ($this->configRepository->isRecurringEnable()) {
+                $additionalData = $order->getPayment()->getAdditionalInformation();
+                if ($this->configRepository->isRecurringEnable() && $additionalData['periodicity'] != 'once') {
                     $paymentMethodDetails["recurring_type"] = 'first';
                 }
                 break;

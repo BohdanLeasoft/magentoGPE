@@ -64,4 +64,19 @@ class Creditcard extends PaymentLibraryRedefiner
         }
         return $this;
     }
+
+    /**
+     * @var string
+     */
+    protected $_infoBlockType = \GingerPay\Payment\Block\Info\Creditcard::class;
+
+    /**
+     * Get mailing address
+     *
+     * @return string
+     */
+    public function getRecurringData(): string
+    {
+        return 'RecurringData';
+    }
 }
