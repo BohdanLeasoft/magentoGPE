@@ -39,21 +39,24 @@ class PaymentConfigProvider extends ModelBuilderRedefiner
         Methods\Googlepay::METHOD_CODE,
         Methods\Sofort::METHOD_CODE,
         Methods\KlarnaDirectDebit::METHOD_CODE,
+        Methods\GiroPay::METHOD_CODE,
+        Methods\MobilePay::METHOD_CODE,
+        Methods\Swish::METHOD_CODE,
     ];
 
     /**
      * PaymentConfigProvider constructor.
      *
-     * @param PaymentLibrary   $paymentLibraryModel
+     * @param PaymentLibrary              $paymentLibraryModel
      * @param ConfigRepository $configRepository
      * @param PaymentHelper    $paymentHelper
      * @param Escaper          $escaper
      */
     public function __construct(
-        PaymentLibraryModel    $paymentLibraryModel,
-        ConfigRepository       $configRepository,
-        PaymentHelper          $paymentHelper,
-        Escaper                $escaper
+        PaymentLibraryModel         $paymentLibraryModel,
+        ConfigRepository $configRepository,
+        PaymentHelper    $paymentHelper,
+        Escaper          $escaper
     ) {
         $this->paymentLibraryModel = $paymentLibraryModel;
         $this->configRepository = $configRepository;
@@ -63,4 +66,6 @@ class PaymentConfigProvider extends ModelBuilderRedefiner
             $this->methods[$code] = $this->getMethodInstance($code);
         }
     }
+
+
 }

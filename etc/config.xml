@@ -8,7 +8,7 @@
     <default>
         <payment>
             <ginger_general>
-                <version>2.0.0</version>
+                <version>VERSION_HERE</version>
                 <active>0</active>
                 <enabled>0</enabled>
                 <type>test</type>
@@ -21,7 +21,7 @@
             <ginger_methods_banktransfer>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Banktransfer</model>
-                <title>EMS Online Banktransfer</title>
+                <title>Banktransfer</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -40,7 +40,7 @@
             <ginger_methods_creditcard>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Creditcard</model>
-                <title>EMS Online Credit Cards</title>
+                <title>Credit Cards</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -53,7 +53,7 @@
             <ginger_methods_applepay>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\ApplePay</model>
-                <title>EMS Online Apple Pay</title>
+                <title>Apple Pay</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -66,7 +66,7 @@
             <ginger_methods_ideal>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Ideal</model>
-                <title>EMS Online iDeal</title>
+                <title>iDeal</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -79,7 +79,7 @@
             <ginger_methods_bancontact>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Bancontact</model>
-                <title>EMS Online Bancontact</title>
+                <title>Bancontact</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -92,7 +92,7 @@
             <ginger_methods_klarnapaynow>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\KlarnaPayNow</model>
-                <title>EMS Online Klarna Pay Now</title>
+                <title>Klarna Pay Now</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -105,7 +105,7 @@
             <ginger_methods_paypal>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Paypal</model>
-                <title>EMS Online Paypal</title>
+                <title>Paypal</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -118,7 +118,7 @@
             <ginger_methods_amex>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Amex</model>
-                <title>EMS Online American Express</title>
+                <title>American Express</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -131,7 +131,7 @@
             <ginger_methods_klarnapaylater>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\KlarnaPayLater</model>
-                <title>EMS Online Klarna Pay Later</title>
+                <title>Klarna Pay Later</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -144,7 +144,7 @@
             <ginger_methods_payconiq>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Payconiq</model>
-                <title>EMS Online Payconiq</title>
+                <title>Payconiq</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -157,7 +157,7 @@
             <ginger_methods_tikkie>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Tikkie</model>
-                <title>EMS Online Tikkie Payment Request</title>
+                <title>Tikkie</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -170,7 +170,7 @@
             <ginger_methods_afterpay>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Afterpay</model>
-                <title>EMS Online Afterpay</title>
+                <title>Afterpay</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -183,7 +183,7 @@
             <ginger_methods_googlepay>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Googlepay</model>
-                <title>EMS Online Google Pay</title>
+                <title>Google Pay</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -196,7 +196,7 @@
             <ginger_methods_sofort>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\Sofort</model>
-                <title>EMS Online Sofort</title>
+                <title>Sofort</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -209,7 +209,7 @@
             <ginger_methods_klarnadirectdebit>
                 <active>1</active>
                 <model>GingerPay\Payment\Model\Methods\KlarnaDirectDebit</model>
-                <title>EMS Online Klarna Direct Debit</title>
+                <title>Klarna Direct Debit</title>
                 <description>Your order %id% at %name%</description>
                 <order_status_pending>pending_payment</order_status_pending>
                 <generate_invoice>1</generate_invoice>
@@ -219,6 +219,45 @@
                 <allowspecific>0</allowspecific>
                 <instructions/>
             </ginger_methods_klarnadirectdebit>
+            <ginger_methods_giropay>
+                <active>1</active>
+                <model>GingerPay\Payment\Model\Methods\GiroPay</model>
+                <title>GiroPay</title>
+                <description>Your order %id% at %name%</description>
+                <order_status_pending>pending_payment</order_status_pending>
+                <generate_invoice>1</generate_invoice>
+                <order_status_processing>processing</order_status_processing>
+                <invoice_notify>1</invoice_notify>
+                <payment_action>order</payment_action>
+                <allowspecific>0</allowspecific>
+                <instructions/>
+            </ginger_methods_giropay>
+            <ginger_methods_mobilepay>
+                <active>1</active>
+                <model>GingerPay\Payment\Model\Methods\MobilePay</model>
+                <title>MobilePay</title>
+                <description>Your order %id% at %name%</description>
+                <order_status_pending>pending_payment</order_status_pending>
+                <generate_invoice>1</generate_invoice>
+                <order_status_processing>processing</order_status_processing>
+                <invoice_notify>1</invoice_notify>
+                <payment_action>order</payment_action>
+                <allowspecific>0</allowspecific>
+                <instructions/>
+            </ginger_methods_mobilepay>
+            <ginger_methods_swish>
+                <active>1</active>
+                <model>GingerPay\Payment\Model\Methods\Swish</model>
+                <title>Swish</title>
+                <description>Your order %id% at %name%</description>
+                <order_status_pending>pending_payment</order_status_pending>
+                <generate_invoice>1</generate_invoice>
+                <order_status_processing>processing</order_status_processing>
+                <invoice_notify>1</invoice_notify>
+                <payment_action>order</payment_action>
+                <allowspecific>0</allowspecific>
+                <instructions/>
+            </ginger_methods_swish>
         </payment>
     </default>
 </config>

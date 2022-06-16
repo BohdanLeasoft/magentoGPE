@@ -18,8 +18,6 @@ class CsrfValidatorSkip
 {
 
     /**
-     * Around validate function
-     *
      * @param CsrfValidator    $subject
      * @param \Closure         $proceed
      * @param RequestInterface $request

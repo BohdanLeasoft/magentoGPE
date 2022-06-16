@@ -68,15 +68,14 @@ class ServiceOrderBuilder
     public $productMetadata;
 
     /**
-     * Cancel function
-     *
      * @param OrderInterface $order
      *
      * @return bool
      */
     public function cancel(OrderInterface $order): bool
     {
-        if ($order->getId() && $order->getState() != Order::STATE_CANCELED) {
+        if ($order->getId() && $order->getState() != Order::STATE_CANCELED)
+        {
             $comment = __("The order was canceled");
             $this->configRepository->addTolog('info', $order->getIncrementId() . ' ' . $comment);
             $order->registerCancellation($comment)->save();
@@ -86,8 +85,6 @@ class ServiceOrderBuilder
     }
 
     /**
-     * Get function
-     *
      * @param OrderInterface $order
      * @param string $method
      *
@@ -144,8 +141,6 @@ class ServiceOrderBuilder
     }
 
     /**
-     * Parse address
-     *
      * @param string $streetAddress
      *
      * @return array
@@ -178,8 +173,6 @@ class ServiceOrderBuilder
     }
 
     /**
-     * Rstrpos function
-     *
      * @param string $haystack
      * @param string $needle
      * @param null|int $offset
@@ -204,20 +197,23 @@ class ServiceOrderBuilder
     }
 
     /**
-     * Get transactions
-     *
-     * @param string $platformCode
-     * @param string|null $issuer_id
+     * @param $platformCode
+     * @param $issuer_id
      *
      * @return array
      */
 
-    public function getTransactions($platformCode, $issuer_id = null)
+    public function getTransactions($platformCode, $issuer_id = null, $verifiedTermsOfService = null)
     {
         return [
             array_filter([
                 "payment_method"         => $platformCode,
-                "payment_method_details" => array_filter(["issuer_id" => $issuer_id])
+                "payment_method_details" => array_filter(
+                    [
+                        "issuer_id" => $issuer_id,
+                        "verified_terms_of_service" => $verifiedTermsOfService
+                    ]
+                )
             ])
         ];
     }
@@ -225,25 +221,11 @@ class ServiceOrderBuilder
     /**
      * Collect data for order
      *
-     * @param OrderInterface    $order
-     * @param string            $platformCode
-     * @param string            $methodCode
-     * @param string            $urlProvider
-     * @param array             $orderLines
-     * @param array|null        $customerData
-     * @param string|null       $issuer
-     *
      * @return array
      */
-    public function collectDataForOrder(
-        $order,
-        $platformCode,
-        $methodCode,
-        $urlProvider,
-        $orderLines,
-        $customerData = null,
-        $issuer = null
-    ) {
+
+    public function collectDataForOrder($order, $methodCode, $urlProvider, $orderLines, $paymentDetails, $customerData = null)
+    {
         $orderData = array_filter([
             'amount' => $this->configRepository->getAmountInCents((float)$order->getBaseGrandTotal()),
             'currency' => $order->getOrderCurrencyCode(),
@@ -251,7 +233,7 @@ class ServiceOrderBuilder
             'merchant_order_id' => $order->getIncrementId(),
             'return_url' => $urlProvider->getReturnUrl(),
             'webhook_url' => $urlProvider->getWebhookUrl(),
-            'transactions' => $this->getTransactions($platformCode, $issuer),
+            'transactions' => $paymentDetails,
             'extra' => $this->getExtraLines(),
             'order_lines' => $orderLines->get($order),
             'customer' => $customerData
@@ -299,16 +281,15 @@ class ServiceOrderBuilder
             ->setPageSize(1)
             ->create();
 
+
         $orders = $this->orderRepository->getList($searchCriteria)->getItems();
 
         return reset($orders);
     }
 
     /**
-     * Add function
-     *
      * @param OrderInterface $order
-     * @param object $message
+     * @param $message
      * @param bool $isCustomerNotified
      * @throws CouldNotSaveException
      */
@@ -329,8 +310,6 @@ class ServiceOrderBuilder
     }
 
     /**
-     * Send invoice email
-     *
      * @param OrderInterface $order
      *
      * @throws LocalizedException
@@ -340,6 +319,7 @@ class ServiceOrderBuilder
         /** @var Payment $payment */
         $payment = $order->getPayment();
         $method = $payment->getMethodInstance()->getCode();
+
         $invoice = $payment->getCreatedInvoice();
         $sendInvoice = $this->configRepository->sendInvoice($method, (int)$order->getStoreId());
 
@@ -351,26 +331,24 @@ class ServiceOrderBuilder
     }
 
     /**
-     * Send order email
-     *
      * @param OrderInterface $order
      * @throws CouldNotSaveException
      */
     public function sendOrderEmail(OrderInterface $order)
     {
-        if (!$order->getEmailSent()) {
+        if (!$order->getEmailSent() && !$order->getSendEmail()) {
+            $order->setEmailSent(true);
+            $this->orderRepository->save($order);
             $this->orderSender->send($order);
             $msg = __('Order email sent to %1', $order->getCustomerEmail());
             $this->orderCommentHistory->add($order, $msg, true);
         }
     }
 
+
     /**
-     * Update status
-     *
      * @param OrderInterface $order
      * @param string $status
-     *
      * @return OrderInterface
      * @throws AlreadyExistsException
      * @throws InputException

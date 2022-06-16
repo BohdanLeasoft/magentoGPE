@@ -22,11 +22,11 @@ use Magento\Sales\Model\Order\Payment;
 class Success implements ArgumentInterface
 {
 
-    public const IDEAL_PROCESSING_MESSAGE = "Your order has been received. Thank you for your purchase!
+    const IDEAL_PROCESSING_MESSAGE = "Your order has been received. Thank you for your purchase!
 The payment with iDeal is still processing.
 You will receive the order email once the payment is successful.";
-    public const SOFORT_PENDING_MESSAGE = "Your order has been received. Thank you for your purchase!
-The payment with Klarna is still processing.
+    const SOFORT_PENDING_MESSAGE = "Your order has been received. Thank you for your purchase!
+The payment with iDeal is still processing.
 You will receive the order email once the payment is successful.";
 
     /**
@@ -62,8 +62,6 @@ You will receive the order email once the payment is successful.";
     }
 
     /**
-     * Get mailing address
-     *
      * @return string
      */
     public function getMailingAddress(): string
@@ -81,8 +79,6 @@ You will receive the order email once the payment is successful.";
     }
 
     /**
-     * Get thank you message
-     *
      * @return string
      */
     public function getThankYouMessage(): string
@@ -128,8 +124,6 @@ You will receive the order email once the payment is successful.";
     }
 
     /**
-     * Get company name
-     *
      * @return string
      */
     public function getCompanyName(): string

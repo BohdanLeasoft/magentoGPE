@@ -23,23 +23,15 @@ use Magento\Sales\Model\Order\Creditmemo;
 class KlarnaPayLater extends PaymentLibraryRedefiner
 {
 
-    /**
-     * Payment Code
-     *
-     * @var string
-     */
-    public const METHOD_CODE = 'ginger_methods_klarnapaylater';
+    /** Payment Code */
+    const METHOD_CODE = 'ginger_methods_klarnapaylater';
 
     /**
      * @var string
      */
     public $method_code = self::METHOD_CODE;
 
-    /**
-     * Platform Method Code
-     *
-     * @var string
-     */
+    /** Platform Method Code */
     public $platform_code = 'klarna-pay-later';
 
     /**
@@ -75,8 +67,6 @@ class KlarnaPayLater extends PaymentLibraryRedefiner
     }
 
     /**
-     * Capture order function
-     *
      * @param OrderInterface $order
      *
      * @return $this
@@ -87,8 +77,6 @@ class KlarnaPayLater extends PaymentLibraryRedefiner
     }
 
     /**
-     * Refund function
-     *
      * @param InfoInterface $payment
      * @param float $amount
      *

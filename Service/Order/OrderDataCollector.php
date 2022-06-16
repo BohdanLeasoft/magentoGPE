@@ -25,8 +25,11 @@ class OrderDataCollector extends ServiceOrderRedefiner
     public function __construct(
         ConfigRepository $configRepository,
         ProductMetadataInterface $productMetadata
-    ) {
+    )
+    {
         $this->configRepository = $configRepository;
         $this->productMetadata = $productMetadata;
     }
 }
+
+

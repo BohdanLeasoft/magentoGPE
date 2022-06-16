@@ -37,14 +37,12 @@ class SendInvoiceEmail extends ServiceOrderRedefiner
     }
 
     /**
-     * Execute function
-     *
      * @param OrderInterface $order
      *
      * @throws LocalizedException
      */
     public function execute(OrderInterface $order)
     {
-        $this->sendInvoiceEmail($order);
+       $this->sendInvoiceEmail($order);
     }
 }

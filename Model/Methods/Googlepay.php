@@ -17,23 +17,15 @@ use Magento\Framework\Exception\LocalizedException;
 class Googlepay extends PaymentLibraryRedefiner
 {
 
-    /**
-     * Payment Code
-     *
-     * @var string
-     */
-    public const METHOD_CODE = 'ginger_methods_googlepay';
+    /** Payment Code */
+    const METHOD_CODE = 'ginger_methods_googlepay';
 
     /**
      * @var string
      */
     public $method_code = self::METHOD_CODE;
 
-    /**
-     * Platform Method Code
-     *
-     * @var string
-     */
+    /** Platform Method Code */
     public $platform_code = 'google-pay';
 
     /**

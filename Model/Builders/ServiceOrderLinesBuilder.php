@@ -15,8 +15,6 @@ class ServiceOrderLinesBuilder
     protected $configRepository;
 
     /**
-     * Get function
-     *
      * @param OrderInterface $order
      *
      * @return array
@@ -24,7 +22,8 @@ class ServiceOrderLinesBuilder
     public function get(OrderInterface $order)
     {
         $orderLines = [];
-        foreach ($order->getItems() as $item) {
+        foreach ($order->getItems() as $item)
+        {
             $orderLines[] = [
                 'type' => 'physical',
                 'url' => $this->getItemUrl($item),
@@ -47,8 +46,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get item url
-     *
      * @param OrderItemInterface $item
      *
      * @return mixed
@@ -59,8 +56,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get item name
-     *
      * @param OrderItemInterface $item
      *
      * @return null|string
@@ -71,8 +66,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get item amount
-     *
      * @param OrderItemInterface $item
      *
      * @return int
@@ -89,8 +82,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get image url
-     *
      * @param OrderItemInterface $item
      *
      * @return string
@@ -102,8 +93,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get shipping order line
-     *
      * @param OrderInterface $order
      *
      * @return array
@@ -122,8 +111,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get shipping name
-     *
      * @param OrderInterface $order
      *
      * @return null|string
@@ -134,8 +121,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get shipping amount
-     *
      * @param OrderInterface $order
      *
      * @return int
@@ -150,8 +135,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get shipping vat percentage
-     *
      * @param OrderInterface $order
      *
      * @return float|int
@@ -167,8 +150,6 @@ class ServiceOrderLinesBuilder
     }
 
     /**
-     * Get refund lines
-     *
      * @param Creditmemo $creditmemo
      * @param bool $addShipping
      *
@@ -196,3 +177,4 @@ class ServiceOrderLinesBuilder
         return $orderLines;
     }
 }
+

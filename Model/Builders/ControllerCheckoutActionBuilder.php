@@ -22,44 +22,46 @@ class ControllerCheckoutActionBuilder extends Action
      * @var Session
      */
     public $checkoutSession;
+
     /**
      * @var PaymentHelper
      */
     public $paymentHelper;
+
     /**
      * @var PaymentLibraryModel
      */
     public $paymentLibraryModel;
+
     /**
      * @var ConfigRepository
      */
     public $configRepository;
     /**
+     * @return ResponseInterface|ResultInterface
+     */
+
+    /**
      * @var ResultFactory
      */
     protected $resultFactory;
+
     /**
      * @var Json
      */
     private $json;
+
     /**
      * @var FilesystemDriver
      */
     private $filesystemDriver;
 
-    /**
-     * Execute function
-     */
+
     public function execute()
     {
         // Overriding by classes in Checkout due to their functionality
     }
 
-    /**
-     * Process function
-     *
-     * @return string
-     */
     public function process()
     {
         $orderId = $this->getRequest()->getParam('order_id', null);
@@ -70,10 +72,12 @@ class ControllerCheckoutActionBuilder extends Action
             return $this->_redirect('checkout/cart');
         }
 
-        try {
+        try
+        {
             $status = $this->paymentLibraryModel->processTransaction($orderId, 'success');
 
-            if (!empty($status['success'])) {
+            if (!empty($status['success']))
+            {
                 $this->checkoutSession->start();
                 return $this->_redirect('checkout/onepage/success?utm_nooverride=1');
             }
@@ -83,7 +87,9 @@ class ControllerCheckoutActionBuilder extends Action
             $message = $status['cart_msg'] ?? __('Something went wrong.');
             $this->messageManager->addNoticeMessage($message);
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e)
+        {
             $this->configRepository->addTolog('error', $e->getMessage());
             $this->messageManager->addExceptionMessage($e, __('There was an error checking the transaction status.'));
         }
@@ -137,7 +143,6 @@ class ControllerCheckoutActionBuilder extends Action
         $this->checkoutSession->restoreQuote();
         return $this->_redirect('checkout/cart');
     }
-
     /**
      * Webhook Controller
      *
@@ -169,4 +174,5 @@ class ControllerCheckoutActionBuilder extends Action
             }
         }
     }
+
 }

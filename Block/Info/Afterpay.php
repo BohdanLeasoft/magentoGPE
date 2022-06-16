@@ -27,8 +27,6 @@ class Afterpay extends Info
     protected $_template = 'GingerPay_Payment::info/afterpay.phtml';
 
     /**
-     * Get test mod
-     *
      * @return mixed
      * @throws LocalizedException
      */

@@ -17,24 +17,17 @@ use Magento\Framework\Exception\LocalizedException;
 class Banktransfer extends PaymentLibraryRedefiner
 {
 
-    /**
-     * Payment Code
-     *
-     * @var string
-     */
-    public const METHOD_CODE = 'ginger_methods_banktransfer';
+    /** Payment Code */
+    const METHOD_CODE = 'ginger_methods_banktransfer';
 
     /**
      * @var string
      */
     public $method_code = self::METHOD_CODE;
 
-    /**
-     * Platform Method Code
-     *
-     * @var string
-     */
+    /** Platform Method Code */
     public $platform_code = 'bank-transfer';
+
 
     /**
      * @var string
@@ -47,8 +40,6 @@ class Banktransfer extends PaymentLibraryRedefiner
     protected $_infoBlockType = \GingerPay\Payment\Block\Info\Banktransfer::class;
 
     /**
-     * Get mailing address
-     *
      * @return string
      */
     public function getMailingAddress(): string

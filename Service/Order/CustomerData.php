@@ -32,7 +32,8 @@ class CustomerData extends ServiceOrderRedefiner
         Resolver $resolver,
         Header $httpHeader,
         ConfigRepository $configRepository
-    ) {
+    )
+    {
         $this->resolver = $resolver;
         $this->httpHeader = $httpHeader;
         $this->configRepository = $configRepository;

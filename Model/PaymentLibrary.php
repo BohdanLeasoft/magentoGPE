@@ -17,6 +17,7 @@ use GingerPay\Payment\Service\Order\OrderLines;
 use GingerPay\Payment\Service\Order\OrderDataCollector;
 use GingerPay\Payment\Service\Transaction\ProcessRequest as ProcessTransactionRequest;
 use GingerPay\Payment\Service\Transaction\ProcessUpdate as ProcessTransactionUpdate;
+use GingerPay\Payment\Model\Cache\MulticurrencyCacheRepository;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Api\AttributeValueFactory;
 use Magento\Framework\Api\ExtensionAttributesFactory;
@@ -49,6 +50,10 @@ class PaymentLibrary extends AbstractMethod
      * @var Session
      */
     public $checkoutSession;
+    /**
+     * @var MulticurrencyCacheRepository
+     */
+    public $multicurrencyCacheRepository;
     /**
      * @var string
      */
@@ -144,6 +149,7 @@ class PaymentLibrary extends AbstractMethod
      * @param OrderDataCollector $orderDataCollector
      * @param CustomerData $customerData
      * @param Session $checkoutSession
+     * @param MulticurrencyCacheRepository $multicurrencyCacheRepository
      * @param Order $order
      * @param GetOrderByTransaction $getOrderByTransaction
      * @param UrlProvider $urlProvider
@@ -168,6 +174,7 @@ class PaymentLibrary extends AbstractMethod
         OrderDataCollector $orderDataCollector,
         CustomerData $customerData,
         Session $checkoutSession,
+        MulticurrencyCacheRepository $multicurrencyCacheRepository,
         Order $order,
         GetOrderByTransaction $getOrderByTransaction,
         UrlProvider $urlProvider,
@@ -196,6 +203,7 @@ class PaymentLibrary extends AbstractMethod
         $this->orderLines = $orderLines;
         $this->orderDataCollector = $orderDataCollector;
         $this->checkoutSession = $checkoutSession;
+        $this->multicurrencyCacheRepository = $multicurrencyCacheRepository;
         $this->order = $order;
         $this->getOrderByTransaction = $getOrderByTransaction;
         $this->urlProvider = $urlProvider;
@@ -205,45 +213,39 @@ class PaymentLibrary extends AbstractMethod
     /**
      * Set message about
      *
-     * @param string $quoteCurrency
+     * @param $quoteCurrency
+     *
      */
+
     public function inappropriateCurrencyReport($quoteCurrency)
     {
-        $this->messageManager->addNotice(
-            'Payment '.$this->configRepository->getPaymentNameByMethodCode($this->method_code).'
-             does not support '.$quoteCurrency
-        );
+        $this->messageManager->addNotice('Payment '.$this->configRepository->getPaymentNameByMethodCode($this->method_code).' does not support '.$quoteCurrency);
     }
 
     /**
-     * Get available currency
-     *
      * @return bool|array
      */
+
     public function getAvailableCurrency()
     {
         $client = $this->loadGingerClient();
 
-        if (!$this->checkoutSession->getMultiCurrency()) {
-            try {
-                $this->checkoutSession->setMultiCurrency($client->getCurrencyList());
-            } catch (\Error $exception) {
-                $this->checkoutSession->setMultiCurrency(null);
+        try
+        {
+            $multicurrencyArray = $this->multicurrencyCacheRepository->getAvailablePayments($client);
+            if (array_key_exists($this->platform_code, $multicurrencyArray['payment_methods']))
+            {
+                return $multicurrencyArray['payment_methods'][$this->platform_code]['currencies'];
             }
-        }
 
-        if ($this->checkoutSession->getMultiCurrency()) {
-            if (array_key_exists($this->platform_code, $this->checkoutSession->getMultiCurrency()['payment_methods'])) {
-                return (
-                    $this->checkoutSession->getMultiCurrency()['payment_methods'][$this->platform_code]['currencies']
-                    );
-            } else {
-                return false;
-            }
-        } else {
+            return false;
+        }
+        catch (Exception $exception)
+        {
             return ['EUR'];
         }
     }
+
 
     /**
      * Extra checks for method availability
@@ -278,8 +280,6 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Initialize function
-     *
      * @param string $paymentAction
      * @param object $stateObject
      *
@@ -302,8 +302,6 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Process transaction
-     *
      * @param string $transactionId
      * @param string $type
      *
@@ -332,8 +330,11 @@ class PaymentLibrary extends AbstractMethod
         $method = $order->getPayment()->getMethodInstance()->getCode();
 
         $testModus = $order->getPayment()->getAdditionalInformation();
+
         if (array_key_exists('test_modus', $testModus)) {
             $testModus = $testModus['test_modus'];
+        } else {
+            $testModus = '';
         }
 
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId, (string)$testModus);
@@ -346,8 +347,8 @@ class PaymentLibrary extends AbstractMethod
             return $msg;
         }
 
-        $transaction = $client->getOrder($transactionId);
-        $this->configRepository->addTolog('process', $transaction);
+       $transaction = $client->getOrder($transactionId);
+       $this->configRepository->addTolog('process', $transaction);
 
         if (empty($transaction['id'])) {
             $msg = ['error' => true, 'msg' => __('Transaction not found')];
@@ -359,8 +360,6 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Load Ginger client
-     *
      * @param int $storeId
      * @param string $testApiKey
      *
@@ -377,8 +376,6 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Get issuers
-     *
      * @param \Ginger\ApiClient $client
      *
      * @return array
@@ -389,8 +386,6 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Refund function
-     *
      * @param InfoInterface $payment
      * @param float $amount
      *
@@ -403,6 +398,8 @@ class PaymentLibrary extends AbstractMethod
         $order = $payment->getOrder();
         $storeId = (int)$order->getStoreId();
         $transactionId = $order->getGingerpayTransactionId();
+
+
         $method = $order->getPayment()->getMethodInstance()->getCode();
         $testApiKey = $this->configRepository->getTestKey((string)$method, (int)$storeId);
 
@@ -422,7 +419,7 @@ class PaymentLibrary extends AbstractMethod
             throw new LocalizedException($errorMsg);
         }
         if (in_array($gingerOrder['status'], ['error', 'cancelled', 'expired'])) {
-            $reason = current($gingerOrder['transactions'])['customer_message'] ?? __('Refund is not completed.');
+            $reason = current($gingerOrder['transactions'])['customer_message'] ?? 'Refund order is not completed';
             $errorMsg = __('Error: not possible to create an online refund: %1', $reason);
             $this->configRepository->addTolog('error', $errorMsg);
             throw new LocalizedException($errorMsg);
@@ -432,8 +429,6 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Prepare transaction
-     *
      * @param OrderInterface $order
      * @param string $platformCode
      * @param string $methodCode
@@ -448,11 +443,19 @@ class PaymentLibrary extends AbstractMethod
         $testApiKey = null;
         $custumerData = $this->customerData->get($order, $methodCode);
         $issuer = null;
+        $verifiedTermsOfService = null;
+
+        $additionalData = $order->getPayment()->getAdditionalInformation();
 
         switch ($platformCode) {
             case 'afterpay':
                 $testApiKey = $this->configRepository->getAfterpayTestApiKey((int)$order->getStoreId());
                 $testModus = $testApiKey ? 'afterpay' : false;
+
+                if (isset($additionalData['terms']))
+                {
+                    ($additionalData['terms'] == 1) ?  $verifiedTermsOfService = true : $verifiedTermsOfService = false;
+                }
                 break;
             case 'klarna-pay-later':
                 $testApiKey = $this->configRepository->getKlarnaTestApiKey((int)$order->getStoreId());
@@ -460,31 +463,24 @@ class PaymentLibrary extends AbstractMethod
                 break;
             case 'ideal':
                 $additionalData = $order->getPayment()->getAdditionalInformation();
-                if (isset($additionalData['issuer'])) {
+                if (isset($additionalData['issuer']))
+                {
                     $issuer = $additionalData['issuer'];
                 }
                 break;
         }
-        $orderData = $this->orderDataCollector->collectDataForOrder(
-            $order,
-            $platformCode,
-            $methodCode,
-            $this->urlProvider,
-            $this->orderLines,
-            $custumerData,
-            $issuer
-        );
+
+        $paymentDetails = $this->orderDataCollector->getTransactions($platformCode, $issuer, $verifiedTermsOfService);
+
+        $orderData = $this->orderDataCollector->collectDataForOrder($order, $methodCode, $this->urlProvider, $this->orderLines, $paymentDetails, $custumerData);
 
         $client = $this->loadGingerClient((int)$order->getStoreId(), $testApiKey);
-
         $transaction = $client->createOrder($orderData);
 
         return $this->processRequest($order, $transaction, $testModus);
     }
 
     /**
-     * Get return url
-     *
      * @return string
      */
     public function getReturnUrl()
@@ -497,8 +493,6 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Get webhook url
-     *
      * @return string
      */
     public function getWebhookUrl()
@@ -511,10 +505,8 @@ class PaymentLibrary extends AbstractMethod
     }
 
     /**
-     * Process request function
-     *
      * @param OrderInterface $order
-     * @param array $transaction
+     * @param null $transaction
      * @param string $testModus
      *
      * @return array

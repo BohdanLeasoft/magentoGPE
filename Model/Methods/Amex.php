@@ -17,12 +17,8 @@ use Magento\Framework\Exception\LocalizedException;
 class Amex extends PaymentLibraryRedefiner
 {
 
-    /**
-     * Payment Code
-     *
-     * @var string
-     */
-    public const METHOD_CODE = 'ginger_methods_amex';
+    /** Payment Code */
+    const METHOD_CODE = 'ginger_methods_amex';
 
     /**
      * @var string
@@ -30,11 +26,7 @@ class Amex extends PaymentLibraryRedefiner
 
     public $method_code = self::METHOD_CODE;
 
-    /**
-     * Platform Method Code
-     *
-     * @var string
-     */
+    /** Platform Method Code */
 
     public $platform_code = 'amex';
 

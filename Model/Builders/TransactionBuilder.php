@@ -26,6 +26,7 @@ use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Payment;
 use Magento\Sales\Model\Order\Payment\Transaction;
 
+
 class TransactionBuilder
 {
     /**
@@ -103,8 +104,6 @@ class TransactionBuilder
     protected $invoice;
 
     /**
-     * Update order transaction
-     *
      * @param OrderInterface $order
      * @param array $transaction
      * @param string $type
@@ -134,8 +133,6 @@ class TransactionBuilder
     }
 
     /**
-     * Get method from order
-     *
      * @param OrderInterface $order
      *
      * @return mixed
@@ -150,8 +147,6 @@ class TransactionBuilder
     }
 
     /**
-     * Update mailing address
-     *
      * @param OrderInterface $order
      * @param string $method
      * @param array $transaction
@@ -180,8 +175,6 @@ class TransactionBuilder
     }
 
     /**
-     * Capture order transaction
-     *
      * @param OrderInterface $order
      * @param array $transaction
      *
@@ -223,8 +216,6 @@ class TransactionBuilder
     }
 
     /**
-     * Process request
-     *
      * @param OrderInterface $order
      * @param null|array $transaction
      * @param null|string $testModus
@@ -270,9 +261,8 @@ class TransactionBuilder
         return ['error' => __('Error, could not fetch redirect url')];
     }
 
+
     /**
-     * Process update
-     *
      * @param array $transaction
      * @param OrderInterface $order
      * @param string $type
@@ -283,9 +273,7 @@ class TransactionBuilder
     public function processUpdate(array $transaction, OrderInterface $order, string $type): array
     {
         $status = !empty($transaction['status']) ? $transaction['status'] : '';
-        $customerMessage = !empty(
-            current($transaction['transactions'])['customer_message']
-        ) ? current($transaction['transactions'])['customer_message'] : null;
+        $customerMessage = !empty(current($transaction['transactions'])['customer_message']) ? current($transaction['transactions'])['customer_message'] : null;
 
         switch ($status) {
             case 'error':
@@ -308,7 +296,6 @@ class TransactionBuilder
      *
      * @param OrderInterface $order
      * @param string $type
-     * @param string|null $customerMessage
      *
      * @return array
      */
@@ -325,11 +312,10 @@ class TransactionBuilder
             'type' => $type,
         ];
 
-        if ($customerMessage) {
+        if ($customerMessage)        {
             $result += [ 'cart_msg' => __($customerMessage), ];
         } else {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it has been cancelled.
-             Please try again.'), ];
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it has been cancelled. Please try again.'), ];
         }
 
         $this->configRepository->addTolog('success', $result);
@@ -352,7 +338,6 @@ class TransactionBuilder
         $payment = $order->getPayment();
         if (!$payment->getIsTransactionClosed() && $type == 'webhook') {
             $order = $this->captureOrderTransaction($order, $transaction);
-            $this->sendOrderEmail->execute($order);
             $this->sendInvoiceEmail->execute($order);
 
             $method = $this->getMethodFromOrder($order);
@@ -361,12 +346,19 @@ class TransactionBuilder
             $this->updateStatus->execute($order, $status);
         }
 
+        if ($type != 'webhook') {
+            $this->sendOrderEmail->execute($order);
+            $this->sendInvoiceEmail->execute($order);
+        }
+
         if ($type == 'success') {
             $this->checkoutSession->setLastQuoteId($order->getQuoteId())
                 ->setLastSuccessQuoteId($order->getQuoteId())
                 ->setLastRealOrderId($order->getIncrementId())
                 ->setLastOrderId($order->getEntityId());
-            $this->invoice->createInvoice($order, $transaction);
+            if (!$order->hasInvoices()) {
+                $this->invoice->createInvoice($order, $transaction);
+            }
         }
 
         $result = [
@@ -385,7 +377,7 @@ class TransactionBuilder
      *
      * @param OrderInterface $order
      * @param string $type
-     * @param string|null $customerMessage
+     * @param string $customerMessage
      *
      * @return array
      */
@@ -403,11 +395,13 @@ class TransactionBuilder
 
         ];
 
-        if ($customerMessage) {
+        if ($customerMessage)
+        {
             $result += [ 'cart_msg' => __($customerMessage), ];
-        } else {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it failed.
-            Please try again.'), ];
+        }
+        else
+        {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it failed. Please try again.'), ];
         }
         $this->configRepository->addTolog('success', $result);
 
@@ -419,7 +413,6 @@ class TransactionBuilder
      *
      * @param OrderInterface $order
      * @param string $type
-     * @param string|null $customerMessage
      *
      * @return array
      */
@@ -435,11 +428,13 @@ class TransactionBuilder
             'order_id' => $order->getEntityId(),
             'type' => $type,
         ];
-        if ($customerMessage) {
+        if ($customerMessage)
+        {
             $result += [ 'cart_msg' => __($customerMessage), ];
-        } else {
-            $result += [ 'cart_msg' => __('There was a problem processing your payment because it expired.
-            Please try again.'), ];
+        }
+        else
+        {
+            $result += [ 'cart_msg' => __('There was a problem processing your payment because it expired. Please try again.'), ];
         }
 
         $this->configRepository->addTolog('success', $result);
@@ -458,9 +453,16 @@ class TransactionBuilder
      */
     public function processing(array $transaction, OrderInterface $order, string $type): array
     {
+        $method = $order->getPayment()->getMethodInstance()->getCode();
+
         if ($type == 'webhook') {
             $order = $this->updateOrderTransaction($order, $transaction, Transaction::TYPE_AUTH);
-            $this->sendOrderEmail->execute($order);
+        }
+
+        if ($type != 'webhook') {
+            if ($method == Banktransfer::METHOD_CODE) {
+                $this->sendOrderEmail->execute($order);
+            }
         }
 
         $result = [
@@ -494,4 +496,7 @@ class TransactionBuilder
         $this->configRepository->addTolog('success', $result);
         return $result;
     }
+
+
 }
+

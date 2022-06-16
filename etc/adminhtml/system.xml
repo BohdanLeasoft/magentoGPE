@@ -7,7 +7,7 @@
 	<system>
 		<section id="payment">
 			<group id="ginger" translate="label" type="text" sortOrder="101" showInDefault="1" showInWebsite="1" showInStore="1">
-				<label>EMS Online Plugin</label>
+				<label>EMSPay</label>
 				<group id="branding" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
 					<label>Branding</label>
 					<frontend_model>GingerPay\Payment\Block\Adminhtml\Render\Header</frontend_model>

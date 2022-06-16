@@ -2,6 +2,8 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+require_once __DIR__.'/../Builders/ConfigRepositoryBuilder.php';
+
 use GingerPay\Payment\Model\Methods\Ideal;
 use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Model\Methods\KlarnaPayLater;
@@ -34,8 +36,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     protected $paymentHelper;
 
     /**
-     * Get method instance
-     *
      * @param string $code
      *
      * @return MethodInterface|false
@@ -65,22 +65,22 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
         } else {
             $activeMethods = $this->getActiveMethods();
         }
-        foreach ($this->methodCodes as $code) {
-            if ($this->methods[$code] && $this->methods[$code]->isAvailable()) {
+        foreach ($this->methodCodes as $code)
+        {
+            if ($this->methods[$code] && $this->methods[$code]->isAvailable())
+            {
                 $config['payment'][$code]['instructions'] = $this->getInstructions($code);
 
-                if ($code == Ideal::METHOD_CODE && $client) {
+                if ($code == Ideal::METHOD_CODE && $client)
+                {
                     $config['payment'][$code]['issuers'] = $this->getIssuers($client);
                 }
-
                 if ($code == Banktransfer::METHOD_CODE) {
                     $config['payment'][$code]['mailingAddress'] = $this->getMailingAddress($code);
                 }
-
                 if ($code == KlarnaPayLater::METHOD_CODE) {
                     $config['payment'][$code]['prefix'] = $this->getCustomerPrefixes();
                 }
-
                 if ($code == Afterpay::METHOD_CODE) {
                     $config['payment'][$code]['prefix'] = $this->getCustomerPrefixes();
                     $config['payment'][$code]['conditionsLinkNl'] = Afterpay::TERMS_NL_URL;
@@ -88,8 +88,11 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
                 }
 
                 $config['payment'][$code]['isActive'] = in_array($code, $activeMethods);
+
                 $config['payment'][$code]['logo'] = $this->configRepository->getPaymentLogo($code);
-            } else {
+            }
+            else
+            {
                 $config['payment'][$code]['isActive'] = false;
             }
         }
@@ -98,8 +101,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     }
 
     /**
-     * Get active payment methods
-     *
      * @return array
      */
     public function getActiveMethods()
@@ -120,8 +121,6 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     }
 
     /**
-     * Get issuers
-     *
      * @param \Ginger\ApiClient $client
      *
      * @return array|bool
@@ -129,14 +128,13 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     public function getIssuers($client)
     {
         if ($issuers = $this->paymentLibraryModel->getIssuers($client)) {
+
              return $issuers;
         }
         return false;
     }
 
     /**
-     * Get mailing address
-     *
      * @param string $code
      *
      * @return string
@@ -147,15 +145,16 @@ class LibraryConfigProvider extends ConfigRepositoryBuilder
     }
 
     /**
-     * Get customer prefix
-     *
      * @return array
      */
     public function getCustomerPrefixes(): array
     {
         return [
-            ['id' => 'male', 'name' => __("Male")],
-            ['id' => 'female', 'name' => __("Female")]
+            ['id' => 'male', 'name' => 'Mr.'],
+            ['id' => 'female', 'name' => 'Ms.']
         ];
     }
+
 }
+
+
