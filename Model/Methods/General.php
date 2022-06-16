@@ -15,12 +15,8 @@ use GingerPay\Payment\Redefiners\Model\PaymentLibraryRedefiner;
 class General extends PaymentLibraryRedefiner
 {
 
-    /**
-     * Payment Code
-     *
-     * @var string
-     */
-    public const METHOD_CODE = 'ginger_methods_general';
+    /** Payment Code */
+    const METHOD_CODE = 'ginger_methods_general';
 
     /**
      * @var string

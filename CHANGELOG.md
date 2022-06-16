@@ -1,4 +1,4 @@
-Magento 2 2.0.0
+Magento 2 2.0.4
 ------------------------------   
 
 # Changelog #
@@ -40,4 +40,21 @@ Magento 2 2.0.0
 * Added function which adaptively returns a message using 'customer_message'.
 * Added test which check is project structure correct using PHPUnit extension to check GPE solution on step GitHub actions.
 * Added test which check order creating using PHPUnit extension to check that latest changes doesn't crash the main functionality.
+
+## Changes in version 2.0.1
+
+* Fixed case when orderRepository have not order
+
+## Changes in version 2.0.2
+
+* Changed way of caching Multi-Currency array and added the ability to sync it
+
+## Changes in version 2.0.3
+
+* Added skip terms and condition page for AfterPay
+* Fixed a case where the webhook did not work
+
+## Changes in version 2.0.4
+
+* Fixed duplication of order confirmation email
 

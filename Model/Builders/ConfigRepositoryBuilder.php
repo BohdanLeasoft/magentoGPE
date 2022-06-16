@@ -2,6 +2,9 @@
 
 namespace GingerPay\Payment\Model\Builders;
 
+require_once __DIR__.'/ApiBuilder.php';
+require_once __DIR__.'/../../Api/Config/RepositoryInterface.php';
+
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepositoryInterface;
 use GingerPay\Payment\Model\Methods\Afterpay;
 use GingerPay\Payment\Model\Methods\KlarnaPayLater;
@@ -52,11 +55,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     protected $debugLogger;
 
     /**
-     * Check is payment available
-     *
-     * @param int $storeId
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isAvailable(int $storeId): bool
     {
@@ -87,11 +86,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get API key
-     *
-     * @param int $storeId
-     *
-     * @return string|null
+     * {@inheritDoc}
      */
     public function getApiKey(int $storeId): string
     {
@@ -99,9 +94,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Check is method could be used
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function useMethodCheck(): bool
     {
@@ -122,11 +115,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get method code from order
-     *
-     * @param OrderInterface $order
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getMethodCodeFromOrder(OrderInterface $order): string
     {
@@ -135,12 +124,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get status processing
-     *
-     * @param string $method
-     * @param int $storeId
-     *
-     * @return string|array
+     * {@inheritDoc}
      */
     public function getStatusProcessing(string $method, int $storeId = 0): string
     {
@@ -149,12 +133,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get status pending
-     *
-     * @param string $method
-     * @param int $storeId
-     *
-     * @return string|array
+     * {@inheritDoc}
      */
     public function getStatusPending(string $method, int $storeId = 0): string
     {
@@ -163,12 +142,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Send invoice
-     *
-     * @param string $method
-     * @param int $storeId
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function sendInvoice(string $method, int $storeId = 0): bool
     {
@@ -177,12 +151,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get description
-     *
-     * @param object $order
-     * @param string $method
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getDescription($order, $method): string
     {
@@ -190,16 +159,16 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
 
         $description = ($this->getStoreConfig($path = 'payment/' . $method . '/description', $storeId));
         $description = str_replace('%id%', $order->getIncrementId(), $description);
+
         $storeName = $this->getStoreConfig(self::XML_PATH_STORE_NAME, $storeId);
+        $storeName = $storeName ?? __('our shop');
         $description = str_replace('%name%', $storeName, $description);
 
         return $description;
     }
 
     /**
-     * Get account details
-     *
-     * @return string|array
+     * {@inheritDoc}
      */
     public function getAccountDetails(): array
     {
@@ -207,11 +176,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get company name
-     *
-     * @param int $storeId
-     *
-     * @return string|array
+     * {@inheritDoc}
      */
     public function getCompanyName(int $storeId): string
     {
@@ -219,16 +184,12 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Check is Afterpay or Klarna allowed
-     *
-     * @param string $method
-     * @param int $storeId
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isAfterpayOrKlarnaAllowed(string $method, int $storeId = 0): bool
     {
-        switch ($method) {
+        switch ($method)
+        {
             case Afterpay::METHOD_CODE:
                 $paymentTestModus = self::XML_PATH_AFTERPAY_TEST_MODUS;
                 $paymentIpFilterList = self::XML_PATH_AFTERPAY_IP_FILTER;
@@ -258,32 +219,37 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get test key
-     *
-     * @param string $method
-     * @param int $storeId
-     * @param string|null $testFlag
-     *
-     * @return string|null
+     * {@inheritDoc}
      */
     public function getTestKey(string $method, int $storeId, string $testFlag = ''): string
     {
-        if ($method == KlarnaPayLater::METHOD_CODE && $testFlag == 'klarna') {
+        if ($method == KlarnaPayLater::METHOD_CODE && $testFlag == 'klarna')
+        {
             return $this->getKlarnaTestApiKey($storeId, true);
-        } elseif ($method == Afterpay::METHOD_CODE && $testFlag == 'afterpay') {
+        }
+        elseif ($method == Afterpay::METHOD_CODE && $testFlag == 'afterpay')
+        {
             return $this->getAfterpayTestApiKey($storeId, true);
         }
 
         return $this->getApiKey($storeId);
     }
 
+    private function getTestApiKeyByPath($modusPath, $testKeyPath)
+    {
+        $testModus = $this->getStoreConfig($modusPath, $storeId);
+
+        $testApiKey = $this->getStoreConfig($testKeyPath, $storeId);
+
+        if ((!$testModus && !$force) || empty($testApiKey)) {
+            return null;
+        }
+
+        return $testApiKey;
+    }
+
     /**
-     * Get Klarna test api key
-     *
-     * @param int $storeId
-     * @param bool $force
-     *
-     * @return string|null
+     * {@inheritDoc}
      */
     public function getKlarnaTestApiKey(int $storeId, bool $force = false)
     {
@@ -297,12 +263,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get Afterpay test api key
-     *
-     * @param int $storeId
-     * @param bool $force
-     *
-     * @return string|null
+     * {@inheritDoc}
      */
     public function getAfterpayTestApiKey(int $storeId, bool $force = false)
     {
@@ -316,10 +277,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Add to log
-     *
-     * @param string $type
-     * @param string $data
+     * {@inheritDoc}
      */
     public function addTolog(string $type, $data)
     {
@@ -333,9 +291,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Check is debug enabled
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function isDebugEnabled(): bool
     {
@@ -343,9 +299,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get plugin version
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getPluginVersion(): string
     {
@@ -353,9 +307,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get plugin name
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getPluginName(): string
     {
@@ -363,21 +315,16 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get extension version
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getExtensionVersion(): string
     {
         return $this->scopeConfig->getValue(self::XML_PATH_VERSION);
     }
 
+
     /**
-     * Get payment name by method code
-     *
-     * @param string $methodCode
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getPaymentNameByMethodCode($methodCode): string
     {
@@ -385,31 +332,28 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get error
-     *
-     * @param array $transaction
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getError(array $transaction)
     {
-        if ($transaction['status'] == 'error' && (current($transaction['transactions'])['customer_message'])) {
+        if ($transaction['status'] == 'error' && (current($transaction['transactions'])['customer_message']))
+        {
             return current($transaction['transactions'])['customer_message'];
         }
-
-        if ($transaction['status'] == 'cancelled') {
+        if (!empty($transaction['customer_messages']))
+        {
+            return current($transaction['customer_messages'])["message"];
+        }
+        if ($transaction['status'] == 'cancelled')
+        {
             $method = current($transaction['transactions'])['payment_method'];
-            if ($method == $this->getShortMethodCode(
-            Afterpay::METHOD_CODE) || $method == $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE)
-            ) {
+            if ($method == $this->getShortMethodCode(Afterpay::METHOD_CODE) || $method == $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE))
+            {
                 $methodName = 'payment';
-                switch ($method) {
-                    case $this->getShortMethodCode(Afterpay::METHOD_CODE):
-                        $methodName = 'Afterpay';
-                        break;
-                    case $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE):
-                        $methodName = 'Klarna';
-                        break;
+                switch ($method)
+                {
+                    case $this->getShortMethodCode(Afterpay::METHOD_CODE): $methodName = 'Afterpay'; break;
+                    case $this->getShortMethodCode(KlarnaPayLater::METHOD_CODE): $methodName = 'Klarna'; break;
                 }
                 return (string)__('Unfortunately, we can not currently accept
                 your purchase with '.$methodName.'. Please choose another payment
@@ -423,7 +367,6 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
      * Returns method code without prefix
      *
      * @param string $method
-     *
      * @return string
      */
     protected function getShortMethodCode($method): string
@@ -432,11 +375,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get amount in cents
-     *
-     * @param float $amount
-     *
-     * @return int
+     * {@inheritDoc}
      */
     public function getAmountInCents(float $amount): int
     {
@@ -444,11 +383,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Return format price
-     *
-     * @param float $price
-     *
-     * @return float
+     * {@inheritDoc}
      */
     public function formatPrice(float $price)
     {
@@ -456,9 +391,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get currency store id
-     *
-     * @return int
+     * {@inheritDoc}
      */
     public function getCurrentStoreId(): int
     {
@@ -466,9 +399,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get store
-     *
-     * @return StoreInterface
+     * {@inheritDoc}
      */
     public function getStore(): StoreInterface
     {
@@ -485,11 +416,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get base url
-     *
-     * @param string $type
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function getBaseUrl(string $type): string
     {
@@ -497,11 +424,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Get payment logo
-     *
-     * @param string $code
-     *
-     * @return string|bool
+     * {@inheritDoc}
      */
     public function getPaymentLogo(string $code)
     {
@@ -514,9 +437,7 @@ class ConfigRepositoryBuilder extends ApiBuilder implements ConfigRepositoryInte
     }
 
     /**
-     * Display payment images
-     *
-     * @return bool
+     * {@inheritDoc}
      */
     public function displayPaymentImages(): bool
     {

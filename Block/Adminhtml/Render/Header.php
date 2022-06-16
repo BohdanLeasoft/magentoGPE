@@ -22,8 +22,6 @@ class Header extends Field
     protected $_template = 'GingerPay_Payment::system/config/fieldset/header.phtml';
 
     /**
-     * Render function
-     *
      * @param AbstractElement $element
      *
      * @return string

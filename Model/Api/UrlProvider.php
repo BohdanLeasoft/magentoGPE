@@ -22,7 +22,8 @@ class UrlProvider extends ModelBuilderRedefiner
      */
     public function __construct(
         UrlInterface $urlBuilder
-    ) {
+    )
+    {
         $this->urlBuilder = $urlBuilder;
     }
 }

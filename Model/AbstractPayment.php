@@ -14,6 +14,7 @@ use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Framework\DataObject;
 
+
 class AbstractPayment extends PaymentLibrary
 {
     /**
@@ -27,8 +28,6 @@ class AbstractPayment extends PaymentLibrary
     private $testApiKey;
 
     /**
-     * Start transaction function
-     *
      * @param OrderInterface $order
      *
      * @return array
@@ -45,8 +44,6 @@ class AbstractPayment extends PaymentLibrary
     }
 
     /**
-     * Check is payment available
-     *
      * @param CartInterface|null $quote
      *
      * @return bool
@@ -55,12 +52,14 @@ class AbstractPayment extends PaymentLibrary
      */
     public function isAvailable(CartInterface $quote = null): bool
     {
-        if (in_array($this->method_code, [KlarnaPayLater::METHOD_CODE, Afterpay::METHOD_CODE])) {
-            if ($quote == null) {
+        if (in_array($this->method_code, [Afterpay::METHOD_CODE, KlarnaPayLater::METHOD_CODE]))
+        {
+            if ($quote == null)
+            {
                 $quote = $this->checkoutSession->getQuote();
             }
-
-            if (!$this->configRepository->isAfterpayOrKlarnaAllowed($this->method_code, (int)$quote->getStoreId())) {
+            if (!$this->configRepository->isAfterpayOrKlarnaAllowed($this->method_code, (int)$quote->getStoreId()))
+            {
                 return false;
             }
         }
@@ -69,30 +68,27 @@ class AbstractPayment extends PaymentLibrary
     }
 
     /**
-     * Get test api key
-     *
      * @param string $method
-     * @param string $testModus
-     * @param int $storeId
      *
      * @return $this->testApiKey
      */
 
     private function getTestApiKey($method, $testModus, $storeId)
     {
-        switch ($method) {
+        switch ($method)
+        {
             case Afterpay::METHOD_CODE:
                 return $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
+                break;
             case KlarnaPayLater::METHOD_CODE:
-                return $this->configRepository->getKlarnaTestApiKey($storeId, true);
+                return $this->configRepository->getKlarnaTestApiKey($storeId, true) ;
+                break;
         }
 
         return $this->testApiKey;
     }
 
     /**
-     * Capturing function
-     *
      * @param string $method
      * @param OrderInterface $order
      *
@@ -101,7 +97,8 @@ class AbstractPayment extends PaymentLibrary
      */
     protected function capturing($method, $order)
     {
-        switch ($method) {
+        switch ($method)
+        {
             case Afterpay::METHOD_CODE:
                 $this->paymentName = 'Afterpay';
                 break;
@@ -117,12 +114,13 @@ class AbstractPayment extends PaymentLibrary
             $testModus = $testModus['test_modus'];
         }
 
-        switch ($method) {
+        switch ($method)
+        {
             case Afterpay::METHOD_CODE:
                 $testApiKey = $testModus ? $this->configRepository->getAfterpayTestApiKey($storeId, true) : null;
                 break;
             case KlarnaPayLater::METHOD_CODE:
-                $testApiKey = $this->configRepository->getKlarnaTestApiKey($storeId, true);
+                $testApiKey = $this->configRepository->getKlarnaTestApiKey($storeId, true) ;
                 break;
         }
 
@@ -139,8 +137,7 @@ class AbstractPayment extends PaymentLibrary
                 $this->paymentName.' payment captured for order: ' . $order->getIncrementId()
             );
         } catch (\Exception $e) {
-            $msg = __('Warning: Unable to capture '.$this->paymentName.'
-            Payment for this order, full detail: var/log/ginger-payment.log');
+            $msg = __('Warning: Unable to capture '.$this->paymentName.' Payment for this order, full detail: var/log/ginger-payment.log');
             $this->messageManager->addErrorMessage($msg);
             $this->configRepository->addTolog('error', 'Function: captureOrder: ' . $e->getMessage());
         }
@@ -149,8 +146,6 @@ class AbstractPayment extends PaymentLibrary
     }
 
     /**
-     * Refund functionality
-     *
      * @param string $method
      * @param InfoInterface $payment
      * @param float $amount
@@ -170,7 +165,8 @@ class AbstractPayment extends PaymentLibrary
             throw new LocalizedException(__('Api does not accept adjustment fees for refunds using order lines'));
         }
 
-        if ($creditmemo->getShippingAmount() > 0 && ($creditmemo->getShippingAmount() != $creditmemo->getBaseShippingInclTax())) {
+        if ($creditmemo->getShippingAmount() > 0
+            && ($creditmemo->getShippingAmount() != $creditmemo->getBaseShippingInclTax())) {
             throw new LocalizedException(__('Api does not accept adjustment fees for shipments using order lines'));
         }
 
@@ -193,8 +189,7 @@ class AbstractPayment extends PaymentLibrary
                     'amount' => $this->configRepository->getAmountInCents((float)$amount),
                     'currency' => $order->getOrderCurrencyCode(),
                     'order_lines' => $this->orderLines->getRefundLines($creditmemo, $addShipping)
-                ]
-            );
+                ]);
         } catch (\Exception $e) {
             $errorMsg = __('Error: not possible to create an online refund: %1', $e->getMessage());
             $this->configRepository->addTolog('error', $errorMsg);
@@ -203,4 +198,5 @@ class AbstractPayment extends PaymentLibrary
 
         return $this;
     }
+
 }

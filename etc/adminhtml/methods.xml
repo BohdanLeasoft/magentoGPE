@@ -19,4 +19,7 @@
     <include path="GingerPay_Payment::methods/googlepay.xml"/>
     <include path="GingerPay_Payment::methods/sofort.xml"/>
     <include path="GingerPay_Payment::methods/klarnadirectdebit.xml"/>
+    <include path="GingerPay_Payment::methods/giropay.xml"/>
+    <include path="GingerPay_Payment::methods/mobilepay.xml"/>
+    <include path="GingerPay_Payment::methods/swish.xml"/>
 </include>
