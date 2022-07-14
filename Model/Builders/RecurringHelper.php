@@ -89,6 +89,11 @@ class RecurringHelper
         $this->orders->saveOrderVaultToken($order, current($transaction['transactions'])['payment_method_details']['vault_token']);
     }
 
+    public function getActiveSubscriptionsUrl($order)
+    {
+        return $this->getRecurringCancelUrl($order).'&get_active_subscriptions=1';
+    }
+
     public function getRecurringCancelUrl($order)
     {
         return $this->urlProvider->getWebhookUrl().'?order_id='.$order->getGingerpayTransactionId();
@@ -96,7 +101,8 @@ class RecurringHelper
 
     public function getRecurringCancelLinkMessage($order) : string
     {
-        return __('This subscription payment completed. It could be canceled by:').' <a href="'.$this->getRecurringCancelUrl($order).'">'.__('Cancel subscription').'</a>';
+        return __('This subscription payment completed. It could be canceled by:').' <a href="'.$this->getRecurringCancelUrl($order).'">'.__('Cancel subscription').'</a>
+                <br><a href="'.$this->getActiveSubscriptionsUrl($order).'">'.__('Here you can see all your active subscriptions:').'</a>';
     }
 
     public function sendMail($order, string $type, $additionalComment = null)

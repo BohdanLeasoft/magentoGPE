@@ -152,8 +152,18 @@ class ControllerCheckoutActionBuilder extends Action
     {
         if (isset($_GET['order_id']))
         {
-            //$this->recurringBuilder->mainRecurring(); die('aaa');
             $order_id = filter_var($_GET['order_id']);
+
+            if (isset($_GET['get_active_subscriptions'])) {
+                return $this->_redirect(
+                    'ginger/checkout/recurringpage',
+                    [
+                        'active_subscriptions' => $order_id,
+                        'result' => 'subscriptions'
+                    ]
+                );
+            }
+
             $result = $this->recurringBuilder->cancelRecurringOrder($order_id);
 
             return $this->_redirect('ginger/checkout/recurringpage', ['result' => $result ?: 'error']);

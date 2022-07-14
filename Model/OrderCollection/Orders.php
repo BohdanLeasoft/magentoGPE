@@ -22,6 +22,26 @@ class Orders
         $this->orderResourceModel = $orderResourceModel;
     }
 
+    public function getOrderRecurringCustomerCollection($email)
+    {
+        $collection = $this->orderCollectionFactory->create()
+            ->addAttributeToSelect('*')
+            ->addFieldToFilter(
+                'customer_email',
+                ['eq' => $email]
+            )
+            ->addFieldToFilter(
+                'gingerpay_vault_token',
+                ['neq' => 'NULL']
+            )
+            ->addFieldToFilter(
+                'gingerpay_recurring_periodicity',
+                ['neq' => 'NULL']
+            );
+
+        return $collection->getItems();
+    }
+
     public function getOrderRecurringCollection()
     {
         $collection = $this->orderCollectionFactory->create()

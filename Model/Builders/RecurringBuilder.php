@@ -128,6 +128,34 @@ class RecurringBuilder
         return $order->getGingerpayNextPaymentDate() ? true : false;
     }
 
+    public function getActiveSubscriptionsInfo($transactionId)
+    {
+        $order = $this->getOrderByTransaction->execute($transactionId);
+
+        if (!$order) {
+            return false;
+        }
+
+        $activeSubscriptionOrders = $this->orders->getOrderRecurringCustomerCollection($order->getCustomerEmail());
+
+        if (!$activeSubscriptionOrders) {
+            return false;
+        }
+
+        $orderSubscriptionsInfo = [];
+
+        foreach ($activeSubscriptionOrders as $activeSubscriptionOrder) {
+            $orderSubscriptionsInfo[] = [
+                'total_amount' => $activeSubscriptionOrder->getBaseGrandTotal(),
+                'total_qty_ordered' => $activeSubscriptionOrder->getData('total_qty_ordered'),
+                'next_payment_date' =>  date('d-m-Y H:i:s', $activeSubscriptionOrder->getGingerpayNextPaymentDate()),
+                'cancel_url' => $this->recurringHelper->getRecurringCancelUrl($activeSubscriptionOrder),
+                'cancel_massage' => __('Cancel subscription')
+            ];
+        }
+        return $orderSubscriptionsInfo;
+    }
+
     public function cancelRecurringOrder($transactionId, $additionalComment = null)
     {
         $order = $this->getOrderByTransaction->execute($transactionId);

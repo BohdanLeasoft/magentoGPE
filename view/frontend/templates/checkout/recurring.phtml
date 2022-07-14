@@ -6,3 +6,31 @@ use Magento\Framework\View\Element\Template;
 
 <h1>Subscription page</h1>
 <p><h3><?= $block->getData('recurring_message'); ?></h3></p>
+<?php
+
+    $arr = ( $block->getData('active_subscriptions_info'));
+    if (is_array(json_decode($arr)))
+    {
+        $output = '<table border="1" align="center" >';
+        $output .= '<tr>
+                        <th>'. __('Total price').'</th>
+                        <th>'.__('Ordered quantity').'</th>
+                        <th>'.__('Date of the next payment').'</th>
+                        <th>'.__('Cancel subscription').'</th>
+                        </tr>';
+        foreach (json_decode($arr) as $item)
+        {
+            // $item is a stdClass, so it should be converted to array before using
+            $array = json_decode(json_encode($item), true);
+            $output .= '<tr>
+                        <td>'.number_format(($array['total_amount']), 2).'</td>
+                        <td>'.number_format($array['total_qty_ordered']).'</td>
+                        <td>'.$array['next_payment_date'].'</td>
+                        <td><a href='.$array['cancel_url'].'>'.$array['cancel_massage'].'</a></td>
+                        </tr>';
+        }
+        $output .= '</table>';
+        print $output;
+    }
+
+?>
