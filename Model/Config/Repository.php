@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace GingerPay\Payment\Model\Config;
 
 use GingerPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
+use GingerPay\Payment\Model\Builders\CartBuilder;
 use GingerPay\Payment\Logger\DebugLogger;
 use GingerPay\Payment\Logger\ErrorLogger;
 use Magento\Framework\App\Config\ScopeConfigInterface;
@@ -36,6 +37,7 @@ class Repository extends ModelBuilderRedefiner
      * @param ModuleListInterface $moduleList
      * @param ErrorLogger $errorLogger
      * @param DebugLogger $debugLogger
+     * @param CartBuilder $cartBuilder
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
@@ -45,7 +47,8 @@ class Repository extends ModelBuilderRedefiner
         AssetRepository $assetRepository,
         ModuleListInterface $moduleList,
         ErrorLogger $errorLogger,
-        DebugLogger $debugLogger
+        DebugLogger $debugLogger,
+        CartBuilder $cartBuilder
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->remoteAddress = $remoteAddress;
@@ -55,5 +58,6 @@ class Repository extends ModelBuilderRedefiner
         $this->moduleList = $moduleList;
         $this->errorLogger = $errorLogger;
         $this->debugLogger = $debugLogger;
+        $this->cartBuilder = $cartBuilder;
     }
 }

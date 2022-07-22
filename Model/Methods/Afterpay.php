@@ -87,6 +87,9 @@ class Afterpay extends PaymentLibraryRedefiner
         if (isset($additionalData['dob'])) {
             $this->getInfoInstance()->setAdditionalInformation('dob', $additionalData['dob']);
         }
+        if (isset($additionalData['terms'])) {
+            $this->getInfoInstance()->setAdditionalInformation('terms', $additionalData['terms']);
+        }
         return $this;
     }
 

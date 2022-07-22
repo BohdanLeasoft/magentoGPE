@@ -30,6 +30,7 @@ interface RepositoryInterface
     public const XML_PATH_STORE_NAME = 'general/store_information/name';
     public const XML_PATH_IMAGES = 'payment/ginger_general/payment_images';
     public const XML_PATH_COMPANY_NAME = 'general/store_information/name';
+    public const XML_PATH_RECURRING_ENABLE = 'payment/ginger_methods_creditcard/recurring';
     public const MODULE_CODE = 'GingerPay_Payment';
     public const METHOD_PREFIX = 'ginger_methods_';
     public const PLUGIN_NAME = 'ems-online-magento-2';
@@ -178,6 +179,13 @@ interface RepositoryInterface
      * @return bool
      */
     public function displayPaymentImages(): bool;
+
+    /**
+     * Is recurring enable
+     *
+     * @return bool
+     */
+    public function isRecurringEnable(): bool;
 
     /**
      * Write to log

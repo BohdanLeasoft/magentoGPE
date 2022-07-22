@@ -47,6 +47,7 @@ define(
                         'method': this.item.method,
                         'additional_data': {
                             "prefix": this.selectedPrefix,
+                            "terms": document.getElementById("ginger_methods_afterpay_termsAndConditions").checked,
                             "dob": $('#' + this.item.method + '_dob').val()
                         }
                     };

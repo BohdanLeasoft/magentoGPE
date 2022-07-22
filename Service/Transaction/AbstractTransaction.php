@@ -11,6 +11,8 @@ use GingerPay\Payment\Redefiners\Service\TransactionRedefiner;
 use GingerPay\Payment\Api\Config\RepositoryInterface as ConfigRepository;
 use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Controller\Invoice;
+use GingerPay\Payment\Model\Builders\RecurringHelper;
+use GingerPay\Payment\Model\Builders\RecurringBuilder;
 use GingerPay\Payment\Model\Methods\Banktransfer;
 use GingerPay\Payment\Service\Order\Cancel as CancelOrder;
 use GingerPay\Payment\Service\Order\SendInvoiceEmail;
@@ -42,6 +44,7 @@ class AbstractTransaction extends TransactionRedefiner
      * @param UrlProvider $urlProvider
      * @param CheckoutSession $checkoutSession
      * @param Invoice $invoice
+     * @param RecurringHelper $recurringHelper
      */
     public function __construct(
         ConfigRepository $configRepository,
@@ -52,7 +55,8 @@ class AbstractTransaction extends TransactionRedefiner
         UpdateStatus $updateStatus,
         UrlProvider $urlProvider,
         CheckoutSession $checkoutSession,
-        Invoice $invoice
+        Invoice $invoice,
+        RecurringHelper $recurringHelper
     ) {
         $this->configRepository = $configRepository;
         $this->orderRepository = $orderRepository;
@@ -63,5 +67,6 @@ class AbstractTransaction extends TransactionRedefiner
         $this->urlProvider = $urlProvider;
         $this->checkoutSession = $checkoutSession;
         $this->invoice = $invoice;
+        $this->recurringHelper = $recurringHelper;
     }
 }

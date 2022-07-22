@@ -95,7 +95,7 @@ class ApiBuilder
                 }
             }
         } catch(\Error $e) {
-            // Ginger library was not found. Check composer installation or try install plugin manually
+            //TODO: Ginger library was not found. Check composer installation or try install plugin manually
         }
         return $this->client;
     }
@@ -118,6 +118,16 @@ class ApiBuilder
     public function getWebhookUrl()
     {
         return $this->urlBuilder->getUrl('ginger/checkout/webhook/');
+    }
+
+    /**
+     * RecurringPage Url Builder
+     *
+     * @return string
+     */
+    public function getRecurringPageUrl()
+    {
+        return $this->urlBuilder->getUrl('ginger/checkout/recurringpage');
     }
 
     /**
