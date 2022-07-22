@@ -154,22 +154,21 @@ class ControllerCheckoutActionBuilder extends Action
         {
             $order_id = filter_var($_GET['order_id']);
 
-            if (isset($_GET['get_active_subscriptions'])) {
-                return $this->_redirect(
-                    'ginger/checkout/recurringpage',
-                    [
-                        'active_subscriptions' => $order_id,
-                        'result' => 'subscriptions'
-                    ]
-                );
+            if (isset($_GET['get_active_subscriptions']) || isset($_GET['unsubscribe_confirmation'])) {
+                $data =  [
+                    'active_subscriptions' => $order_id,
+                    'result' => 'subscriptions'
+                ];
+                $data['unsubscribe_confirmation'] = $_GET['unsubscribe_confirmation'] ?? null;
+
+                return $this->_redirect('ginger/checkout/recurringpage', array_filter($data));
             }
 
             $result = $this->recurringBuilder->cancelRecurringOrder($order_id);
 
             return $this->_redirect('ginger/checkout/recurringpage', ['result' => $result ?: 'error']);
 
-            if ($result)
-            {
+            if ($result) {
                 return $this->_redirect('ginger/checkout/recurringpage', ['result' => $result]);
             }
             return $this->_redirect('ginger/checkout/recurringpage', ['result' => 'error']);

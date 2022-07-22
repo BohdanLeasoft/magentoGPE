@@ -36,7 +36,7 @@ class RecurringHelperTest extends TestCase
     public function testGetRecurringCancelUrl()
     {
         $expectedUrl = "https://magento2.test/ginger/checkout/webhook/?order_id=12345-abcdf-zaqws-8659";
-        $this->assertEquals($expectedUrl, $this->recurringHelper->getRecurringCancelUrl($this->order), 'Returned unexpected url');
+        $this->assertEquals($expectedUrl, $this->recurringHelper->getRecurringCancelUrlByOrderId($this->order->getGingerpayVaultToken()), 'Returned unexpected url');
     }
 
     public function testGetRecurringCancelLinkMessage()

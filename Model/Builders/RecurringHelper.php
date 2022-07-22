@@ -91,17 +91,22 @@ class RecurringHelper
 
     public function getActiveSubscriptionsUrl($order)
     {
-        return $this->getRecurringCancelUrl($order).'&get_active_subscriptions=1';
+        return $this->getRecurringCancelUrlByOrderId($order->getGingerpayTransactionId()).'&get_active_subscriptions=1';
     }
 
-    public function getRecurringCancelUrl($order)
+    public function getRecurringCancelUrlByOrderId($orderId)
     {
-        return $this->urlProvider->getWebhookUrl().'?order_id='.$order->getGingerpayTransactionId();
+        return $this->urlProvider->getWebhookUrl().'?order_id='.$orderId;
+    }
+
+    public function getRecurringCancelConfirmationUrl($order)
+    {
+        return $this->getActiveSubscriptionsUrl($order).'&unsubscribe_confirmation=1';
     }
 
     public function getRecurringCancelLinkMessage($order) : string
     {
-        return __('This subscription payment completed. It could be canceled by:').' <a href="'.$this->getRecurringCancelUrl($order).'">'.__('Cancel subscription').'</a>
+        return __('This subscription payment completed. It could be canceled by:').' <a href="'.$this->getRecurringCancelConfirmationUrl($order).'">'.__('Cancel subscription').'</a>
                 <br><a href="'.$this->getActiveSubscriptionsUrl($order).'">'.__('Here you can see all your active subscriptions:').'</a>';
     }
 
@@ -116,7 +121,7 @@ class RecurringHelper
         {
             case 'recurring':
                 $templateVars = [
-                    'cancel_recurring_url' => $this->getRecurringCancelUrl($order),
+                    'cancel_recurring_url' => $this->getRecurringCancelUrlByOrderId($order->getGingerpayTransactionId()),
                     'total_price' =>  $order->getGrandTotal()
                 ];
                 $templateMail = 'gingermail_template';
