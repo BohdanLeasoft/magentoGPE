@@ -76,7 +76,7 @@ class Recurringpage extends Action
         }
 
         $block->setData('recurring_message', $this->setMessage($result));
-        $this->cacheControl->flushCache();
+        //$this->cacheControl->flushCache();
         return $page;
     }
 }

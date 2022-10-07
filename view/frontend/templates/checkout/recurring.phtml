@@ -63,6 +63,7 @@ use Magento\Framework\View\Element\Template;
         $output .= '<tr>
                         <th>'. __('Total price').'</th>
                         <th>'.__('Ordered quantity').'</th>
+                        <th>'.__('Periodicity').'</th>
                         <th>'.__('Date of the next payment').'</th>
                         <th>'.__('Cancel subscription').'</th>
                         </tr>';
@@ -73,6 +74,7 @@ use Magento\Framework\View\Element\Template;
             $output .= '<tr>
                         <td>'.number_format(($array['total_amount']), 2).'</td>
                         <td>'.number_format($array['total_qty_ordered']).'</td>
+                        <td>'.$array['order_periodicity'].'</td>
                         <td>'.$array['next_payment_date'].'</td>
                         <td><a href='.$array['cancel_url'].'>'.$array['cancel_massage'].'</a></td>
                         </tr>';

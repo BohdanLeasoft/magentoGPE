@@ -386,7 +386,6 @@ class TransactionBuilder
                 ->setLastSuccessQuoteId($order->getQuoteId())
                 ->setLastRealOrderId($order->getIncrementId())
                 ->setLastOrderId($order->getEntityId());
-            $this->invoice->createInvoice($order, $transaction);
         }
 
         if ($this->recurringHelper->isItRecurringTransaction($transaction) && $type != 'webhook')

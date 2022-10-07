@@ -5,6 +5,7 @@ namespace GingerPay\Payment\Model\Builders;
 use GingerPay\Payment\Model\OrderCollection\Orders;
 use GingerPay\Payment\Model\Api\UrlProvider;
 use GingerPay\Payment\Model\Builders\MailTransportBuilder;
+use GingerPay\Payment\Model\Builders\LibraryConfigProvider;
 use Magento\Sales\Api\Data\OrderInterface;
 
 class RecurringHelper
@@ -21,6 +22,10 @@ class RecurringHelper
      * @var MailTransportBuilder
      */
     protected $mailTransport;
+    /**
+     * @var LibraryConfigProvider
+     */
+    protected $libraryConfigProvider;
 
     /**
      * RecurringHelper constructor.
@@ -28,15 +33,30 @@ class RecurringHelper
      * @param Orders                $orders
      * @param UrlProvider           $urlProvider
      * @param MailTransportBuilder  $mailTransport
+     * @param LibraryConfigProvider $libraryConfigProvider
      */
     public function __construct(
         Orders                  $orders,
         UrlProvider             $urlProvider,
-        MailTransportBuilder    $mailTransport
+        MailTransportBuilder    $mailTransport,
+        LibraryConfigProvider   $libraryConfigProvider
     ) {
         $this->orders = $orders;
         $this->urlProvider = $urlProvider;
         $this->mailTransport = $mailTransport;
+        $this->libraryConfigProvider = $libraryConfigProvider;
+    }
+
+    public function getPeriodicityLabel($periodicity)
+    {
+        $recurringPeriodicities = $this->libraryConfigProvider->getRecurringPeriodicity();
+        $periodicityName = null;
+        foreach ($recurringPeriodicities as $recurringPeriodicity)
+        {
+            $periodicityName = array_search($periodicity, $recurringPeriodicity) ? $recurringPeriodicity["name"] : null;
+            if ($periodicityName) { return $periodicityName;}
+        }
+        return $periodicity;
     }
 
     public function initializeRecurringOrder($order, $isRecurringEnable)
@@ -60,7 +80,6 @@ class RecurringHelper
         }
         return false;
     }
-
 
     public function getNextPaymentDate($currentDate, $recurringPeriodicity)
     {

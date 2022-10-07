@@ -149,6 +149,7 @@ class RecurringBuilder
                 'total_amount' => $activeSubscriptionOrder->getBaseGrandTotal(),
                 'total_qty_ordered' => $activeSubscriptionOrder->getData('total_qty_ordered'),
                 'next_payment_date' =>  date('d-m-Y H:i:s', $activeSubscriptionOrder->getGingerpayNextPaymentDate()),
+                'order_periodicity' => $this->recurringHelper->getPeriodicityLabel($activeSubscriptionOrder->getGingerpayRecurringPeriodicity()),
                 'cancel_url' => $this->recurringHelper->getRecurringCancelConfirmationUrl($activeSubscriptionOrder),
                 'cancel_massage' => __('Cancel subscription')
             ];
