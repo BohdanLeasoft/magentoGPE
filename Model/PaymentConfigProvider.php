@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace GingerPay\Payment\Model;
 
 use GingerPay\Payment\Redefiners\Model\ModelBuilderRedefiner;
+use GingerPay\Payment\Model\Builders\CartBuilder;
 use Magento\Checkout\Model\ConfigProviderInterface;
 use Magento\Framework\Escaper;
 use Magento\Payment\Helper\Data as PaymentHelper;
@@ -48,17 +49,20 @@ class PaymentConfigProvider extends ModelBuilderRedefiner
      * @param ConfigRepository $configRepository
      * @param PaymentHelper    $paymentHelper
      * @param Escaper          $escaper
+     * @param CartBuilder      $cartBuilder
      */
     public function __construct(
         PaymentLibraryModel    $paymentLibraryModel,
         ConfigRepository       $configRepository,
         PaymentHelper          $paymentHelper,
-        Escaper                $escaper
+        Escaper                $escaper,
+        CartBuilder            $cartBuilder
     ) {
         $this->paymentLibraryModel = $paymentLibraryModel;
         $this->configRepository = $configRepository;
         $this->escaper = $escaper;
         $this->paymentHelper = $paymentHelper;
+        $this->cartBuilder = $cartBuilder;
         foreach ($this->methodCodes as $code) {
             $this->methods[$code] = $this->getMethodInstance($code);
         }

@@ -74,7 +74,6 @@ class Invoice
      */
     public function createInvoice($order, $transaction)
     {
-        $order = $this->orderRepository->get($order->getIncrementId());
         $invoice = $this->invoiceService->prepareInvoice($order);
         $invoice->setRequestedCaptureCase(OriginalInvoice::CAPTURE_ONLINE);
         $invoice->setState(OriginalInvoice::STATE_PAID);

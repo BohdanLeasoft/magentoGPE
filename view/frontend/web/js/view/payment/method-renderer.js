@@ -19,10 +19,11 @@ define(
         var idealComponent = 'GingerPay_Payment/js/view/payment/method-renderer/ideal';
         var klarnaComponent = 'GingerPay_Payment/js/view/payment/method-renderer/klarnapaylater';
         var afterpayComponent = 'GingerPay_Payment/js/view/payment/method-renderer/afterpay';
+        var creditcardComponent = 'GingerPay_Payment/js/view/payment/method-renderer/creditcard';
         var methods = [
             {type: 'ginger_methods_bancontact', component: defaultComponent},
             {type: 'ginger_methods_banktransfer', component: defaultComponent},
-            {type: 'ginger_methods_creditcard', component: defaultComponent},
+            {type: 'ginger_methods_creditcard', component: creditcardComponent},
             {type: 'ginger_methods_applepay', component: defaultComponent},
             {type: 'ginger_methods_klarnapaynow', component: defaultComponent},
             {type: 'ginger_methods_paypal', component: defaultComponent},
@@ -53,8 +54,8 @@ define(
                     rendererList.push(method);
                 }
             }
-
         });
+
         return Component.extend({});
     }
 );

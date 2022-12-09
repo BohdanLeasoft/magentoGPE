@@ -10,6 +10,7 @@ use Magento\Framework\App\ProductMetadata;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\OrderRepository;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
+use Magento\Sales\Model\Order;
 
 class ServiceOrderBuilder
 {
@@ -207,17 +208,19 @@ class ServiceOrderBuilder
      * Get transactions
      *
      * @param string $platformCode
-     * @param string|null $issuer_id
+     * @param string|null $paymentMethodDetails
      *
      * @return array
      */
 
-    public function getTransactions($platformCode, $issuer_id = null)
-    {
+    public function getTransactions(
+        $platformCode,
+        $paymentMethodDetails
+    ) {
         return [
             array_filter([
                 "payment_method"         => $platformCode,
-                "payment_method_details" => array_filter(["issuer_id" => $issuer_id])
+                "payment_method_details" => $paymentMethodDetails
             ])
         ];
     }
@@ -231,7 +234,7 @@ class ServiceOrderBuilder
      * @param string            $urlProvider
      * @param array             $orderLines
      * @param array|null        $customerData
-     * @param string|null       $issuer
+     * @param string|null       $paymentMethodDetails
      *
      * @return array
      */
@@ -242,7 +245,7 @@ class ServiceOrderBuilder
         $urlProvider,
         $orderLines,
         $customerData = null,
-        $issuer = null
+        $paymentMethodDetails = null
     ) {
         $orderData = array_filter([
             'amount' => $this->configRepository->getAmountInCents((float)$order->getBaseGrandTotal()),
@@ -251,7 +254,10 @@ class ServiceOrderBuilder
             'merchant_order_id' => $order->getIncrementId(),
             'return_url' => $urlProvider->getReturnUrl(),
             'webhook_url' => $urlProvider->getWebhookUrl(),
-            'transactions' => $this->getTransactions($platformCode, $issuer),
+            'transactions' => $this->getTransactions(
+                $platformCode,
+                $paymentMethodDetails
+            ),
             'extra' => $this->getExtraLines(),
             'order_lines' => $orderLines->get($order),
             'customer' => $customerData
@@ -282,7 +288,7 @@ class ServiceOrderBuilder
      */
     public function getUserAgent()
     {
-        return $_SERVER['HTTP_USER_AGENT'];
+        return $_SERVER['HTTP_USER_AGENT'] ?? null;
     }
 
     /**
@@ -358,7 +364,9 @@ class ServiceOrderBuilder
      */
     public function sendOrderEmail(OrderInterface $order)
     {
-        if (!$order->getEmailSent()) {
+        if (!$order->getEmailSent() && !$order->getSendEmail()) {
+            $order->setEmailSent(true);
+            $this->orderRepository->save($order);
             $this->orderSender->send($order);
             $msg = __('Order email sent to %1', $order->getCustomerEmail());
             $this->orderCommentHistory->add($order, $msg, true);

@@ -1,0 +1,13 @@
+<!--@subject Subscription payment details for Order №{{var order_id}} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<div class="ginger-email-template">
+    <div class="ginger-email-container">
+        <p class="ginger-title">{{trans "Dear"}} <strong>{{var customer_name|escape}}</strong>, </p>
+        <p> {{var additional_comment}}</p>
+        <p> {{trans "Your subscription payment has been successfully canceled!"}}</p>
+    </div>
+</div>
+
+{{template config_path="design/email/footer_template"}}
